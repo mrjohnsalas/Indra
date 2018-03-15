@@ -8,7 +8,8 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Indra.Web.Models;
+using Indra.Model.Models;
+using Indra.Model.ViewModels;
 
 namespace Indra.Web.Controllers
 {

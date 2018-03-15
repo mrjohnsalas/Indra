@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace Indra.Web.Models
+namespace Indra.Model.ViewModels
 {
     public class IndexViewModel
     {

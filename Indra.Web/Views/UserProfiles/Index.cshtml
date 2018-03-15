@@ -1,0 +1,150 @@
+﻿@model Indra.Model.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Mis datos";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Mis datos</h2>
+        <ol class="breadcrumb">
+            <li class="active">
+                <strong>Mis datos</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="contact-box center-version">
+                <a href="#">
+                    <img alt="image" class="img-circle" src="@Url.Action("ProfilePhoto", "UserProfiles")" id="imgProfile">
+                    <h3 class="m-b-xs">
+                        <strong>@Model.FullName</strong>
+                    </h3>
+                    <address class="m-t-md">
+                        <i class="fa fa-envelope"> </i> @Model.Email<br>
+                        <i class="fa fa-phone"> </i> @Model.PhoneNumber
+                    </address>
+                </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a href="@Url.Action("ChangePassword", "Manage")" class="btn btn-xs btn-white"><i class="fa fa-pencil"></i> Cambiar mi contraseña </a>
+                        <a href="javascript:void(0);" class="btn btn-xs btn-white deleteFile"><i class="fa fa-trash"></i> Eliminar mi foto </a>
+                        <label title="Upload image file" for="uploadFile" class="btn btn-xs btn-white">
+                            <i class="fa fa-pencil"></i>
+                            <input type="file" accept="image/*" id="uploadFile" class="hide">
+                            Cambiar mi foto
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/toastrStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/toastr")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.deleteFile').click(function (e) {
+                e.preventDefault();
+                toastr.options = {
+                    closeButton: true,
+                    debug: false,
+                    progressBar: true,
+                    positionClass: "toast-top-right",
+                    onclick: null,
+                    showDuration: 400,
+                    hideDuration: 1000,
+                    timeOut: 7000,
+                    extendedTimeOut: 1000,
+                    showEasing: "swing",
+                    hideEasing: "linear",
+                    showMethod: "fadeIn",
+                    hideMethod: "fadeOut"
+                };
+
+                var $ctrl = $(this);
+                if (confirm('¿Realmente quieres eliminar esta foto de perfil?')) {
+                    $.ajax({
+                        url: '@Url.Action("DeleteFile")',
+                        type: 'POST'
+                    }).done(function (data) {
+                        if (data.Result == "Ok") {
+                            toastr.success("La foto de perfil se eliminó con éxito.", "SD+");
+                        } else {
+                            toastr.error(data.Message, "SD+");
+                        }
+                    }).fail(function () {
+                        toastr.error("Hay algo mal. Inténtalo de nuevo.", "SD+");
+                    });
+
+                    $.ajax({
+                        url: '@Url.Action("ProfilePhoto", "UserProfiles")',
+                        type: 'GET',
+                        dataType: "image/jpg"
+                    }).done(function (data) {
+                        $('#imgProfile').attr('src', data);
+                    });
+
+                }
+            });
+
+            $("#uploadFile").change(function () {
+                if (window.FormData !== undefined) {
+
+                    var fileUpload = $("#uploadFile").get(0);
+                    var files = fileUpload.files;
+
+                    var fileData = new FormData();
+
+                    for (var i = 0; i < files.length; i++) {
+                        fileData.append(files[i].name, files[i]);
+                    }
+
+                    fileData.append('username', 'Manas');
+
+                    $.ajax({
+                        url: '@Url.Action("UploadFile")',
+                        type: "POST",
+                        contentType: false,
+                        processData: false,
+                        data: fileData
+                    }).done(function (data) {
+                        if (data.Result == "Ok") {
+                            toastr.success("La foto de perfil se cargó con éxito.", "JS+");
+                        } else {
+                            toastr.error(data.Message, "JS+");
+                        }
+                    }).fail(function () {
+                        toastr.error("Hay algo mal. Inténtalo de nuevo.", "JS+");
+                    });
+
+                    $.ajax({
+                        url: '@Url.Action("ProfilePhoto", "UserProfiles")',
+                        type: 'GET',
+                        dataType: "image/jpg"
+                    }).done(function (data) {
+                        $('#imgProfile').attr('src', data);
+                    });
+
+                } else {
+                    alert("FormData no es compatible.");
+                }
+            });
+
+        });
+    </script>
+}

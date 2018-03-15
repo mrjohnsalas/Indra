@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Indra.Web.Models
+namespace Indra.Model.ViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {
