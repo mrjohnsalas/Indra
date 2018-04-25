@@ -1,0 +1,126 @@
+﻿@model Indra.Model.Models.CriterioEvaluacion
+
+@{
+                /**/
+
+                ViewBag.Title = "Editar";
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.ErrorCode) || !string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorCode))
+        {@ViewBag.ErrorCode<br />}
+        @{
+            var errors = ViewBag.ErrorMessage.ToString().Split('|');
+            foreach (var error in errors)
+            {
+                @error<br />;
+            }
+        }
+    </div>
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Editar</h2>
+        <ol class="breadcrumb">
+            <li>
+                @Html.ActionLink("Lista", "Index")
+            </li>
+            <li class="active">
+                <strong>Editar</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-sm-8">
+        <div class="title-action">
+            @Html.ActionLink("Regresar a la lista", "Index", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Editar Criterio de Evaluación</h5>
+                </div>
+                <div class="ibox-content">
+
+                    @using (Html.BeginForm("Edit", "CriterioEvaluaciones", FormMethod.Post, new { id = "formPost" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-horizontal">
+
+                            @Html.ValidationSummary(true)
+                            @Html.HiddenFor(model => model.Id)
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Name)
+                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.EditorFor(model => model.Description)
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Guardar" class="btn btn-primary" />
+                                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-white" })
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/sweetAlertStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/plugins/sweetAlert")
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            $("#btnSave").on("click", function() {
+                swal({
+                        title: "¿Estás seguro?",
+                        text: "¿Realmente quieres editarlo?",
+                        type: "warning",
+                        showCancelButton: true,
+                        confirmButtonColor: "#DD6B55",
+                    confirmButtonText: "Sí, edítalo!",
+                        closeOnConfirm: false,
+                        closeOnCancel: false
+                    },
+                    function(isConfirm) {
+                        if (isConfirm) {
+                            swal("Editado!", "Fue editado exitosamente.", "success");
+                            $("#formPost").submit();
+                        } else {
+                            swal("Cancelado", "¡Has cancelado la operación!", "error");
+                        }
+                    });
+            });
+
+        });
+    </script>
+}

@@ -188,6 +188,8 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CategoriaComponentesController.cs" />
+    <Compile Include="Controllers\CriterioEvaluacionesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
@@ -204,6 +206,7 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\plugins\sweetalert\sweetalert.css" />
     <Content Include="Content\plugins\toastr\toastr.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\font-awesome\css\font-awesome.css" />
@@ -284,6 +287,7 @@
     <Content Include="Scripts\plugins\metisMenu\metisMenu.min.js" />
     <Content Include="Scripts\plugins\pace\pace.min.js" />
     <Content Include="Scripts\plugins\slimscroll\jquery.slimscroll.min.js" />
+    <Content Include="Scripts\plugins\sweetalert\sweetalert.min.js" />
     <Content Include="Scripts\plugins\toastr\toastr.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
@@ -325,6 +329,16 @@
     <Content Include="Views\Shared\_TopNavbar.cshtml" />
     <Content Include="Views\Shared\_Navigation.cshtml" />
     <Content Include="Views\UserProfiles\Index.cshtml" />
+    <Content Include="Views\CriterioEvaluaciones\Create.cshtml" />
+    <Content Include="Views\CriterioEvaluaciones\Delete.cshtml" />
+    <Content Include="Views\CriterioEvaluaciones\Details.cshtml" />
+    <Content Include="Views\CriterioEvaluaciones\Edit.cshtml" />
+    <Content Include="Views\CriterioEvaluaciones\Index.cshtml" />
+    <Content Include="Views\CategoriaComponentes\Create.cshtml" />
+    <Content Include="Views\CategoriaComponentes\Delete.cshtml" />
+    <Content Include="Views\CategoriaComponentes\Details.cshtml" />
+    <Content Include="Views\CategoriaComponentes\Edit.cshtml" />
+    <Content Include="Views\CategoriaComponentes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

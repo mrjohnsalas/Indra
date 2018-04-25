@@ -54,6 +54,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuApplicationUser.cs" />
+    <Compile Include="BuCategoriaComponente.cs" />
+    <Compile Include="BuCriterioEvaluacion.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

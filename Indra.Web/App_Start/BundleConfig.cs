@@ -53,6 +53,14 @@ namespace Indra.Web
             // toastr notification styles
             bundles.Add(new StyleBundle("~/plugins/toastrStyles").Include(
                 "~/Content/plugins/toastr/toastr.min.css"));
+
+            // Sweet alert Styless
+            bundles.Add(new StyleBundle("~/plugins/sweetAlertStyles").Include(
+                "~/Content/plugins/sweetalert/sweetalert.css"));
+
+            // Sweet alert
+            bundles.Add(new ScriptBundle("~/plugins/sweetAlert").Include(
+                "~/Scripts/plugins/sweetalert/sweetalert.min.js"));
         }
     }
 }

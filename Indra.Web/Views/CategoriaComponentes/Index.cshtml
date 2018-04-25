@@ -1,0 +1,101 @@
+﻿@model IEnumerable<Indra.Model.Models.CategoriaComponente>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-success alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        @{
+            var messages = ViewBag.Message.ToString().Split('|');
+            foreach (var message in messages)
+            {
+                @message<br />;
+            }
+        }
+    </div>
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Lista</h2>
+        <ol class="breadcrumb">
+            <li class="active">
+                <strong>Categoría de Componente</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Lista de Categorías de Componente</h5>
+                    <div class="ibox-tools">
+                        @Html.ActionLink("Crear nuevo", "Create", null, new { @class = "btn btn-primary btn-xs" })
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    @using (Html.BeginForm("Index", "CategoriaComponentes", FormMethod.Get))
+                    {
+                        <div class="form-group">
+                            <div class="input-group">
+                                @Html.TextBox("Buscar", ViewBag.Search as string, new {@class = "form-control", @placeholder = "Buscar "})
+                                <span class="input-group-btn">
+                                    <button type="submit" class="btn btn btn-primary"> <i class="fa fa-search"></i> Buscar</button>
+                                </span>
+                            </div>
+                        </div>
+                    }
+                    <span class="pull-right small text-muted">@Model.Count() Elementos</span>
+                    <table class="table table-striped">
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Description)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Remark)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Remark)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Detalle", "Details", new {id = item.Id}, new {@class = "btn btn-primary btn-sm"})
+                                    @Html.ActionLink("Editar", "Edit", new {id = item.Id}, new {@class = "btn btn-white btn-sm"})
+                                    @Html.ActionLink("Eliminar", "Delete", new {id = item.Id}, new {@class = "btn btn-danger btn-sm"})
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

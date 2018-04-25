@@ -5,6 +5,7 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Indra.Model.Models;
 
 namespace Indra.Data.Context
 {
@@ -22,5 +23,9 @@ namespace Indra.Data.Context
         }
 
         public virtual void Commit() => SaveChanges();
+
+        public DbSet<CriterioEvaluacion> CriterioEvaluaciones { get; set; }
+
+        public DbSet<CategoriaComponente> CategoriaComponentes { get; set; }
     }
 }
