@@ -55,7 +55,23 @@
   <ItemGroup>
     <Compile Include="BuApplicationUser.cs" />
     <Compile Include="BuCategoriaComponente.cs" />
+    <Compile Include="BuCliente.cs" />
     <Compile Include="BuCriterioEvaluacion.cs" />
+    <Compile Include="BuEstado.cs" />
+    <Compile Include="BuEstadoAprobacion.cs" />
+    <Compile Include="BuPatrocinador.cs" />
+    <Compile Include="BuPortafolio.cs" />
+    <Compile Include="BuPortafolioDetallePrograma.cs" />
+    <Compile Include="BuPortafolioDetalleProyecto.cs" />
+    <Compile Include="BuPrioridad.cs" />
+    <Compile Include="BuPrograma.cs" />
+    <Compile Include="BuProyecto.cs" />
+    <Compile Include="BuRecurso.cs" />
+    <Compile Include="BuSolicitudRecurso.cs" />
+    <Compile Include="BuSolicitudRecursoDetalle.cs" />
+    <Compile Include="BuTipoDocumentoIdentidad.cs" />
+    <Compile Include="BuTipoProyecto.cs" />
+    <Compile Include="BuTrabajador.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

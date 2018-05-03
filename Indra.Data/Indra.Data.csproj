@@ -63,7 +63,24 @@
     <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CategoriaComponenteRepository.cs" />
+    <Compile Include="Repositories\ClienteRepository.cs" />
     <Compile Include="Repositories\CriterioEvaluacionRepository.cs" />
+    <Compile Include="Repositories\EstadoAprobacionRepository.cs" />
+    <Compile Include="Repositories\EstadoRepository.cs" />
+    <Compile Include="Repositories\PatrocinadorRepository.cs" />
+    <Compile Include="Repositories\PortafolioDetalleProgramaRepository.cs" />
+    <Compile Include="Repositories\PortafolioDetalleProyectoRepository.cs" />
+    <Compile Include="Repositories\PortafolioRepository.cs" />
+    <Compile Include="Repositories\PrioridadRepository.cs" />
+    <Compile Include="Repositories\ProgramaDetalleRepository.cs" />
+    <Compile Include="Repositories\ProgramaRepository.cs" />
+    <Compile Include="Repositories\ProyectoRepository.cs" />
+    <Compile Include="Repositories\RecursoRepository.cs" />
+    <Compile Include="Repositories\SolicitudRecursoDetalleRepository.cs" />
+    <Compile Include="Repositories\SolicitudRecursoRepository.cs" />
+    <Compile Include="Repositories\TipoDocumentoIdentidadRepository.cs" />
+    <Compile Include="Repositories\TipoProyectoRepository.cs" />
+    <Compile Include="Repositories\TrabajadorRepository.cs" />
     <Compile Include="SeedData.cs" />
   </ItemGroup>
   <ItemGroup />

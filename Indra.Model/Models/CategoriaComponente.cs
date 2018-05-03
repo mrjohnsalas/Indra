@@ -25,5 +25,7 @@ namespace Indra.Model.Models
         [Display(Name = "Observación")]
         [DataType(DataType.MultilineText)]
         public string Remark { get; set; }
+
+        public virtual ICollection<Portafolio> Portafolios { get; set; }
     }
 }

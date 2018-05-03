@@ -7,27 +7,27 @@ using Indra.Model.Models;
 
 namespace Indra.Business
 {
-    public class BuCategoriaComponente
+    public class BuTipoProyecto
     {
-        private readonly ICategoriaComponenteRepository _repository;
+        private readonly ITipoProyectoRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public BuCategoriaComponente()
+        public BuTipoProyecto()
         {
             var db = new DbFactory();
-            _repository = new CategoriaComponenteRepository(db);
+            _repository = new TipoProyectoRepository(db);
             _unitOfWork = new UnitOfWork(db);
         }
 
-        public IEnumerable<CategoriaComponente> GetAll() => _repository.GetAll();
+        public IEnumerable<TipoProyecto> GetAll() => _repository.GetAll();
 
-        public IEnumerable<CategoriaComponente> GetMany(Expression<Func<CategoriaComponente, bool>> where) => _repository.GetMany(where);
+        public IEnumerable<TipoProyecto> GetMany(Expression<Func<TipoProyecto, bool>> where) => _repository.GetMany(where);
 
-        public CategoriaComponente GetById(int id) => _repository.GetById(id);
+        public TipoProyecto GetById(int id) => _repository.GetById(id);
 
-        public CategoriaComponente Get(Expression<Func<CategoriaComponente, bool>> where) => _repository.Get(where);
+        public TipoProyecto Get(Expression<Func<TipoProyecto, bool>> where) => _repository.Get(where);
 
-        public void Add(CategoriaComponente myObject)
+        public void Add(TipoProyecto myObject)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Indra.Business
             }
         }
 
-        public void Update(CategoriaComponente myObject)
+        public void Update(TipoProyecto myObject)
         {
             try
             {

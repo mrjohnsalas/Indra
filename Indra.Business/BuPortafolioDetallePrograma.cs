@@ -7,27 +7,27 @@ using Indra.Model.Models;
 
 namespace Indra.Business
 {
-    public class BuCategoriaComponente
+    public class BuPortafolioDetallePrograma
     {
-        private readonly ICategoriaComponenteRepository _repository;
+        private readonly IPortafolioDetalleProgramaRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public BuCategoriaComponente()
+        public BuPortafolioDetallePrograma()
         {
             var db = new DbFactory();
-            _repository = new CategoriaComponenteRepository(db);
+            _repository = new PortafolioDetalleProgramaRepository(db);
             _unitOfWork = new UnitOfWork(db);
         }
 
-        public IEnumerable<CategoriaComponente> GetAll() => _repository.GetAll();
+        public IEnumerable<PortafolioDetallePrograma> GetAll() => _repository.GetAll();
 
-        public IEnumerable<CategoriaComponente> GetMany(Expression<Func<CategoriaComponente, bool>> where) => _repository.GetMany(where);
+        public IEnumerable<PortafolioDetallePrograma> GetMany(Expression<Func<PortafolioDetallePrograma, bool>> where) => _repository.GetMany(where);
 
-        public CategoriaComponente GetById(int id) => _repository.GetById(id);
+        public PortafolioDetallePrograma GetById(int id) => _repository.GetById(id);
 
-        public CategoriaComponente Get(Expression<Func<CategoriaComponente, bool>> where) => _repository.Get(where);
+        public PortafolioDetallePrograma Get(Expression<Func<PortafolioDetallePrograma, bool>> where) => _repository.Get(where);
 
-        public void Add(CategoriaComponente myObject)
+        public void Add(PortafolioDetallePrograma myObject)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Indra.Business
             }
         }
 
-        public void Update(CategoriaComponente myObject)
+        public void Update(PortafolioDetallePrograma myObject)
         {
             try
             {

@@ -7,27 +7,27 @@ using Indra.Model.Models;
 
 namespace Indra.Business
 {
-    public class BuCategoriaComponente
+    public class BuSolicitudRecurso
     {
-        private readonly ICategoriaComponenteRepository _repository;
+        private readonly ISolicitudRecursoRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public BuCategoriaComponente()
+        public BuSolicitudRecurso()
         {
             var db = new DbFactory();
-            _repository = new CategoriaComponenteRepository(db);
+            _repository = new SolicitudRecursoRepository(db);
             _unitOfWork = new UnitOfWork(db);
         }
 
-        public IEnumerable<CategoriaComponente> GetAll() => _repository.GetAll();
+        public IEnumerable<SolicitudRecurso> GetAll() => _repository.GetAll();
 
-        public IEnumerable<CategoriaComponente> GetMany(Expression<Func<CategoriaComponente, bool>> where) => _repository.GetMany(where);
+        public IEnumerable<SolicitudRecurso> GetMany(Expression<Func<SolicitudRecurso, bool>> where) => _repository.GetMany(where);
 
-        public CategoriaComponente GetById(int id) => _repository.GetById(id);
+        public SolicitudRecurso GetById(int id) => _repository.GetById(id);
 
-        public CategoriaComponente Get(Expression<Func<CategoriaComponente, bool>> where) => _repository.Get(where);
+        public SolicitudRecurso Get(Expression<Func<SolicitudRecurso, bool>> where) => _repository.Get(where);
 
-        public void Add(CategoriaComponente myObject)
+        public void Add(SolicitudRecurso myObject)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Indra.Business
             }
         }
 
-        public void Update(CategoriaComponente myObject)
+        public void Update(SolicitudRecurso myObject)
         {
             try
             {

@@ -7,27 +7,27 @@ using Indra.Model.Models;
 
 namespace Indra.Business
 {
-    public class BuCategoriaComponente
+    public class BuTrabajador
     {
-        private readonly ICategoriaComponenteRepository _repository;
+        private readonly ITrabajadorRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public BuCategoriaComponente()
+        public BuTrabajador()
         {
             var db = new DbFactory();
-            _repository = new CategoriaComponenteRepository(db);
+            _repository = new TrabajadorRepository(db);
             _unitOfWork = new UnitOfWork(db);
         }
 
-        public IEnumerable<CategoriaComponente> GetAll() => _repository.GetAll();
+        public IEnumerable<Trabajador> GetAll() => _repository.GetAll();
 
-        public IEnumerable<CategoriaComponente> GetMany(Expression<Func<CategoriaComponente, bool>> where) => _repository.GetMany(where);
+        public IEnumerable<Trabajador> GetMany(Expression<Func<Trabajador, bool>> where) => _repository.GetMany(where);
 
-        public CategoriaComponente GetById(int id) => _repository.GetById(id);
+        public Trabajador GetById(int id) => _repository.GetById(id);
 
-        public CategoriaComponente Get(Expression<Func<CategoriaComponente, bool>> where) => _repository.Get(where);
+        public Trabajador Get(Expression<Func<Trabajador, bool>> where) => _repository.Get(where);
 
-        public void Add(CategoriaComponente myObject)
+        public void Add(Trabajador myObject)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Indra.Business
             }
         }
 
-        public void Update(CategoriaComponente myObject)
+        public void Update(Trabajador myObject)
         {
             try
             {

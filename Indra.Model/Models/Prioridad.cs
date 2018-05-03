@@ -23,5 +23,11 @@ namespace Indra.Model.Models
         public string Description { get; set; }
 
         public virtual ICollection<Proyecto> Proyectos { get; set; }
+
+        public virtual ICollection<Programa> Programas { get; set; }
+
+        public virtual ICollection<Portafolio> Portafolios { get; set; }
+
+        public virtual ICollection<SolicitudRecurso> SolicitudRecursos { get; set; }
     }
 }

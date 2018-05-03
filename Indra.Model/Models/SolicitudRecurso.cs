@@ -4,42 +4,23 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Indra.Model.Models
 {
-    public class Portafolio
+    public class SolicitudRecurso
     {
         [Key]
         [Display(Name = "Código")]
         public int Id { get; set; }
 
-        [Display(Name = "Num. Portafolio")]
+        [Display(Name = "Cod. Proyecto")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
-        [StringLength(25, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
-        public string NumPortafolio { get; set; }
+        public int ProyectoId { get; set; }
 
-        [Display(Name = "Nombre")]
-        [Required(ErrorMessage = "Debes ingresar {0}")]
-        [StringLength(100, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
-        public string Name { get; set; }
-
-        [Display(Name = "Descripción")]
-        [StringLength(300, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
-        public string Description { get; set; }
+        [Display(Name = "Proyecto")]
+        public virtual Proyecto Proyecto { get; set; }
 
         [Display(Name = "Fecha creación")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreateDate { get; set; }
-
-        [Display(Name = "Fecha modificación")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime EditDate { get; set; }
-
-        [Display(Name = "Cod. Categoria Componente")]
-        [Required(ErrorMessage = "Debes ingresar {0}")]
-        public int CategoriaComponenteId { get; set; }
-
-        [Display(Name = "Categoria Componente")]
-        public CategoriaComponente CategoriaComponente { get; set; }
 
         [Display(Name = "Cod. Prioridad")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
@@ -70,8 +51,6 @@ namespace Indra.Model.Models
         [DataType(DataType.MultilineText)]
         public string Remark { get; set; }
 
-        public virtual ICollection<PortafolioDetallePrograma> PortafolioDetalleProgramas { get; set; }
-
-        public virtual ICollection<PortafolioDetalleProyecto> PortafolioDetalleProyectos { get; set; }
+        public virtual ICollection<SolicitudRecursoDetalle> SolicitudRecursoDetalles { get; set; }
     }
 }

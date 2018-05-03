@@ -9,6 +9,7 @@ namespace Indra.Model.Models
     public enum EstadoType
     {
         EnEjecucion = 1,
-        Terminado = 2
+        Terminado = 2,
+        Pendiente = 3
     }
 }

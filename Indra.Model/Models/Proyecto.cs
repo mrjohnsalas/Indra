@@ -99,5 +99,11 @@ namespace Indra.Model.Models
 
         [Display(Name = "Patrocinador")]
         public virtual Patrocinador Patrocinador { get; set; }
+
+        public virtual ICollection<ProgramaDetalle> ProgramaDetalles { get; set; }
+
+        public virtual ICollection<PortafolioDetalleProyecto> PortafolioDetalleProyectos { get; set; }
+
+        public virtual ICollection<SolicitudRecurso> SolicitudRecursos { get; set; }
     }
 }

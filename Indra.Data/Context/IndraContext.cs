@@ -38,7 +38,7 @@ namespace Indra.Data.Context
 
         public DbSet<Portafolio> Portafolios { get; set; }
 
-        public DbSet<PortafolioDetalle> PortafolioDetalles { get; set; }
+        public DbSet<PortafolioDetallePrograma> PortafolioDetalles { get; set; }
 
         public DbSet<Prioridad> Prioridades { get; set; }
 
@@ -55,5 +55,9 @@ namespace Indra.Data.Context
         public DbSet<TipoProyecto> TipoProyectos { get; set; }
 
         public DbSet<Trabajador> Trabajadores { get; set; }
+
+        public DbSet<SolicitudRecurso> SolicitudRecursos { get; set; }
+
+        public DbSet<SolicitudRecursoDetalle> SolicitudRecursoDetalles { get; set; }
     }
 }

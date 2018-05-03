@@ -1,0 +1,238 @@
+﻿@model Indra.Model.Models.Portafolio
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        <h2>Propuesta de Balanceo</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Portafolios")">Portafolio</a>
+            </li>
+            <li class="active">
+                <strong>Crear propuesta de balanceo</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="m-b-md">
+                                <h2>Portafolio: @Html.DisplayFor(model => model.NumPortafolio)</h2>
+                            </div>
+                            <dl class="dl-horizontal">
+                                <dt>Status:</dt>
+                                <dd>
+                                    <span class="label @(Model.EstadoId.Equals(2) ? "label-success" : "label-primary"))">@Html.DisplayFor(model => model.Estado.Name)</span>
+                                </dd>
+                                <dt>@Html.DisplayNameFor(model => model.CategoriaComponente):</dt>
+                                <dd> @Html.DisplayFor(model => model.CategoriaComponente.Name) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.Name):</dt>
+                                <dd> @Html.DisplayFor(model => model.Name) </dd>
+                                <dt>@Html.DisplayNameFor(model => model.Description):</dt>
+                                <dd> @Html.DisplayFor(model => model.Description) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.ResponsableId):</dt>
+                                <dd> @Html.DisplayFor(model => model.Responsable.Id) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.Responsable):</dt>
+                                <dd> @Html.DisplayFor(model => model.Responsable.FullName) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.PrioridadId):</dt>
+                                <dd> @Html.DisplayFor(model => model.Prioridad.Id) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.Prioridad):</dt>
+                                <dd> @Html.DisplayFor(model => model.Prioridad.Name) </dd>
+                            </dl>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.CreateDate):</dt>
+                                <dd> @Html.DisplayFor(model => model.CreateDate) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.EditDate):</dt>
+                                <dd> @Html.DisplayFor(model => model.EditDate) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.Remark):</dt>
+                                <dd> @Html.DisplayFor(model => model.Remark) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-users"></i> Solicitudes</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-cogs"></i> Programas</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa fa-wrench"></i> Proyectos</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                    <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th>Cod. Solicitud Recurso</th>
+                                                <th data-hide="phone">Fecha creación</th>
+                                                <th data-hide="phone">Prioridad</th>
+                                                <th data-hide="phone">Num. Proyecto</th>
+                                                <th data-hide="phone">Recurso</th>
+                                                <th data-hide="phone">Cant. Solicitada</th>
+                                                <th data-hide="phone">Cant. Disponible</th>
+                                                <th data-hide="phone">Cant. A Asignar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var proyecto in Model.PortafolioDetalleProyectos)
+                                            {
+                                                foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
+                                                {
+                                                    foreach (var recurso in solicitud.SolicitudRecursoDetalles)
+                                                    {
+                                                    <tr>
+                                                        <td> @Html.DisplayFor(modelItem => solicitud.Id)</td>
+                                                        <td> @Html.DisplayFor(modelItem => solicitud.CreateDate)</td>
+                                                        <td> @Html.DisplayFor(modelItem => solicitud.Prioridad.Name)</td>
+                                                        <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
+                                                        <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
+                                                        <td> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
+                                                        <td> @Html.DisplayFor(modelItem => recurso.QuantityAvailable)</td>
+                                                        <td> @Html.DisplayFor(modelItem => recurso.QuantityToAssign)</td>
+                                                    </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th>Num. Programa</th>
+                                                <th data-hide="phone">Nombre</th>
+                                                <th data-hide="phone">Fecha inicial</th>
+                                                <th data-hide="phone">Prioridad</th>
+                                                <th data-hide="phone">Responsable</th>
+                                                <th data-hide="phone">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var programa in Model.PortafolioDetalleProgramas)
+                                            {
+                                                <tr>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.NumProyecto)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.StarDate)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Prioridad.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Responsable.FullName)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Estado.Name)</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div id="tab-3" class="tab-pane">
+                                    <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th>Num. Proyecto</th>
+                                                <th data-hide="phone">Nombre</th>
+                                                <th data-hide="phone">Fecha inicial</th>
+                                                <th data-hide="phone">Prioridad</th>
+                                                <th data-hide="phone">Responsable</th>
+                                                <th data-hide="phone">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var proyecto in Model.PortafolioDetalleProyectos)
+                                            {
+                                                <tr>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.StarDate)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Prioridad.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Responsable.FullName)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Estado.Name)</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @Html.ActionLink("Grabar", "Index", new { id = Model.Id }, new { @class = "btn btn-primary" })
+                    @Html.ActionLink("Volver a la lista", "Index", null, new { @class = "btn btn-white" })
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/footableStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/footable")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.footable').footable();
+
+        });
+    </script>
+}

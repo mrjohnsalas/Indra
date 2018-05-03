@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Indra.Data.Context;
 using Indra.Model.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Indra.Data
 {
@@ -31,6 +25,12 @@ namespace Indra.Data
             GetPatrocinadores().ForEach(o => context.Patrocinadores.Add(o));
             context.SaveChanges();
             GetProyectos().ForEach(o => context.Proyectos.Add(o));
+            context.SaveChanges();
+            GetProgramas().ForEach(o => context.Programas.Add(o));
+            context.SaveChanges();
+            GetPortafolios().ForEach(o => context.Portafolios.Add(o));
+            context.SaveChanges();
+            GetSolicitudRecursos().ForEach(o => context.SolicitudRecursos.Add(o));
             context.SaveChanges();
         }
 
@@ -75,7 +75,8 @@ namespace Indra.Data
         private static List<Estado> GetEstados() => new List<Estado>
         {
             new Estado{ Name = "En Ejecución" },
-            new Estado{ Name = "Terminado" }
+            new Estado{ Name = "Terminado" },
+            new Estado{ Name = "Pendiente" }
         };
 
         private static List<EstadoAprobacion> GetEstadoAprobaciones() => new List<EstadoAprobacion>
@@ -132,7 +133,7 @@ namespace Indra.Data
         {
             new Proyecto
             {
-                NumProyecto = "2018-01-00001",
+                NumProyecto = "PY-2018-01-00001",
                 Name = "Implementación del Sistema de Control Interno.",
                 Description = "El proyecto consiste en la Implementación del Sistema de Control Interno el cual es un conjunto de acciones estructuradas y coordinadas que lleva a cabo la Gerencia General de la empresa, diseñado para proporcionar un grado de seguridad razonable para que la empresa logre sus objetivos.",
                 Presupuesto = 3000000,
@@ -148,7 +149,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "2018-01-00002",
+                NumProyecto = "PY-2018-01-00002",
                 Name = "Implementación de Inteligencia de Negocios Orientado al Valor Agregado",
                 Description = "El proyecto INOVA consiste en proveer de información confiable y oportuna, que brinde un apoyo óptimo al proceso de toma de decisiones de negocio, a través de la implementación de una herramienta tecnológica conocida como Business Intelligence (BI).",
                 Presupuesto = 3500000,
@@ -164,7 +165,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "2018-01-00003",
+                NumProyecto = "PY-2018-01-00003",
                 Name = "Sistematización y control general en planta",
                 Description = "Se requiere un sistema de información de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación adecuada entre los distintos actores involucrados, requiriendo que cada parte.",
                 Presupuesto = 4000000,
@@ -180,7 +181,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "2018-01-00004",
+                NumProyecto = "PY-2018-01-00004",
                 Name = "Definir y mejorar un proceso para aumentar la productividad y reducir los costos.",
                 Description = "Permitir al personal de TI y de negocio diseñar y poner en práctica el proceso de autoservicio de RH de manera colaborativa.",
                 Presupuesto = 2500000,
@@ -196,7 +197,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "2018-01-00005",
+                NumProyecto = "PY-2018-01-00005",
                 Name = "Implementación del Sistema de Control Interno.",
                 Description = "El proyecto consiste en la Implementación del Sistema de Control Interno el cual es un conjunto de acciones estructuradas y coordinadas que lleva a cabo la Gerencia General.",
                 Presupuesto = 1000000,
@@ -212,7 +213,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "2018-01-00006",
+                NumProyecto = "PY-2018-01-00006",
                 Name = "Implementación de Inteligencia de Negocios Orientado al Valor Agregado.",
                 Description = "El proyecto consiste en proveer de información confiable y oportuna, que brinde un apoyo óptimo al proceso de toma de decisiones de negocio, a través de la implementación de una herramienta tecnológica conocida como Business Intelligence (BI)",
                 Presupuesto = 8100000,
@@ -228,7 +229,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "2018-01-00007",
+                NumProyecto = "PY-2018-01-00007",
                 Name = "Sistematización y control general en planta.",
                 Description = "Se requiere un sistema de información de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación.",
                 Presupuesto = 8100000,
@@ -244,7 +245,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "2018-01-00008",
+                NumProyecto = "PY-2018-01-00008",
                 Name = "Definir y mejorar un proceso para aumentar la productividad y reducir los costos.",
                 Description = "Permitir al personal de TI y de negocio diseñar y poner en práctica el proceso de autoservicio de RH de manera colaborativa. El marco de implementación iterativo permitió al equipo refinar continuamente los requisitos y en última instancia ofrecer una solución que puede conducir a mejores.",
                 Presupuesto = 8100000,
@@ -258,6 +259,207 @@ namespace Indra.Data
                 ResponsableId = 2,
                 PatrocinadorId = 1
             }
+        };
+
+        private static List<Programa> GetProgramas() => new List<Programa>
+        {
+            new Programa
+            {
+                NumProyecto = "PR-2018-01-00001",
+                Name = "Proyectos de crecimiento.",
+                Description = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual. La gestión de programas permite agrupar proyectos alrededor de objetivos comunes y realizar una planiﬁcación y un seguimiento.",
+                Presupuesto = 3000000,
+                StarDate = DateTime.Parse("2018-01-15"),
+                FinalDate = DateTime.Parse("2019-01-31"),
+                PrioridadId = 1,
+                EstadoId = 1,
+                ResponsableId = 1,
+                ProgramaDetalles = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 1 }, new ProgramaDetalle { ProyectoId = 2 } }
+            },
+            new Programa
+            {
+                NumProyecto = "PR-2018-02-00002",
+                Name = "Iniciativas de mejoras internas",
+                Description = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual.",
+                Presupuesto = 3500000,
+                StarDate = DateTime.Parse("2017-02-1"),
+                FinalDate = DateTime.Parse("2019-02-21"),
+                PrioridadId = 2,
+                EstadoId = 1,
+                ResponsableId = 2,
+                ProgramaDetalles = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 3 }, new ProgramaDetalle { ProyectoId = 4 } }
+            },
+            new Programa
+            {
+                NumProyecto = "PR-2018-02-00003",
+                Name = "Implementación del Sistema de Producción más limpia.",
+                Description = "Se requiere un sistema de información de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación adecuada entre los distintos actores involucrados, requiriendo que cada parte.",
+                Presupuesto = 4000000,
+                StarDate = DateTime.Parse("2018-02-1"),
+                FinalDate = DateTime.Parse("2018-12-21"),
+                PrioridadId = 3,
+                EstadoId = 1,
+                ResponsableId = 3,
+                ProgramaDetalles = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 5 } }
+            }
+        };
+
+        private static List<Portafolio> GetPortafolios() => new List<Portafolio>
+        {
+            new Portafolio
+            {
+                NumPortafolio = "PO-2018-01-00001",
+                Name = "Mejoras operativas y nuevos productos.",
+                Description = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual. La gestión de programas permite agrupar proyectos alrededor de objetivos comunes y realizar una planiﬁcación y un seguimiento.",
+                CreateDate = DateTime.Parse("2018-01-15"),
+                EditDate = DateTime.Parse("2019-01-31"),
+                CategoriaComponenteId = 1,
+                PrioridadId = 1,
+                EstadoId = 1,
+                ResponsableId = 1,
+                Remark = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual. La gestión de programas permite agrupar proyectos alrededor de objetivos comunes y realizar una planiﬁcación y un seguimiento.",
+                PortafolioDetalleProgramas = new List<PortafolioDetallePrograma>{ new PortafolioDetallePrograma { ProgramaId = 1 }, new PortafolioDetallePrograma { ProgramaId = 2 } },
+                PortafolioDetalleProyectos = new List<PortafolioDetalleProyecto>{ new PortafolioDetalleProyecto { ProyectoId = 6 } }
+            },
+            new Portafolio
+            {
+                NumPortafolio = "PO-2018-02-00002",
+                Name = "Programas y proyectos corporativos",
+                Description = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual.",
+                CreateDate = DateTime.Parse("2017-02-1"),
+                EditDate = DateTime.Parse("2019-02-21"),
+                CategoriaComponenteId = 2,
+                PrioridadId = 2,
+                EstadoId = 1,
+                ResponsableId = 2,
+                Remark = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual.",
+                PortafolioDetalleProgramas = new List<PortafolioDetallePrograma>{ new PortafolioDetallePrograma { ProgramaId = 3 } },
+                PortafolioDetalleProyectos = new List<PortafolioDetalleProyecto>{ new PortafolioDetalleProyecto { ProyectoId = 7 }, new PortafolioDetalleProyecto { ProyectoId = 8 } }
+            }
+        };
+
+        private static List<SolicitudRecurso> GetSolicitudRecursos() => new List<SolicitudRecurso>
+        {
+            new SolicitudRecurso
+            {
+                ProyectoId = 1,
+                CreateDate = DateTime.Parse("2018-01-15"),
+                PrioridadId = 1,
+                EstadoId = 3,
+                ResponsableId = 1,
+                Remark = "Urgente",
+                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                {
+                    new SolicitudRecursoDetalle { RecursoId = 1, Quantity = 2 },
+                    new SolicitudRecursoDetalle { RecursoId = 2, Quantity = 3 },
+                    new SolicitudRecursoDetalle { RecursoId = 3, Quantity = 4 }
+                }
+            },
+            new SolicitudRecurso
+            {
+                ProyectoId = 2,
+                CreateDate = DateTime.Parse("2017-02-1"),
+                PrioridadId = 1,
+                EstadoId = 3,
+                ResponsableId = 2,
+                Remark = "Urgente",
+                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                {
+                    new SolicitudRecursoDetalle { RecursoId = 4, Quantity = 8 },
+                    new SolicitudRecursoDetalle { RecursoId = 5, Quantity = 5 },
+                    new SolicitudRecursoDetalle { RecursoId = 6, Quantity = 8 }
+                }
+            },
+            new SolicitudRecurso
+            {
+                ProyectoId = 3,
+                CreateDate = DateTime.Parse("2018-02-1"),
+                PrioridadId = 1,
+                EstadoId = 3,
+                ResponsableId = 3,
+                Remark = "Urgente",
+                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                {
+                    new SolicitudRecursoDetalle { RecursoId = 1, Quantity = 6 },
+                    new SolicitudRecursoDetalle { RecursoId = 4, Quantity = 5 },
+                    new SolicitudRecursoDetalle { RecursoId = 9, Quantity = 4 }
+                }
+            },
+            new SolicitudRecurso
+            {
+                ProyectoId = 4,
+                CreateDate = DateTime.Parse("2018-05-1"),
+                PrioridadId = 1,
+                EstadoId = 3,
+                ResponsableId = 1,
+                Remark = "Urgente",
+                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                {
+                    new SolicitudRecursoDetalle { RecursoId = 11, Quantity = 5 },
+                    new SolicitudRecursoDetalle { RecursoId = 10, Quantity = 7 },
+                    new SolicitudRecursoDetalle { RecursoId = 8, Quantity = 2 }
+                }
+            },
+            new SolicitudRecurso
+            {
+                ProyectoId = 5,
+                CreateDate = DateTime.Parse("2017-12-1"),
+                PrioridadId = 1,
+                EstadoId = 3,
+                ResponsableId = 3,
+                Remark = "Urgente",
+                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                {
+                    new SolicitudRecursoDetalle { RecursoId = 11, Quantity = 3 },
+                    new SolicitudRecursoDetalle { RecursoId = 6, Quantity = 2 },
+                    new SolicitudRecursoDetalle { RecursoId = 3, Quantity = 1 }
+                }
+            },
+            new SolicitudRecurso
+            {
+                ProyectoId = 6,
+                CreateDate = DateTime.Parse("2017-06-1"),
+                PrioridadId = 1,
+                EstadoId = 3,
+                ResponsableId = 2,
+                Remark = "Urgente",
+                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                {
+                    new SolicitudRecursoDetalle { RecursoId = 2, Quantity = 5 },
+                    new SolicitudRecursoDetalle { RecursoId = 3, Quantity = 8 },
+                    new SolicitudRecursoDetalle { RecursoId = 4, Quantity = 1 }
+                }
+            },
+            new SolicitudRecurso
+            {
+                ProyectoId = 7,
+                CreateDate = DateTime.Parse("2017-06-1"),
+                PrioridadId = 1,
+                EstadoId = 3,
+                ResponsableId = 1,
+                Remark = "Urgente",
+                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                {
+                    new SolicitudRecursoDetalle { RecursoId = 5, Quantity = 7 },
+                    new SolicitudRecursoDetalle { RecursoId = 3, Quantity = 3 },
+                    new SolicitudRecursoDetalle { RecursoId = 7, Quantity = 4 }
+                }
+            },
+            new SolicitudRecurso
+            {
+            ProyectoId = 8,
+            CreateDate = DateTime.Parse("2017-01-1"),
+            PrioridadId = 1,
+            EstadoId = 3,
+            ResponsableId = 2,
+            Remark = "Urgente",
+            SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+            {
+                new SolicitudRecursoDetalle { RecursoId = 3, Quantity = 3 },
+                new SolicitudRecursoDetalle { RecursoId = 5, Quantity = 3 },
+                new SolicitudRecursoDetalle { RecursoId = 1, Quantity = 3 }
+            }
+        }
         };
     }
 }
