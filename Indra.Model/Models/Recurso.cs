@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Indra.Model.Models
 {
-    public class CriterioEvaluacion
+    public class Recurso
     {
         [Key]
         [Display(Name = "Código")]
