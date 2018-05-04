@@ -11,6 +11,7 @@ namespace Indra.Data
         protected override void Seed(IndraContext context)
         {
             var db = new ApplicationDbContext();
+            GetAlmacenes().ForEach(o => context.Almacenes.Add(o));
             GetCriterioEvaluaciones().ForEach(o => context.CriterioEvaluaciones.Add(o));
             GetCategoriaComponentes().ForEach(o => context.CategoriaComponentes.Add(o));
             GetTipoDocumentoIdentidades().ForEach(o => context.TipoDocumentoIdentidades.Add(o));
@@ -20,6 +21,7 @@ namespace Indra.Data
             GetEstadoAprobaciones().ForEach(o => context.EstadoAprobaciones.Add(o));
             GetRecursos().ForEach(o => context.Recursos.Add(o));
             context.SaveChanges();
+            GetAlmacenRecursos().ForEach(o => context.AlmacenRecursos.Add(o));
             GetTrabajadores().ForEach(o => context.Trabajadores.Add(o));
             GetClientes().ForEach(o => context.Clientes.Add(o));
             GetPatrocinadores().ForEach(o => context.Patrocinadores.Add(o));
@@ -33,6 +35,11 @@ namespace Indra.Data
             GetSolicitudRecursos().ForEach(o => context.SolicitudRecursos.Add(o));
             context.SaveChanges();
         }
+
+        private static List<Almacen> GetAlmacenes() => new List<Almacen>
+        {
+            new Almacen{ Name = "Almacén de Recursos", Description = "Este es el almacén de recursos de Indra." }
+        };
 
         private static List<CriterioEvaluacion> GetCriterioEvaluaciones() => new List<CriterioEvaluacion>
         {
@@ -99,6 +106,21 @@ namespace Indra.Data
             new Recurso{ Name = "Celular S.O Andriod" },
             new Recurso{ Name = "Tablet S.O. Android" },
             new Recurso{ Name = "PC i7 4GB 500GB HP" }
+        };
+
+        private static List<AlmacenRecurso> GetAlmacenRecursos() => new List<AlmacenRecurso>
+        {
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 1, Stock = 45 },
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 2, Stock = 50 },
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 3, Stock = 65 },
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 4, Stock = 70 },
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 5, Stock = 75 },
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 6, Stock = 80 },
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 7, Stock = 85 },
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 8, Stock = 90 },
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 9, Stock = 95 },
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 10, Stock = 100 },
+            new AlmacenRecurso{ AlmacenId = 1, RecursoId = 11, Stock = 105 },
         };
 
         private static  List<Trabajador> GetTrabajadores() => new List<Trabajador>

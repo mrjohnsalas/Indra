@@ -81,6 +81,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Almacen.cs" />
+    <Compile Include="Models\AlmacenRecurso.cs" />
     <Compile Include="Models\CategoriaComponente.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\CriterioEvaluacion.cs" />

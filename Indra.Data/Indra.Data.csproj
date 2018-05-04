@@ -63,6 +63,8 @@
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\AlmacenRecursoRepository.cs" />
+    <Compile Include="Repositories\AlmacenRepository.cs" />
     <Compile Include="Repositories\CategoriaComponenteRepository.cs" />
     <Compile Include="Repositories\ClienteRepository.cs" />
     <Compile Include="Repositories\CriterioEvaluacionRepository.cs" />

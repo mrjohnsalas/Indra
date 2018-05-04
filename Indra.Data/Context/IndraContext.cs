@@ -59,5 +59,9 @@ namespace Indra.Data.Context
         public DbSet<SolicitudRecurso> SolicitudRecursos { get; set; }
 
         public DbSet<SolicitudRecursoDetalle> SolicitudRecursoDetalles { get; set; }
+
+        public DbSet<Almacen> Almacenes { get; set; }
+
+        public DbSet<AlmacenRecurso> AlmacenRecursos { get; set; }
     }
 }

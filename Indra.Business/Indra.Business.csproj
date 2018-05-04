@@ -54,6 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuAlmacen.cs" />
+    <Compile Include="BuAlmacenRecurso.cs" />
     <Compile Include="BuApplicationUser.cs" />
     <Compile Include="BuCategoriaComponente.cs" />
     <Compile Include="BuCliente.cs" />

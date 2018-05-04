@@ -1,20 +1,24 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Indra.Model.Models
 {
-    public class SolicitudRecursoDetalle
+    public class AlmacenRecurso
     {
         [Key]
         [Display(Name = "Código")]
         public int Id { get; set; }
 
-        [Display(Name = "Cod. Solicitud Recurso")]
+        [Display(Name = "Cod. Almacen")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
-        public int SolicitudRecursoId { get; set; }
+        public int AlmacenId { get; set; }
 
-        [Display(Name = "Solicitud Recurso")]
-        public virtual SolicitudRecurso SolicitudRecurso { get; set; }
+        [Display(Name = "Almacen")]
+        public virtual Almacen Almacen { get; set; }
 
         [Display(Name = "Cod. Recurso")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
@@ -23,22 +27,21 @@ namespace Indra.Model.Models
         [Display(Name = "Recurso")]
         public virtual Recurso Recurso { get; set; }
 
-        [Display(Name = "Cant. Solicitada")]
+        [Display(Name = "Stock")]
         [Required(ErrorMessage = "You must enter {0}")]
         [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
-        public decimal Quantity { get; set; }
+        public decimal Stock { get; set; }
 
-        [Display(Name = "Cant. Disponible")]
-        [NotMapped]
+        [Display(Name = "Stock Comprometido")]
+        [Required(ErrorMessage = "You must enter {0}")]
         [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
-        public decimal QuantityAvailable { get; set; }
+        public decimal StockCommitted { get; set; }
 
-        [Display(Name = "Cant. a Asignar")]
-        [NotMapped]
+        [Display(Name = "Stock Disponible")]
         [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
-        public decimal QuantityToAssign { get; set; }
+        public decimal StockAvailable => Stock - StockCommitted;
     }
 }
