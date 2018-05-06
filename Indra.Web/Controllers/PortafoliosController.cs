@@ -8,6 +8,8 @@ using System.Web;
 using System.Web.Mvc;
 using Indra.Business;
 using Indra.Model.Models;
+using Indra.Model.ViewModels;
+using Microsoft.AspNet.Identity;
 
 namespace Indra.Web.Controllers
 {
@@ -77,7 +79,7 @@ namespace Indra.Web.Controllers
                             {
                                 detalle.Recurso = buRecurso.GetById(detalle.RecursoId);
                                 detalle.QuantityAvailable = buAlmacenRecurso.Get(x => x.AlmacenId.Equals(1) && x.RecursoId.Equals(detalle.RecursoId)).StockAvailable;
-                                detalle.QuantityToAssign = (detalle.QuantityAvailable > detalle.Quantity) ? detalle.Quantity : detalle.QuantityAvailable;
+                                detalle.QuantityToAssign = (detalle.QuantityAvailable > detalle.QuantityPending) ? detalle.QuantityPending : detalle.QuantityAvailable;
                             }
                         }
                     }
@@ -92,7 +94,10 @@ namespace Indra.Web.Controllers
             ViewBag.Message = TempData["Message"];
 
             var buPortafolio = new BuPortafolio();
-            var portafolios = string.IsNullOrEmpty(search) ? buPortafolio.GetAll() : buPortafolio.GetMany(x => x.Name.Contains(search));
+            var portafolios = buPortafolio.GetAllForPropuesta();
+
+            if (portafolios != null && !string.IsNullOrEmpty(search))
+                portafolios = portafolios.Where(x => x.Name.Contains(search));
 
             if (portafolios != null)
             {
@@ -108,6 +113,8 @@ namespace Indra.Web.Controllers
                     portafolio.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(portafolio.ResponsableId));
                 }
             }
+            else
+                portafolios = new List<Portafolio>();
 
             return View(portafolios.OrderBy(x => x.Name));
         }
@@ -117,69 +124,10 @@ namespace Indra.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var buPortafolio = new BuPortafolio();
-            var portafolio = buPortafolio.GetById(id.Value);
+            var portafolio = GetPortafolio(id.Value);
 
             if (portafolio == null)
                 return HttpNotFound();
-
-            var categorias = new BuCategoriaComponente().GetAll();
-            var prioridades = new BuPrioridad().GetAll();
-            var estados = new BuEstado().GetAll();
-            var estadoAprobaciones = new BuEstadoAprobacion().GetAll();
-            var trabajadores = new BuTrabajador().GetAll();
-            var tipoProyectos = new BuTipoProyecto().GetAll();
-
-            portafolio.CategoriaComponente = categorias.FirstOrDefault(x => x.Id.Equals(portafolio.CategoriaComponenteId));
-            portafolio.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(portafolio.PrioridadId));
-            portafolio.Estado = estados.FirstOrDefault(x => x.Id.Equals(portafolio.EstadoId));
-            portafolio.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(portafolio.ResponsableId));
-
-            var buPrograma = new BuPrograma();
-            portafolio.PortafolioDetalleProgramas = new BuPortafolioDetallePrograma().GetMany(x => x.PortafolioId.Equals(portafolio.Id)).ToList();
-            foreach (var programa in portafolio.PortafolioDetalleProgramas)
-            {
-                programa.Programa = buPrograma.GetById(programa.ProgramaId);
-                programa.Programa.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(programa.Programa.PrioridadId));
-                programa.Programa.Estado = estados.FirstOrDefault(x => x.Id.Equals(programa.Programa.EstadoId));
-                programa.Programa.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(programa.Programa.ResponsableId));
-            }
-
-            var buProyecto = new BuProyecto();
-            var buCliente = new BuCliente();
-            var buPatrocinador = new BuPatrocinador();
-            var buRecurso = new BuRecurso();
-            var buSolicitudRecurso = new BuSolicitudRecurso();
-            var buSolicitudRecursoDetalle = new BuSolicitudRecursoDetalle();
-
-            portafolio.PortafolioDetalleProyectos = new BuPortafolioDetalleProyecto().GetMany(x => x.PortafolioId.Equals(portafolio.Id)).ToList();
-            foreach (var proyecto in portafolio.PortafolioDetalleProyectos)
-            {
-                proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
-                proyecto.Proyecto.EstadoAprobacion = estadoAprobaciones.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.EstadoAprobacionId));
-                proyecto.Proyecto.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.PrioridadId));
-                proyecto.Proyecto.Estado = estados.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.EstadoId));
-                proyecto.Proyecto.Cliente = buCliente.GetById(proyecto.Proyecto.ClienteId);
-                proyecto.Proyecto.TipoProyecto = tipoProyectos.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.TipoProyectoId));
-                proyecto.Proyecto.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.ResponsableId));
-                proyecto.Proyecto.Patrocinador = buPatrocinador.GetById(proyecto.Proyecto.PatrocinadorId);
-                var solicitudes = buSolicitudRecurso.GetMany(x => x.ProyectoId.Equals(proyecto.ProyectoId) && x.EstadoId.Equals((int)EstadoType.Pendiente));
-                if (solicitudes != null)
-                {
-                    proyecto.Proyecto.SolicitudRecursos = solicitudes.ToList();
-                    foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
-                    {
-                        solicitud.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(solicitud.PrioridadId));
-                        var detallesSolicitud = buSolicitudRecursoDetalle.GetMany(x => x.SolicitudRecursoId.Equals(solicitud.Id));
-                        if (detallesSolicitud != null)
-                        {
-                            solicitud.SolicitudRecursoDetalles = detallesSolicitud.ToList();
-                            foreach (var detalle in solicitud.SolicitudRecursoDetalles)
-                                detalle.Recurso = buRecurso.GetById(detalle.RecursoId);
-                        }
-                    }
-                }
-            }
 
             return View(portafolio);
         }
@@ -194,6 +142,47 @@ namespace Indra.Web.Controllers
             if (portafolio == null)
                 return HttpNotFound();
             
+            return View(portafolio);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateBalanceo([Bind(Include = "Id,NumPortafolio,Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,PropuestaBalanceoDetalleViews")] Portafolio portafolio)
+        {
+            try
+            {
+                //VERIFICAR QUE HAY SOLICITUDES
+                if (portafolio.PropuestaBalanceoDetalleViews == null)
+                    throw new Exception("No hay solicitudes para este portafolio.");
+
+                //VERIFICAR QUE NO SE REPITAN Y QUE TENGAN CANTIDAD ASIGNADA
+                var propuestaDetalle = new List<PropuestaBalanceoDetalleView>();
+                foreach (var solicitud in portafolio.PropuestaBalanceoDetalleViews)
+                {
+                    var propuesta = propuestaDetalle.Find(x => x.SolicitudRecursoId.Equals(solicitud.SolicitudRecursoId));
+                    if (propuesta == null)
+                        if (solicitud.Quantity > 0)
+                            propuestaDetalle.Add(solicitud);
+                }
+
+                //VERIFICAR QUE HAY SOLICITUDES CON CANTIDAD ASIGNADA
+                if (propuestaDetalle.Count().Equals(0))
+                    throw new Exception("No hay solicitudes para este portafolio.");
+
+                portafolio.PropuestaBalanceoDetalleViews = propuestaDetalle;
+                portafolio.UserId = User.Identity.GetUserName();
+
+                //GRABAR PROPUESTA
+                var buPropuestaBalanceo = new BuPropuestaBalanceo();
+                buPropuestaBalanceo.Add(portafolio);
+
+                TempData["Message"] = "Message: La operación se realizó satisfactoriamente.";
+                return RedirectToAction("Index", "Portafolios");
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = $"Error Message: {e.Message}";
+            }
             return View(portafolio);
         }
 

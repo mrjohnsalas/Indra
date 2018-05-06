@@ -77,6 +77,8 @@
     <Compile Include="Repositories\PrioridadRepository.cs" />
     <Compile Include="Repositories\ProgramaDetalleRepository.cs" />
     <Compile Include="Repositories\ProgramaRepository.cs" />
+    <Compile Include="Repositories\PropuestaBalanceoDetalleRepository.cs" />
+    <Compile Include="Repositories\PropuestaBalanceoRepository.cs" />
     <Compile Include="Repositories\ProyectoRepository.cs" />
     <Compile Include="Repositories\RecursoRepository.cs" />
     <Compile Include="Repositories\SolicitudRecursoDetalleRepository.cs" />

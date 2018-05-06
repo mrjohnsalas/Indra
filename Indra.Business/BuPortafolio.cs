@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Indra.Data.Infrastructure;
 using Indra.Data.Repositories;
@@ -17,6 +18,19 @@ namespace Indra.Business
             var db = new DbFactory();
             _repository = new PortafolioRepository(db);
             _unitOfWork = new UnitOfWork(db);
+        }
+
+        public IEnumerable<Portafolio> GetAllForPropuesta()
+        {
+            var propuestas = new BuPropuestaBalanceo().GetMany(x => x.EstadoId.Equals((int)EstadoType.Pendiente));
+            var propuestaIdList = (propuestas != null && !propuestas.Count().Equals(0))
+                ? propuestas.Select(x => x.PortafolioId).ToList()
+                : new List<int>();
+
+            var portafolios = (propuestas == null || propuestas.Count().Equals(0))
+                ? GetMany(x => x.EstadoId.Equals((int) EstadoType.EnEjecucion))
+                : GetMany(x => x.EstadoId.Equals((int) EstadoType.EnEjecucion) && !propuestaIdList.Contains(x.Id));
+            return portafolios;
         }
 
         public IEnumerable<Portafolio> GetAll() => _repository.GetAll();

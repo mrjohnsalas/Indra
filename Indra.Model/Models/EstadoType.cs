@@ -10,6 +10,7 @@ namespace Indra.Model.Models
     {
         EnEjecucion = 1,
         Terminado = 2,
-        Pendiente = 3
+        Pendiente = 3,
+        Atendido = 4
     }
 }

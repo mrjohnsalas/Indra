@@ -63,5 +63,9 @@ namespace Indra.Data.Context
         public DbSet<Almacen> Almacenes { get; set; }
 
         public DbSet<AlmacenRecurso> AlmacenRecursos { get; set; }
+
+        public DbSet<PropuestaBalanceo> PropuestaBalanceos { get; set; }
+
+        public DbSet<PropuestaBalanceoDetalle> PropuestaBalanceoDetalles { get; set; }
     }
 }

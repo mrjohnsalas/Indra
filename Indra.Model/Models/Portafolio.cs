@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Indra.Model.ViewModels;
 
 namespace Indra.Model.Models
 {
@@ -70,8 +72,18 @@ namespace Indra.Model.Models
         [DataType(DataType.MultilineText)]
         public string Remark { get; set; }
 
+        [Display(Name = "Usuario")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        [StringLength(50, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
+        public string UserId { get; set; }
+
         public virtual ICollection<PortafolioDetallePrograma> PortafolioDetalleProgramas { get; set; }
 
         public virtual ICollection<PortafolioDetalleProyecto> PortafolioDetalleProyectos { get; set; }
+
+        public virtual ICollection<PropuestaBalanceo> PropuestaBalanceos { get; set; }
+
+        [NotMapped]
+        public List<PropuestaBalanceoDetalleView> PropuestaBalanceoDetalleViews { get; set; }
     }
 }

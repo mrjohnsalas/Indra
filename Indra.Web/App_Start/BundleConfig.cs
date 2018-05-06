@@ -61,6 +61,22 @@ namespace Indra.Web
             // Sweet alert
             bundles.Add(new ScriptBundle("~/plugins/sweetAlert").Include(
                 "~/Scripts/plugins/sweetalert/sweetalert.min.js"));
+
+            // dataTables css styles
+            bundles.Add(new StyleBundle("~/Content/plugins/dataTables/dataTablesStyles").Include(
+                "~/Content/plugins/dataTables/datatables.min.css"));
+
+            // dataTables 
+            bundles.Add(new ScriptBundle("~/plugins/dataTables").Include(
+                "~/Scripts/plugins/dataTables/datatables.min.js"));
+
+            // Footable Styless
+            bundles.Add(new StyleBundle("~/plugins/footableStyles").Include(
+                "~/Content/plugins/footable/footable.core.css", new CssRewriteUrlTransform()));
+
+            // Footable alert
+            bundles.Add(new ScriptBundle("~/plugins/footable").Include(
+                "~/Scripts/plugins/footable/footable.all.min.js"));
         }
     }
 }

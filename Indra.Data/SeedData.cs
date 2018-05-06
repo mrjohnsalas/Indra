@@ -83,7 +83,8 @@ namespace Indra.Data
         {
             new Estado{ Name = "En Ejecución" },
             new Estado{ Name = "Terminado" },
-            new Estado{ Name = "Pendiente" }
+            new Estado{ Name = "Pendiente" },
+            new Estado{ Name = "Atendido" }
         };
 
         private static List<EstadoAprobacion> GetEstadoAprobaciones() => new List<EstadoAprobacion>
@@ -340,6 +341,7 @@ namespace Indra.Data
                 EstadoId = 1,
                 ResponsableId = 1,
                 Remark = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual. La gestión de programas permite agrupar proyectos alrededor de objetivos comunes y realizar una planiﬁcación y un seguimiento.",
+                UserId = "admin@indra.com",
                 PortafolioDetalleProgramas = new List<PortafolioDetallePrograma>{ new PortafolioDetallePrograma { ProgramaId = 1 }, new PortafolioDetallePrograma { ProgramaId = 2 } },
                 PortafolioDetalleProyectos = new List<PortafolioDetalleProyecto>{ new PortafolioDetalleProyecto { ProyectoId = 6 } }
             },
@@ -355,6 +357,7 @@ namespace Indra.Data
                 EstadoId = 1,
                 ResponsableId = 2,
                 Remark = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual.",
+                UserId = "admin@indra.com",
                 PortafolioDetalleProgramas = new List<PortafolioDetallePrograma>{ new PortafolioDetallePrograma { ProgramaId = 3 } },
                 PortafolioDetalleProyectos = new List<PortafolioDetalleProyecto>{ new PortafolioDetalleProyecto { ProyectoId = 7 }, new PortafolioDetalleProyecto { ProyectoId = 8 } }
             }

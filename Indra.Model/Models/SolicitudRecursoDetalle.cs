@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Indra.Model.Models
@@ -23,11 +24,27 @@ namespace Indra.Model.Models
         [Display(Name = "Recurso")]
         public virtual Recurso Recurso { get; set; }
 
+        [Display(Name = "Estado")]
+        [NotMapped]
+        public EstadoType EstadoType => (QuantityPending == 0) ? EstadoType.Atendido : EstadoType.Pendiente;
+
         [Display(Name = "Cant. Solicitada")]
         [Required(ErrorMessage = "You must enter {0}")]
         [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
         public decimal Quantity { get; set; }
+
+        [Display(Name = "Cant. Atendida")]
+        [Required(ErrorMessage = "You must enter {0}")]
+        [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        public decimal QuantityAttended { get; set; }
+
+        [Display(Name = "Cant. Pendiente")]
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        public decimal QuantityPending => Quantity - QuantityAttended;
 
         [Display(Name = "Cant. Disponible")]
         [NotMapped]
@@ -40,5 +57,7 @@ namespace Indra.Model.Models
         [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
         public decimal QuantityToAssign { get; set; }
+
+        public virtual ICollection<PropuestaBalanceoDetalle> PropuestaBalanceoDetalles { get; set; }
     }
 }
