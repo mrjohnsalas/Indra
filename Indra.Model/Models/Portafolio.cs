@@ -77,8 +77,10 @@ namespace Indra.Model.Models
         [StringLength(50, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
         public string UserId { get; set; }
 
+        [Display(Name = "Programa")]
         public virtual ICollection<PortafolioDetallePrograma> PortafolioDetalleProgramas { get; set; }
 
+        [Display(Name = "Proyecto")]
         public virtual ICollection<PortafolioDetalleProyecto> PortafolioDetalleProyectos { get; set; }
 
         public virtual ICollection<PropuestaBalanceo> PropuestaBalanceos { get; set; }

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indra.Model", "Indra.Model\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indra.Business", "Indra.Business\Indra.Business.csproj", "{382710EB-E00A-43C3-AAFC-3C4C3AA9562B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Indra.Service", "Indra.Service\Indra.Service.csproj", "{D01B9FE7-E2E8-4D6E-887D-325CDFBB76C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{382710EB-E00A-43C3-AAFC-3C4C3AA9562B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{382710EB-E00A-43C3-AAFC-3C4C3AA9562B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{382710EB-E00A-43C3-AAFC-3C4C3AA9562B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D01B9FE7-E2E8-4D6E-887D-325CDFBB76C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D01B9FE7-E2E8-4D6E-887D-325CDFBB76C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D01B9FE7-E2E8-4D6E-887D-325CDFBB76C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D01B9FE7-E2E8-4D6E-887D-325CDFBB76C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

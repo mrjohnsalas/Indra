@@ -356,6 +356,8 @@
     <Content Include="Views\Portafolios\CreateBalanceo.cshtml" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Views\Portafolios\DetailsBalanceo.cshtml" />
+    <Content Include="Views\Portafolios\IndexBalanceo.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -370,6 +372,10 @@
     <ProjectReference Include="..\Indra.Model\Indra.Model.csproj">
       <Project>{01cbbf35-d227-4004-a420-95b22dce06e7}</Project>
       <Name>Indra.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Indra.Service\Indra.Service.csproj">
+      <Project>{d01b9fe7-e2e8-4d6e-887d-325cdfbb76c8}</Project>
+      <Name>Indra.Service</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

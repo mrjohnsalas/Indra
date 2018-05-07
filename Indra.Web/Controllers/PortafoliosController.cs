@@ -94,7 +94,7 @@ namespace Indra.Web.Controllers
             ViewBag.Message = TempData["Message"];
 
             var buPortafolio = new BuPortafolio();
-            var portafolios = buPortafolio.GetAllForPropuesta();
+            var portafolios = buPortafolio.GetAll();
 
             if (portafolios != null && !string.IsNullOrEmpty(search))
                 portafolios = portafolios.Where(x => x.Name.Contains(search));
@@ -132,6 +132,124 @@ namespace Indra.Web.Controllers
             return View(portafolio);
         }
 
+        public ActionResult Create()
+        {
+            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll(), "Id", "Name");
+            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll(), "Id", "Name");
+            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll(), "Id", "Nombres");
+            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAll(), "Id", "Name");
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAll(), "Id", "Name");
+
+            return View();
+        }
+
+        [HttpPost]
+        public JsonResult GetPrograma(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Result = "Error" });
+            }
+            try
+            {
+                var programa = new BuPrograma().GetById(int.Parse(id));
+                return Json(programa, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult GetProyecto(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Result = "Error" });
+            }
+            try
+            {
+                var proyecto = new BuProyecto().GetById(int.Parse(id));
+                return Json(proyecto, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create([Bind(Include = "Id,NumPortafolio,Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,PortafolioDetalleProgramas,PortafolioDetalleProyectos")] Portafolio portafolio)
+        {
+            try
+            {
+                portafolio.UserId = User.Identity.GetUserName();
+                new BuPortafolio().Add(portafolio);
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = $"Error Message: {e.Message}";
+            }
+
+            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll(), "Id", "Name");
+            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll(), "Id", "Name");
+            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll(), "Id", "Nombres");
+            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAll(), "Id", "Name");
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAll(), "Id", "Name");
+
+            return View(portafolio);
+        }
+
+        #region Balanceo
+
+        public ActionResult IndexBalanceo(string search)
+        {
+            ViewBag.Message = TempData["Message"];
+
+            var buPortafolio = new BuPortafolio();
+            var portafolios = buPortafolio.GetAllForPropuesta();
+
+            if (portafolios != null && !string.IsNullOrEmpty(search))
+                portafolios = portafolios.Where(x => x.Name.Contains(search));
+
+            if (portafolios != null)
+            {
+                var categorias = new BuCategoriaComponente().GetAll();
+                var prioridades = new BuPrioridad().GetAll();
+                var estados = new BuEstado().GetAll();
+                var trabajadores = new BuTrabajador().GetAll();
+                foreach (var portafolio in portafolios)
+                {
+                    portafolio.CategoriaComponente = categorias.FirstOrDefault(x => x.Id.Equals(portafolio.CategoriaComponenteId));
+                    portafolio.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(portafolio.PrioridadId));
+                    portafolio.Estado = estados.FirstOrDefault(x => x.Id.Equals(portafolio.EstadoId));
+                    portafolio.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(portafolio.ResponsableId));
+                }
+            }
+            else
+                portafolios = new List<Portafolio>();
+
+            return View(portafolios.OrderBy(x => x.Name));
+        }
+
+        public ActionResult DetailsBalanceo(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var portafolio = GetPortafolio(id.Value);
+
+            if (portafolio == null)
+                return HttpNotFound();
+
+            return View(portafolio);
+        }
+
         public ActionResult CreateBalanceo(int? id)
         {
             if (id == null)
@@ -141,7 +259,7 @@ namespace Indra.Web.Controllers
 
             if (portafolio == null)
                 return HttpNotFound();
-            
+
             return View(portafolio);
         }
 
@@ -189,50 +307,25 @@ namespace Indra.Web.Controllers
             return View(portafolio);
         }
 
-        //public ActionResult Create()
-        //{
-        //    ViewBag.CategoriaComponenteId = new SelectList(db.CategoriaComponentes, "Id", "Name");
-        //    ViewBag.EstadoId = new SelectList(db.Estadoes, "Id", "Name");
-        //    ViewBag.PrioridadId = new SelectList(db.Prioridads, "Id", "Name");
-        //    ViewBag.ResponsableId = new SelectList(db.Trabajadors, "Id", "Nombres");
-        //    return View();
-        //}
+        #endregion
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create([Bind(Include="Id,NumPortafolio,Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark")] Portafolio portafolio)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Portafolios.Add(portafolio);
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ViewBag.CategoriaComponenteId = new SelectList(db.CategoriaComponentes, "Id", "Name", portafolio.CategoriaComponenteId);
-        //    ViewBag.EstadoId = new SelectList(db.Estadoes, "Id", "Name", portafolio.EstadoId);
-        //    ViewBag.PrioridadId = new SelectList(db.Prioridads, "Id", "Name", portafolio.PrioridadId);
-        //    ViewBag.ResponsableId = new SelectList(db.Trabajadors, "Id", "Nombres", portafolio.ResponsableId);
-        //    return View(portafolio);
-        //}
-
-        //public ActionResult Edit(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Portafolio portafolio = db.Portafolios.Find(id);
-        //    if (portafolio == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    ViewBag.CategoriaComponenteId = new SelectList(db.CategoriaComponentes, "Id", "Name", portafolio.CategoriaComponenteId);
-        //    ViewBag.EstadoId = new SelectList(db.Estadoes, "Id", "Name", portafolio.EstadoId);
-        //    ViewBag.PrioridadId = new SelectList(db.Prioridads, "Id", "Name", portafolio.PrioridadId);
-        //    ViewBag.ResponsableId = new SelectList(db.Trabajadors, "Id", "Nombres", portafolio.ResponsableId);
-        //    return View(portafolio);
-        //}
+        public ActionResult Edit(int? id)
+        {
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //Portafolio portafolio = db.Portafolios.Find(id);
+            //if (portafolio == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            //ViewBag.CategoriaComponenteId = new SelectList(db.CategoriaComponentes, "Id", "Name", portafolio.CategoriaComponenteId);
+            //ViewBag.EstadoId = new SelectList(db.Estadoes, "Id", "Name", portafolio.EstadoId);
+            //ViewBag.PrioridadId = new SelectList(db.Prioridads, "Id", "Name", portafolio.PrioridadId);
+            //ViewBag.ResponsableId = new SelectList(db.Trabajadors, "Id", "Nombres", portafolio.ResponsableId);
+            return View(new Portafolio());
+        }
 
         //[HttpPost]
         //[ValidateAntiForgeryToken]
@@ -251,19 +344,19 @@ namespace Indra.Web.Controllers
         //    return View(portafolio);
         //}
 
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //    }
-        //    Portafolio portafolio = db.Portafolios.Find(id);
-        //    if (portafolio == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(portafolio);
-        //}
+        public ActionResult Delete(int? id)
+        {
+            //if (id == null)
+            //{
+            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            //}
+            //Portafolio portafolio = db.Portafolios.Find(id);
+            //if (portafolio == null)
+            //{
+            //    return HttpNotFound();
+            //}
+            return View(new Portafolio());
+        }
 
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
