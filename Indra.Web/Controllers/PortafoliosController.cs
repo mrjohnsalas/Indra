@@ -183,6 +183,9 @@ namespace Indra.Web.Controllers
             {
                 ViewBag.ErrorMessage = $"Error Message: {e.Message}";
             }
+
+            portafolio = GetPortafolio(portafolio.Id);
+
             return View(portafolio);
         }
 

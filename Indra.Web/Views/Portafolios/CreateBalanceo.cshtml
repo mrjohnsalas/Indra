@@ -4,6 +4,22 @@
     ViewBag.Title = "Detalle";
 }
 
+@if (!string.IsNullOrEmpty(ViewBag.ErrorCode) || !string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorCode))
+        {@ViewBag.ErrorCode<br />}
+        @{
+            var errors = ViewBag.ErrorMessage.ToString().Split('|');
+            foreach (var error in errors)
+            {
+                @error<br />;
+            }
+        }
+    </div>
+}
+
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-12">
         <h2>Propuesta de Balanceo</h2>
@@ -24,14 +40,68 @@
             <div class="ibox">
                 <div class="ibox-content">
 
-                    @using (Html.BeginForm("CreateBalanceo", "Portafolios", FormMethod.Post, new {id = "formPost"}))
+                    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content animated bounceInRight">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <i class="fa fa-laptop modal-icon"></i>
+                                    <h4 class="modal-title">Solicitud de recurso</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>Cod. Solicitud de Recurso:</dt>
+                                        <dd id="solicitudid"></dd>
+
+                                        <dt>Fecha de creación:</dt>
+                                        <dd id="fechacreacion"></dd>
+
+                                        <dt>Prioridad:</dt>
+                                        <dd id="prioridad"></dd>
+
+                                        <dt>Num. Proyecto:</dt>
+                                        <dd id="numproyecto"></dd>
+                                    </dl>
+
+                                    <dl class="dl-horizontal">
+                                        <dt>Cod. Recurso:</dt>
+                                        <dd id="recursoid"></dd>
+
+                                        <dt>Recurso:</dt>
+                                        <dd id="recursoname"></dd>
+
+                                        <dt>Cant. Solicitada:</dt>
+                                        <dd id="cantsolicitada"></dd>
+
+                                        <dt>Cant. Pendiente:</dt>
+                                        <dd id="cantpendiente"></dd>
+
+                                        <dt>Cant. Disponible:</dt>
+                                        <dd id="cantdisponible"></dd>
+                                    </dl>
+
+                                    <div class="form-group">
+                                        <label>Cant. A Asignar:</label>
+                                        <input type="text" id="quantitytoassign" class="form-control allow_decimal">
+                                        <input type="hidden" id="detallesolicitudid">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" id="btnGrabarModal" name="btnGrabarModal">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @using (Html.BeginForm("CreateBalanceo", "Portafolios", FormMethod.Post, new { id = "formPost" }))
                     {
                         @Html.AntiForgeryToken()
 
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="m-b-md">
-                                    <h2>Portafolio: @Html.DisplayFor(model => model.NumPortafolio)</h2>
+                                    <h2>Portafolio: <strong>@Html.DisplayFor(model => model.NumPortafolio)</strong></h2>
                                 </div>
                                 <dl class="dl-horizontal">
                                     <dt>Status:</dt>
@@ -103,139 +173,155 @@
                                     <div id="tab-1" class="tab-pane active">
                                         <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblRecursos" name="tblRecursos">
                                             <thead>
-                                            <tr>
-                                                <th>Cod. Sol. Recurso</th>
-                                                <th data-hide="phone">Fecha creación</th>
-                                                <th data-hide="phone">Prioridad</th>
-                                                <th data-hide="phone">Num. Proyecto</th>
-                                                <th data-hide="phone">Recurso</th>
-                                                <th data-hide="phone">Cant. Solicitada</th>
-                                                <th data-hide="phone">Cant. Pendiente</th>
-                                                <th data-hide="phone">Cant. Disponible</th>
-                                                <th data-hide="phone">Cant. A Asignar</th>
-                                                <th data-hide="phone"></th>
-                                            </tr>
+                                                <tr>
+                                                    <th>Cod. Sol. Recurso</th>
+                                                    <th data-hide="phone">Fecha creación</th>
+                                                    <th data-hide="phone">Prioridad</th>
+                                                    <th data-hide="phone">Num. Proyecto</th>
+                                                    <th data-hide="phone">Recurso</th>
+                                                    <th data-hide="phone">Cant. Solicitada</th>
+                                                    <th data-hide="phone">Cant. Pendiente</th>
+                                                    <th data-hide="phone">Cant. Disponible</th>
+                                                    <th data-hide="phone">Cant. A Asignar</th>
+                                                    <th data-hide="phone"></th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                            @if (Model.PortafolioDetalleProyectos != null)
-                                            {
-                                                foreach (var proyecto in Model.PortafolioDetalleProyectos)
+                                                @if (Model.PortafolioDetalleProyectos != null)
                                                 {
-                                                    if (proyecto.Proyecto.SolicitudRecursos != null)
+                                                    foreach (var proyecto in Model.PortafolioDetalleProyectos)
                                                     {
-                                                        foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
+                                                        if (proyecto.Proyecto.SolicitudRecursos != null)
                                                         {
-                                                            if (solicitud.SolicitudRecursoDetalles != null)
+                                                            foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
                                                             {
-                                                                foreach (var recurso in solicitud.SolicitudRecursoDetalles)
+                                                                if (solicitud.SolicitudRecursoDetalles != null)
                                                                 {
-                                                                    <tr data-detallesolicitudid="@recurso.Id" data-quantity="@recurso.QuantityToAssign">
-                                                                        <td> @Html.DisplayFor(modelItem => solicitud.Id)</td>
-                                                                        <td class="text-center"> @Html.DisplayFor(modelItem => solicitud.CreateDate)</td>
-                                                                        <td class="text-center"> @Html.DisplayFor(modelItem => solicitud.Prioridad.Name)</td>
-                                                                        <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
-                                                                        <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
-                                                                        <td class="text-right"> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
-                                                                        <td class="text-right"> @Html.DisplayFor(modelItem => recurso.QuantityPending)</td>
-                                                                        <td class="text-right"> @Html.DisplayFor(modelItem => recurso.QuantityAvailable)</td>
-                                                                        <td class="text-right"> @Html.DisplayFor(modelItem => recurso.QuantityToAssign)</td>
-                                                                        @if (recurso.QuantityPending > 0)
-                                                                        {
-                                                                            <td> <a href="javascript:void(0);" data-id="@solicitud.Id" data-recursoid="@recurso.Id" class="text-muted"><i class="fa fa-edit"></i></a></td>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <td> </td>
-                                                                        }
-                                                                    </tr>
+                                                                    foreach (var recurso in solicitud.SolicitudRecursoDetalles)
+                                                                    {
+                                                                        <tr data-detallesolicitudid="@recurso.Id" data-quantity="@recurso.QuantityToAssign">
+                                                                            <td> @Html.DisplayFor(modelItem => solicitud.Id)</td>
+                                                                            <td class="text-center"> @Html.DisplayFor(modelItem => solicitud.CreateDate)</td>
+                                                                            <td class="text-center"> @Html.DisplayFor(modelItem => solicitud.Prioridad.Name)</td>
+                                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
+                                                                            <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
+                                                                            <td class="text-right"> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
+                                                                            <td class="text-right"> @Html.DisplayFor(modelItem => recurso.QuantityPending)</td>
+                                                                            <td class="text-right"> @Html.DisplayFor(modelItem => recurso.QuantityAvailable)</td>
+                                                                            <td class="text-right" id="qta-@recurso.Id"> @Html.DisplayFor(modelItem => recurso.QuantityToAssign)</td>
+                                                                            @if (recurso.QuantityPending > 0)
+                                                                            {
+                                                                                <td>
+                                                                                    <a href="javascript:void(0);"
+                                                                                       data-detallesolicitudid="@recurso.Id"
+                                                                                       data-solicitudid="@solicitud.Id"
+                                                                                       data-fechacreacion="@solicitud.CreateDate"
+                                                                                       data-prioridad="@solicitud.Prioridad.Name"
+                                                                                       data-numproyecto="@proyecto.Proyecto.NumProyecto"
+                                                                                       data-recursoid="@recurso.RecursoId"
+                                                                                       data-recursoname="@recurso.Recurso.Name"
+                                                                                       data-quantity="@recurso.Quantity"
+                                                                                       data-quantitypending="@recurso.QuantityPending"
+                                                                                       data-quantityavailable="@recurso.QuantityAvailable"
+                                                                                       data-quantitytoassign="@recurso.QuantityToAssign"
+                                                                                       class="text-muted edit-quantity"
+                                                                                       data-toggle="modal"
+                                                                                       data-target="#myModal"><i class="fa fa-edit"></i></a>
+                                                                                </td>
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <td> </td>
+                                                                            }
+                                                                        </tr>
+                                                                    }
                                                                 }
                                                             }
                                                         }
                                                     }
                                                 }
-                                            }
 
                                             </tbody>
                                             <tfoot>
-                                            <tr>
-                                                <td colspan="12">
-                                                    <ul class="pagination pull-right"></ul>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
                                             </tfoot>
                                         </table>
                                     </div>
                                     <div id="tab-2" class="tab-pane">
                                         <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
                                             <thead>
-                                            <tr>
-                                                <th>Num. Programa</th>
-                                                <th data-hide="phone">Nombre</th>
-                                                <th data-hide="phone">Fecha inicial</th>
-                                                <th data-hide="phone">Prioridad</th>
-                                                <th data-hide="phone">Responsable</th>
-                                                <th data-hide="phone">Estado</th>
-                                            </tr>
+                                                <tr>
+                                                    <th>Num. Programa</th>
+                                                    <th data-hide="phone">Nombre</th>
+                                                    <th data-hide="phone">Fecha inicial</th>
+                                                    <th data-hide="phone">Prioridad</th>
+                                                    <th data-hide="phone">Responsable</th>
+                                                    <th data-hide="phone">Estado</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                            @if (Model.PortafolioDetalleProgramas != null)
-                                            {
-                                                foreach (var programa in Model.PortafolioDetalleProgramas)
+                                                @if (Model.PortafolioDetalleProgramas != null)
                                                 {
-                                                    <tr>
-                                                        <td> @Html.DisplayFor(modelItem => programa.Programa.NumProyecto)</td>
-                                                        <td> @Html.DisplayFor(modelItem => programa.Programa.Name)</td>
-                                                        <td> @Html.DisplayFor(modelItem => programa.Programa.StarDate)</td>
-                                                        <td> @Html.DisplayFor(modelItem => programa.Programa.Prioridad.Name)</td>
-                                                        <td> @Html.DisplayFor(modelItem => programa.Programa.Responsable.FullName)</td>
-                                                        <td> @Html.DisplayFor(modelItem => programa.Programa.Estado.Name)</td>
-                                                    </tr>
+                                                    foreach (var programa in Model.PortafolioDetalleProgramas)
+                                                    {
+                                                        <tr>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.NumProyecto)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.StarDate)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.Prioridad.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.Responsable.FullName)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.Estado.Name)</td>
+                                                        </tr>
+                                                    }
                                                 }
-                                            }
                                             </tbody>
                                             <tfoot>
-                                            <tr>
-                                                <td colspan="12">
-                                                    <ul class="pagination pull-right"></ul>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
                                             </tfoot>
                                         </table>
                                     </div>
                                     <div id="tab-3" class="tab-pane">
                                         <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
                                             <thead>
-                                            <tr>
-                                                <th>Num. Proyecto</th>
-                                                <th data-hide="phone">Nombre</th>
-                                                <th data-hide="phone">Fecha inicial</th>
-                                                <th data-hide="phone">Prioridad</th>
-                                                <th data-hide="phone">Responsable</th>
-                                                <th data-hide="phone">Estado</th>
-                                            </tr>
+                                                <tr>
+                                                    <th>Num. Proyecto</th>
+                                                    <th data-hide="phone">Nombre</th>
+                                                    <th data-hide="phone">Fecha inicial</th>
+                                                    <th data-hide="phone">Prioridad</th>
+                                                    <th data-hide="phone">Responsable</th>
+                                                    <th data-hide="phone">Estado</th>
+                                                </tr>
                                             </thead>
                                             <tbody>
-                                            @if (Model.PortafolioDetalleProyectos != null)
-                                            {
-                                                foreach (var proyecto in Model.PortafolioDetalleProyectos)
+                                                @if (Model.PortafolioDetalleProyectos != null)
                                                 {
-                                                    <tr>
-                                                        <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
-                                                        <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Name)</td>
-                                                        <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.StarDate)</td>
-                                                        <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Prioridad.Name)</td>
-                                                        <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Responsable.FullName)</td>
-                                                        <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Estado.Name)</td>
-                                                    </tr>
+                                                    foreach (var proyecto in Model.PortafolioDetalleProyectos)
+                                                    {
+                                                        <tr>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.StarDate)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Prioridad.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Responsable.FullName)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Estado.Name)</td>
+                                                        </tr>
+                                                    }
                                                 }
-                                            }
                                             </tbody>
                                             <tfoot>
-                                            <tr>
-                                                <td colspan="12">
-                                                    <ul class="pagination pull-right"></ul>
-                                                </td>
-                                            </tr>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
                                             </tfoot>
                                         </table>
                                     </div>
@@ -243,8 +329,8 @@
                             </div>
                         </div>
 
-                        <input type="submit" value="Grabar" class="btn btn-primary" id="btnGrabar" name="btnGrabar"/>
-                        @Html.ActionLink("Cancelar", "Index", null, new {@class = "btn btn-white"})
+                        <input type="submit" value="Grabar" class="btn btn-primary" id="btnGrabar" name="btnGrabar" />
+                        @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-white" })
                     }
 
                 </div>
@@ -270,12 +356,68 @@
                 var qtd = 0;
                 $("#tblRecursos > tbody > tr").each(function () {
                     var detalleSolicitudId = $(this).data("detallesolicitudid");
-                    var quantity = $(this).data("quantity");
+                    //var quantity = $(this).data("quantity");
+                    var quantity = parseFloat($('#qta-' + detalleSolicitudId).text()).toFixed(3);
 
-                    $("#formPost").prepend("<input type='hidden' name='" + listRecursos + "[" + qtd + "].SolicitudRecursoId' value='" + detalleSolicitudId + "'>");
-                    $("#formPost").prepend("<input type='hidden' name='" + listRecursos + "[" + qtd + "].Quantity' value='" + quantity + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" +
+                        listRecursos +
+                        "[" +
+                        qtd +
+                        "].SolicitudRecursoId' value='" +
+                        detalleSolicitudId +
+                        "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" +
+                        listRecursos +
+                        "[" +
+                        qtd +
+                        "].Quantity' value='" +
+                        quantity +
+                        "'>");
                     qtd += 1;
                 });
+            });
+
+            $("#btnGrabarModal").on("click", function () {
+                var id = $('#detallesolicitudid').val();
+                var qtd = $('#quantitytoassign').val();
+                $('#myModal').modal('toggle');
+                $('#qta-' + id).text(parseFloat(qtd).toFixed(3));
+            });
+
+            $('.edit-quantity').on("click", function () {
+                var detallesolicitudid = $(this).attr('data-detallesolicitudid');
+                var solicitudid = $(this).attr('data-solicitudid');
+                var fechacreacion = $(this).attr('data-fechacreacion');
+                var prioridad = $(this).attr('data-prioridad');
+                var numproyecto = $(this).attr('data-numproyecto');
+                var recursoid = $(this).attr('data-recursoid');
+                var recursoname = $(this).attr('data-recursoname');
+                var quantity = $(this).attr('data-quantity');
+                var quantitypending = $(this).attr('data-quantitypending');
+                var quantityavailable = $(this).attr('data-quantityavailable');
+                var quantitytoassign = $(this).attr('data-quantitytoassign');
+
+                $('#myModal')
+                    .find('[id="detallesolicitudid"]').val(detallesolicitudid).end()
+                    .find('[id="solicitudid"]').text(solicitudid).end()
+                    .find('[id="fechacreacion"]').text(fechacreacion).end()
+                    .find('[id="prioridad"]').text(prioridad).end()
+                    .find('[id="numproyecto"]').text(numproyecto).end()
+                    .find('[id="recursoid"]').text(recursoid).end()
+                    .find('[id="recursoname"]').text(recursoname).end()
+                    .find('[id="cantsolicitada"]').text(quantity).end()
+                    .find('[id="cantpendiente"]').text(quantitypending).end()
+                    .find('[id="cantdisponible"]').text(quantityavailable).end()
+                    .find('[id="quantitytoassign"]').val(quantitytoassign).end();
+
+            });
+
+            $(".allow_decimal").on("input", function (evt) {
+                var self = $(this);
+                self.val(self.val().replace(/[^0-9\.]/g, ''));
+                if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+                    evt.preventDefault();
+                }
             });
 
         });
