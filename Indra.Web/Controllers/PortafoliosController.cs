@@ -187,6 +187,14 @@ namespace Indra.Web.Controllers
         {
             try
             {
+                if(portafolio.PortafolioDetalleProgramas == null && portafolio.PortafolioDetalleProyectos == null)
+                    throw new Exception("Necesita seleccionar programas y/o proyectos.");
+                if (portafolio.PortafolioDetalleProgramas.Count().Equals(0) && portafolio.PortafolioDetalleProyectos.Count().Equals(0))
+                    throw new Exception("Necesita seleccionar programas y/o proyectos.");
+
+                if (string.IsNullOrEmpty(portafolio.Name))
+                    throw new Exception("Necesita ingresar un nombre para el portafolio.");
+
                 portafolio.UserId = User.Identity.GetUserName();
                 new BuPortafolio().Add(portafolio);
                 return RedirectToAction("Index");

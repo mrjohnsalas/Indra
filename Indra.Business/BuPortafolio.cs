@@ -39,12 +39,24 @@ namespace Indra.Business
 
         public Portafolio GetById(int id) => _repository.GetById(id);
 
+        private string GetId(int year, int month)
+        {
+            var portafolios = GetMany(x => x.CreateDate.Year.Equals(year) && x.CreateDate.Month.Equals(month));
+            var num = (portafolios?.Count() ?? 0) + 1;
+            return $"PO-{year}-{month:00}-{num:00000}";
+        }
+
         public Portafolio Get(Expression<Func<Portafolio, bool>> where) => _repository.Get(where);
 
         public void Add(Portafolio myObject)
         {
             try
             {
+                var systemDate = DateTime.Now;
+                myObject.NumPortafolio = GetId(systemDate.Year, systemDate.Month);
+                myObject.CreateDate = systemDate;
+                myObject.EditDate = systemDate;
+                myObject.EstadoId = (int) EstadoType.EnEjecucion;
                 _repository.Add(myObject);
                 _unitOfWork.Commit();
             }

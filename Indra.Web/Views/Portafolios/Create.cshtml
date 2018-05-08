@@ -301,21 +301,21 @@
             $("#btnCreate").on("click", function () {
                 //PROGRAMA
                 var listNameProgramas = "PortafolioDetalleProgramas";
-                var qtd = 0;
+                var qtd1 = 0;
                 $("#tblProgramas > tbody > tr").each(function () {
                     var programaid = $(this).data("programaid");
 
-                    $("#formPost").prepend("<input type='hidden' name='" + listNameProgramas + "[" + qtd + "].ProgramaId' value='" + toolId + "'>");
-                    qtd += 1;
+                    $("#formPost").prepend("<input type='hidden' name='" + listNameProgramas + "[" + qtd1 + "].ProgramaId' value='" + programaid + "'>");
+                    qtd1 += 1;
                 });
                 //PROYECTO
                 var listNameProyectos = "PortafolioDetalleProyectos";
-                var qtd = 0;
+                var qtd2 = 0;
                 $("#tblProyectos > tbody > tr").each(function () {
                     var proyectoid = $(this).data("proyectoid");
 
-                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd + "].ProyectoId' value='" + proyectoid + "'>");
-                    qtd += 1;
+                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].ProyectoId' value='" + proyectoid + "'>");
+                    qtd2 += 1;
                 });
             });
         });
