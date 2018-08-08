@@ -137,8 +137,8 @@ namespace Indra.Web.Controllers
             ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll(), "Id", "Name");
             ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll(), "Id", "Name");
             ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll(), "Id", "Nombres");
-            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAll(), "Id", "Name");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAll(), "Id", "Name");
+            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio(), "Id", "Name");
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio(), "Id", "Name");
 
             return View();
         }
@@ -197,6 +197,8 @@ namespace Indra.Web.Controllers
 
                 portafolio.UserId = User.Identity.GetUserName();
                 new BuPortafolio().Add(portafolio);
+
+                TempData["Message"] = "Message: La operación se realizó satisfactoriamente.";
                 return RedirectToAction("Index");
             }
             catch (Exception e)
@@ -207,8 +209,8 @@ namespace Indra.Web.Controllers
             ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll(), "Id", "Name");
             ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll(), "Id", "Name");
             ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll(), "Id", "Nombres");
-            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAll(), "Id", "Name");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAll(), "Id", "Name");
+            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio(), "Id", "Name");
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio(), "Id", "Name");
 
             return View(portafolio);
         }
@@ -303,7 +305,7 @@ namespace Indra.Web.Controllers
                 buPropuestaBalanceo.Add(portafolio);
 
                 TempData["Message"] = "Message: La operación se realizó satisfactoriamente.";
-                return RedirectToAction("Index", "Portafolios");
+                return RedirectToAction("IndexBalanceo", "Portafolios");
             }
             catch (Exception e)
             {
@@ -354,16 +356,15 @@ namespace Indra.Web.Controllers
 
         public ActionResult Delete(int? id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //Portafolio portafolio = db.Portafolios.Find(id);
-            //if (portafolio == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            return View(new Portafolio());
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var portafolio = GetPortafolio(id.Value);
+
+            if (portafolio == null)
+                return HttpNotFound();
+            
+            return View(portafolio);
         }
 
         //[HttpPost, ActionName("Delete")]

@@ -68,6 +68,7 @@
     <Compile Include="BuPortafolioDetalleProyecto.cs" />
     <Compile Include="BuPrioridad.cs" />
     <Compile Include="BuPrograma.cs" />
+    <Compile Include="BuProgramaDetalle.cs" />
     <Compile Include="BuPropuestaBalanceo.cs" />
     <Compile Include="BuPropuestaBalanceoDetalle.cs" />
     <Compile Include="BuProyecto.cs" />

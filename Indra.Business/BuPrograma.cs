@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Indra.Data.Infrastructure;
 using Indra.Data.Repositories;
@@ -20,6 +21,19 @@ namespace Indra.Business
         }
 
         public IEnumerable<Programa> GetAll() => _repository.GetAll();
+
+        public IEnumerable<Programa> GetAllForPortafolio()
+        {
+            var portafolioDetalles = new BuPortafolioDetallePrograma().GetAll();
+            var programaIdList = (portafolioDetalles != null && !portafolioDetalles.Count().Equals(0))
+                ? portafolioDetalles.Select(x => x.ProgramaId).ToList()
+                : new List<int>();
+
+            var programas = (portafolioDetalles == null || portafolioDetalles.Count().Equals(0))
+                ? GetMany(x => x.EstadoId.Equals((int) EstadoType.EnEjecucion))
+                : GetMany(x => x.EstadoId.Equals((int) EstadoType.EnEjecucion) && !programaIdList.Contains(x.Id));
+            return programas;
+        }
 
         public IEnumerable<Programa> GetMany(Expression<Func<Programa, bool>> where) => _repository.GetMany(where);
 

@@ -281,6 +281,38 @@ namespace Indra.Data
                 TipoProyectoId = 1,
                 ResponsableId = 2,
                 PatrocinadorId = 1
+            },
+            new Proyecto
+            {
+                NumProyecto = "PY-2018-01-00009",
+                Name = "Definir y mejorar un sis para aumentar la productividad y reducir los costos.",
+                Description = "Permitir al personal de TI y de negocio diseñar y poner en práctica el proceso de autoservicio de RH de manera colaborativa. El marco de implementación iterativo permitió al equipo refinar continuamente los requisitos y en última instancia ofrecer una solución que puede conducir a mejores.",
+                Presupuesto = 800000,
+                StarDate = DateTime.Parse("2017-01-1"),
+                FinalDate = DateTime.Parse("2018-09-1"),
+                EstadoAprobacionId = 2,
+                PrioridadId = 2,
+                EstadoId = 1,
+                ClienteId = 3,
+                TipoProyectoId = 1,
+                ResponsableId = 2,
+                PatrocinadorId = 1
+            },
+            new Proyecto
+            {
+                NumProyecto = "PY-2018-01-00010",
+                Name = "Sis y control general en produccion.",
+                Description = "Se requiere un sistema de información de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación.",
+                Presupuesto = 9000000,
+                StarDate = DateTime.Parse("2017-06-1"),
+                FinalDate = DateTime.Parse("2018-06-1"),
+                EstadoAprobacionId = 2,
+                PrioridadId = 3,
+                EstadoId = 1,
+                ClienteId = 1,
+                TipoProyectoId = 2,
+                ResponsableId = 1,
+                PatrocinadorId = 2
             }
         };
 
@@ -324,6 +356,19 @@ namespace Indra.Data
                 EstadoId = 1,
                 ResponsableId = 3,
                 ProgramaDetalles = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 5 } }
+            },
+            new Programa
+            {
+                NumProyecto = "PR-2018-02-00004",
+                Name = "Implementación del Sistema de Indra.",
+                Description = "Se requiere un de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación adecuada entre los distintos actores involucrados, requiriendo que cada parte.",
+                Presupuesto = 9000000,
+                StarDate = DateTime.Parse("2018-02-1"),
+                FinalDate = DateTime.Parse("2018-12-21"),
+                PrioridadId = 3,
+                EstadoId = 1,
+                ResponsableId = 3,
+                ProgramaDetalles = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 9 } }
             }
         };
 
