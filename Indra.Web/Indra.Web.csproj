@@ -191,6 +191,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PortafoliosController.cs" />
+    <Compile Include="Controllers\ProgramasController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -205,6 +206,21 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\patterns\1.png" />
+    <Content Include="Content\patterns\2.png" />
+    <Content Include="Content\patterns\3.png" />
+    <Content Include="Content\patterns\4.png" />
+    <Content Include="Content\patterns\5.png" />
+    <Content Include="Content\patterns\6.png" />
+    <Content Include="Content\patterns\7.png" />
+    <Content Include="Content\patterns\congruent_pentagon.png" />
+    <Content Include="Content\patterns\header-profile-skin-1.png" />
+    <Content Include="Content\patterns\header-profile-skin-2.png" />
+    <Content Include="Content\patterns\header-profile-skin-3.png" />
+    <Content Include="Content\patterns\header-profile.png" />
+    <Content Include="Content\patterns\otis_redding.png" />
+    <Content Include="Content\patterns\shattered.png" />
+    <Content Include="Content\patterns\triangular.png" />
     <Content Include="Content\plugins\dataTables\datatables.min.css" />
     <Content Include="Content\plugins\footable\fonts\footable.svg" />
     <Content Include="Content\plugins\footable\footable.core.css" />
@@ -358,6 +374,7 @@
     <Content Include="Scripts\jquery-3.3.1.min.map" />
     <Content Include="Views\Portafolios\DetailsBalanceo.cshtml" />
     <Content Include="Views\Portafolios\IndexBalanceo.cshtml" />
+    <Content Include="Views\Programas\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
