@@ -1,4 +1,5 @@
 ﻿@model Indra.Model.Models.Portafolio
+@using Indra.Web.Helpers
 
 @{
     ViewBag.Title = "Eliminar";
@@ -9,7 +10,7 @@
     <div class="alert alert-danger alert-dismissable">
         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
         @if (!string.IsNullOrEmpty(ViewBag.ErrorCode))
-        {@ViewBag.ErrorCode<br />}
+        { @ViewBag.ErrorCode<br /> }
         @{
             var errors = ViewBag.ErrorMessage.ToString().Split('|');
             foreach (var error in errors)
@@ -21,20 +22,21 @@
 }
 
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-sm-4">
-        <h2>Eliminar</h2>
+    <div class="col-lg-8">
+        <h2>Cancelar portafolio</h2>
         <ol class="breadcrumb">
             <li>
-                @Html.ActionLink("Lista", "Index")
+                <a href="@Url.Action("Index", "Portafolios")">Portafolios</a>
             </li>
             <li class="active">
-                <strong>Eliminar</strong>
+                <strong>Cancelar portafolio</strong>
             </li>
         </ol>
     </div>
-    <div class="col-sm-8">
+    <div class="col-lg-4">
         <div class="title-action">
-            @Html.ActionLink("Regresar a la lista", "Index", null, new { @class = "btn btn-primary" })
+            <a href="@Url.Action("Edit", "Portafolios", new {id = Model.Id})" class="btn btn-white"><i class="fa fa-pencil"></i> Editar </a>
+            <a href="@Url.Action("Index", "Portafolios")" class="btn btn-white"> Volver a la lista </a>
         </div>
     </div>
 </div>
@@ -44,6 +46,8 @@
         <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-content">
+                    
+                    <h4 class="text-danger">¿Seguro que quieres cancelar esto?</h4>
 
                     <div class="row">
                         <div class="col-lg-12">
@@ -130,23 +134,23 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var proyecto in Model.PortafolioDetalleProyectos)
-                            {
-                                foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
-                                {
-                                    foreach (var recurso in solicitud.SolicitudRecursoDetalles)
-                                    {
-                                        <tr>
-                                            <td> @Html.DisplayFor(modelItem => solicitud.Id)</td>
-                                            <td> @Html.DisplayFor(modelItem => solicitud.CreateDate)</td>
-                                            <td> @Html.DisplayFor(modelItem => solicitud.Prioridad.Name)</td>
-                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
-                                            <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
-                                            <td> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
-                                        </tr>
-                    }
-                }
-            }
+                                            @foreach (var proyecto in Model.Proyectos)
+                                            {
+                                                foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
+                                                {
+                                                    foreach (var recurso in solicitud.SolicitudRecursoDetalles)
+                                                    {
+                                                        <tr>
+                                                            <td> @Html.DisplayFor(modelItem => solicitud.Id)</td>
+                                                            <td> @Html.DisplayFor(modelItem => solicitud.CreateDate)</td>
+                                                            <td> @Html.DisplayFor(modelItem => solicitud.Prioridad.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
+                                                            <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -170,17 +174,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var programa in Model.PortafolioDetalleProgramas)
-                            {
-                                <tr>
-                                    <td> @Html.DisplayFor(modelItem => programa.Programa.NumProyecto)</td>
-                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Name)</td>
-                                    <td> @Html.DisplayFor(modelItem => programa.Programa.StarDate)</td>
-                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Prioridad.Name)</td>
-                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Responsable.FullName)</td>
-                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Estado.Name)</td>
-                                </tr>
-            }
+                                            @foreach (var programa in Model.Programas)
+                                            {
+                                                <tr>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.NumPrograma)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.StarDate)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Prioridad.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Responsable.FullName)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Estado.Name)</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -204,17 +208,17 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var proyecto in Model.PortafolioDetalleProyectos)
-                            {
-                                <tr>
-                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
-                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Name)</td>
-                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.StarDate)</td>
-                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Prioridad.Name)</td>
-                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Responsable.FullName)</td>
-                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Estado.Name)</td>
-                                </tr>
-            }
+                                            @foreach (var proyecto in Model.Proyectos)
+                                            {
+                                                <tr>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.StarDate)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Prioridad.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Responsable.FullName)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Estado.Name)</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -234,8 +238,8 @@
                         @Html.AntiForgeryToken()
 
                         <div class="form-actions no-color">
-                            <input type="submit" value="Eliminar" class="btn btn-primary"/>
-                            @Html.ActionLink("Regresar a la lista", "Index", null, new {@class = "btn btn-white"})
+                            <input type="submit" value="Cancelar" class="btn btn-danger"/>
+                            @Html.ActionLink("Volver a la lista", "Index", null, new {@class = "btn btn-white"})
                         </div>
                     }
 
@@ -244,3 +248,19 @@
         </div>
     </div>
 </div>
+
+@section Styles {
+    @Styles.Render("~/plugins/footableStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/footable")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.footable').footable();
+
+        });
+    </script>
+}

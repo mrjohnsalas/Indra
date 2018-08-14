@@ -84,7 +84,8 @@ namespace Indra.Data
             new Estado{ Name = "En Ejecución" },
             new Estado{ Name = "Terminado" },
             new Estado{ Name = "Pendiente" },
-            new Estado{ Name = "Atendido" }
+            new Estado{ Name = "Atendido" },
+            new Estado{ Name = "Anulado" }
         };
 
         private static List<EstadoAprobacion> GetEstadoAprobaciones() => new List<EstadoAprobacion>

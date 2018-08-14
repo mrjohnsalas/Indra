@@ -134,11 +134,11 @@ namespace Indra.Web.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll(), "Id", "Name");
-            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll(), "Id", "Name");
-            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll(), "Id", "Nombres");
-            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio(), "Id", "Name");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio(), "Id", "Name");
+            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres");
+            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
 
             return View();
         }
@@ -168,11 +168,11 @@ namespace Indra.Web.Controllers
                 ViewBag.ErrorMessage = $"Error Message: {e.Message}";
             }
 
-            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll(), "Id", "Name");
-            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll(), "Id", "Name");
-            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll(), "Id", "Nombres");
-            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio(), "Id", "Name");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio(), "Id", "Name");
+            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres");
+            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
 
             return View(portafolio);
         }
@@ -217,42 +217,67 @@ namespace Indra.Web.Controllers
 
         public ActionResult Edit(int? id)
         {
-            //if (id == null)
-            //{
-            //    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            //}
-            //Portafolio portafolio = db.Portafolios.Find(id);
-            //if (portafolio == null)
-            //{
-            //    return HttpNotFound();
-            //}
-            //ViewBag.CategoriaComponenteId = new SelectList(db.CategoriaComponentes, "Id", "Name", portafolio.CategoriaComponenteId);
-            //ViewBag.EstadoId = new SelectList(db.Estadoes, "Id", "Name", portafolio.EstadoId);
-            //ViewBag.PrioridadId = new SelectList(db.Prioridads, "Id", "Name", portafolio.PrioridadId);
-            //ViewBag.ResponsableId = new SelectList(db.Trabajadors, "Id", "Nombres", portafolio.ResponsableId);
-            return View(new Portafolio());
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var portafolio = GetPortafolio(id.Value);
+
+            if (portafolio == null)
+                return HttpNotFound();
+
+            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll().OrderBy(x => x.Name), "Id", "Name", portafolio.CategoriaComponenteId);
+            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name", portafolio.PrioridadId);
+            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres", portafolio.ResponsableId);
+            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+
+            return View(portafolio);
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit([Bind(Include="Id,NumPortafolio,Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark")] Portafolio portafolio)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        db.Entry(portafolio).State = EntityState.Modified;
-        //        db.SaveChanges();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewBag.CategoriaComponenteId = new SelectList(db.CategoriaComponentes, "Id", "Name", portafolio.CategoriaComponenteId);
-        //    ViewBag.EstadoId = new SelectList(db.Estadoes, "Id", "Name", portafolio.EstadoId);
-        //    ViewBag.PrioridadId = new SelectList(db.Prioridads, "Id", "Name", portafolio.PrioridadId);
-        //    ViewBag.ResponsableId = new SelectList(db.Trabajadors, "Id", "Nombres", portafolio.ResponsableId);
-        //    return View(portafolio);
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,NumPortafolio,Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,UserId,Programas,Proyectos")] Portafolio portafolio)
+        {
+            try
+            {
+                if (portafolio.Programas == null && portafolio.Proyectos == null)
+                    throw new Exception("Necesita seleccionar programas y/o proyectos.");
+                if (portafolio.Programas.Count().Equals(0) && portafolio.Proyectos.Count().Equals(0))
+                    throw new Exception("Necesita seleccionar programas y/o proyectos.");
+
+                if (string.IsNullOrEmpty(portafolio.Name))
+                    throw new Exception("Necesita ingresar un nombre para el portafolio.");
+
+                new BuPortafolio().Update(portafolio);
+
+                TempData["Message"] = "Message: La operación se realizó satisfactoriamente.";
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = $"Error Message: {e.Message}";
+            }
+
+            var buPrograma = new BuPrograma();
+            foreach (var programa in portafolio.Programas)
+                programa.Programa = buPrograma.GetById(programa.ProgramaId);
+
+            var buProyecto = new BuProyecto();
+            foreach (var proyecto in portafolio.Proyectos)
+                proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
+
+            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres");
+            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+
+            return View(portafolio);
+        }
 
         public ActionResult Delete(int? id)
         {
-            if (id == null)
+            if (!id.HasValue)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var portafolio = GetPortafolio(id.Value);
@@ -263,15 +288,25 @@ namespace Indra.Web.Controllers
             return View(portafolio);
         }
 
-        //[HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult DeleteConfirmed(int id)
-        //{
-        //    Portafolio portafolio = db.Portafolios.Find(id);
-        //    db.Portafolios.Remove(portafolio);
-        //    db.SaveChanges();
-        //    return RedirectToAction("Index");
-        //}
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            try
+            {
+                var portafolio = GetPortafolio(id);
+
+                if (portafolio == null)
+                    return HttpNotFound();
+
+                new BuPortafolio().Delete(portafolio.Id);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = $"Error Message: {e.Message}";
+            }
+            return RedirectToAction("Index");
+        }
 
         #region Balanceo
 
