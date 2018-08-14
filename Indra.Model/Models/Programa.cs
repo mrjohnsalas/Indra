@@ -13,7 +13,7 @@ namespace Indra.Model.Models
         [Display(Name = "Num. Programa")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
         [StringLength(25, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
-        public string NumProyecto { get; set; }
+        public string NumPrograma { get; set; }
 
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
@@ -67,6 +67,6 @@ namespace Indra.Model.Models
 
         public virtual ICollection<ProgramaDetalle> ProgramaDetalles { get; set; }
 
-        public virtual ICollection<PortafolioDetallePrograma> PortafolioDetalleProgramas { get; set; }
+        //public virtual ICollection<PortafolioDetallePrograma> PortafolioDetalleProgramas { get; set; }
     }
 }
