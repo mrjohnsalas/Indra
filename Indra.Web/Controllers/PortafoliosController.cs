@@ -36,8 +36,8 @@ namespace Indra.Web.Controllers
             portafolio.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(portafolio.ResponsableId));
 
             var buPrograma = new BuPrograma();
-            portafolio.PortafolioDetalleProgramas = new BuPortafolioDetallePrograma().GetMany(x => x.PortafolioId.Equals(portafolio.Id)).ToList();
-            foreach (var programa in portafolio.PortafolioDetalleProgramas)
+            portafolio.Programas = new BuPortafolioDetallePrograma().GetMany(x => x.PortafolioId.Equals(portafolio.Id)).ToList();
+            foreach (var programa in portafolio.Programas)
             {
                 programa.Programa = buPrograma.GetById(programa.ProgramaId);
                 programa.Programa.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(programa.Programa.PrioridadId));
@@ -53,8 +53,8 @@ namespace Indra.Web.Controllers
             var buSolicitudRecursoDetalle = new BuSolicitudRecursoDetalle();
             var buAlmacenRecurso = new BuAlmacenRecurso();
 
-            portafolio.PortafolioDetalleProyectos = new BuPortafolioDetalleProyecto().GetMany(x => x.PortafolioId.Equals(portafolio.Id)).ToList();
-            foreach (var proyecto in portafolio.PortafolioDetalleProyectos)
+            portafolio.Proyectos = new BuPortafolioDetalleProyecto().GetMany(x => x.PortafolioId.Equals(portafolio.Id)).ToList();
+            foreach (var proyecto in portafolio.Proyectos)
             {
                 proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
                 proyecto.Proyecto.EstadoAprobacion = estadoAprobaciones.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.EstadoAprobacionId));
@@ -145,13 +145,13 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,PortafolioDetalleProgramas,PortafolioDetalleProyectos")] Portafolio portafolio)
+        public ActionResult Create([Bind(Include = "Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,Programas,Proyectos")] Portafolio portafolio)
         {
             try
             {
-                if (portafolio.PortafolioDetalleProgramas == null && portafolio.PortafolioDetalleProyectos == null)
+                if (portafolio.Programas == null && portafolio.Proyectos == null)
                     throw new Exception("Necesita seleccionar programas y/o proyectos.");
-                if (portafolio.PortafolioDetalleProgramas.Count().Equals(0) && portafolio.PortafolioDetalleProyectos.Count().Equals(0))
+                if (portafolio.Programas.Count().Equals(0) && portafolio.Proyectos.Count().Equals(0))
                     throw new Exception("Necesita seleccionar programas y/o proyectos.");
 
                 if (string.IsNullOrEmpty(portafolio.Name))

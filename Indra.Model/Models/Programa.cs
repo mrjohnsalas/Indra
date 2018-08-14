@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Indra.Model.Models
 {
+    [Table("Programas")]
     public class Programa
     {
         [Key]
@@ -65,7 +67,8 @@ namespace Indra.Model.Models
         [Display(Name = "Responsable")]
         public virtual Trabajador Responsable { get; set; }
 
-        public virtual ICollection<ProgramaDetalle> ProgramaDetalles { get; set; }
+        [Display(Name = "Proyectos")]
+        public virtual ICollection<ProgramaDetalle> Proyectos { get; set; }
 
         //public virtual ICollection<PortafolioDetallePrograma> PortafolioDetalleProgramas { get; set; }
     }

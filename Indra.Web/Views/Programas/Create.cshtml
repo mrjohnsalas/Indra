@@ -129,7 +129,7 @@
                                         <div class="panel-body">
 
                                             <div class="form-group">
-                                                @Html.LabelFor(model => model.ProgramaDetalles, new { @class = "control-label col-md-2" })
+                                                @Html.LabelFor(model => model.Proyectos, new { @class = "control-label col-md-2" })
                                                 <div class="col-md-10">
                                                     <div class="input-group">
                                                         @Html.DropDownList("ProyectoId", null, htmlAttributes: new { @class = "form-control" })
@@ -143,9 +143,9 @@
                                             <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblProyectos" name="tblProyectos">
                                                 <thead>
                                                     <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.ProgramaDetalles.FirstOrDefault().Proyecto.Id)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.ProgramaDetalles.FirstOrDefault().Proyecto.NumProyecto)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.ProgramaDetalles.FirstOrDefault().Proyecto.Name)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.Id)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.NumProyecto)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.Name)</th>
                                                         <th class="text-right">Acciones</th>
                                                     </tr>
                                                 </thead>
@@ -232,7 +232,7 @@
 
             $("#btnCreate").on("click", function () {
                 //PROYECTO
-                var listNameProyectos = "ProgramaDetalles";
+                var listNameProyectos = "Proyectos";
                 var qtd2 = 0;
                 $("#tblProyectos > tbody > tr").each(function () {
                     var proyectoid = $(this).data("proyectoid");

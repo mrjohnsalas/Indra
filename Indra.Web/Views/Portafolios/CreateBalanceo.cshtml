@@ -187,9 +187,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if (Model.PortafolioDetalleProyectos != null)
+                                                @if (Model.Proyectos != null)
                                                 {
-                                                    foreach (var proyecto in Model.PortafolioDetalleProyectos)
+                                                    foreach (var proyecto in Model.Proyectos)
                                                     {
                                                         if (proyecto.Proyecto.SolicitudRecursos != null)
                                                         {
@@ -264,12 +264,12 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if (Model.PortafolioDetalleProgramas != null)
+                                                @if (Model.Programas != null)
                                                 {
-                                                    foreach (var programa in Model.PortafolioDetalleProgramas)
+                                                    foreach (var programa in Model.Programas)
                                                     {
                                                         <tr>
-                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.NumProyecto)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.NumPrograma)</td>
                                                             <td> @Html.DisplayFor(modelItem => programa.Programa.Name)</td>
                                                             <td> @Html.DisplayFor(modelItem => programa.Programa.StarDate)</td>
                                                             <td> @Html.DisplayFor(modelItem => programa.Programa.Prioridad.Name)</td>
@@ -301,9 +301,9 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @if (Model.PortafolioDetalleProyectos != null)
+                                                @if (Model.Proyectos != null)
                                                 {
-                                                    foreach (var proyecto in Model.PortafolioDetalleProyectos)
+                                                    foreach (var proyecto in Model.Proyectos)
                                                     {
                                                         <tr>
                                                             <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>

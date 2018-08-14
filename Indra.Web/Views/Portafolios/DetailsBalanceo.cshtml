@@ -109,7 +109,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var proyecto in Model.PortafolioDetalleProyectos)
+                                            @foreach (var proyecto in Model.Proyectos)
                                             {
                                                 foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
                                                 {
@@ -149,10 +149,10 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var programa in Model.PortafolioDetalleProgramas)
+                                            @foreach (var programa in Model.Programas)
                                             {
                                                 <tr>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.NumProyecto)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.NumPrograma)</td>
                                                     <td> @Html.DisplayFor(modelItem => programa.Programa.Name)</td>
                                                     <td> @Html.DisplayFor(modelItem => programa.Programa.StarDate)</td>
                                                     <td> @Html.DisplayFor(modelItem => programa.Programa.Prioridad.Name)</td>
@@ -183,7 +183,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var proyecto in Model.PortafolioDetalleProyectos)
+                                            @foreach (var proyecto in Model.Proyectos)
                                             {
                                                 <tr>
                                                     <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>

@@ -329,7 +329,7 @@ namespace Indra.Data
                 PrioridadId = 1,
                 EstadoId = 1,
                 ResponsableId = 1,
-                ProgramaDetalles = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 1 }, new ProgramaDetalle { ProyectoId = 2 } }
+                Proyectos = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 1 }, new ProgramaDetalle { ProyectoId = 2 } }
             },
             new Programa
             {
@@ -342,7 +342,7 @@ namespace Indra.Data
                 PrioridadId = 2,
                 EstadoId = 1,
                 ResponsableId = 2,
-                ProgramaDetalles = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 3 }, new ProgramaDetalle { ProyectoId = 4 } }
+                Proyectos = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 3 }, new ProgramaDetalle { ProyectoId = 4 } }
             },
             new Programa
             {
@@ -355,7 +355,7 @@ namespace Indra.Data
                 PrioridadId = 3,
                 EstadoId = 1,
                 ResponsableId = 3,
-                ProgramaDetalles = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 5 } }
+                Proyectos = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 5 } }
             },
             new Programa
             {
@@ -368,7 +368,7 @@ namespace Indra.Data
                 PrioridadId = 3,
                 EstadoId = 1,
                 ResponsableId = 3,
-                ProgramaDetalles = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 9 } }
+                Proyectos = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 9 } }
             }
         };
 
@@ -387,8 +387,8 @@ namespace Indra.Data
                 ResponsableId = 1,
                 Remark = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual. La gestión de programas permite agrupar proyectos alrededor de objetivos comunes y realizar una planiﬁcación y un seguimiento.",
                 UserId = "admin@indra.com",
-                PortafolioDetalleProgramas = new List<PortafolioDetallePrograma>{ new PortafolioDetallePrograma { ProgramaId = 1 }, new PortafolioDetallePrograma { ProgramaId = 2 } },
-                PortafolioDetalleProyectos = new List<PortafolioDetalleProyecto>{ new PortafolioDetalleProyecto { ProyectoId = 6 } }
+                Programas = new List<PortafolioDetallePrograma>{ new PortafolioDetallePrograma { ProgramaId = 1 }, new PortafolioDetallePrograma { ProgramaId = 2 } },
+                Proyectos = new List<PortafolioDetalleProyecto>{ new PortafolioDetalleProyecto { ProyectoId = 6 } }
             },
             new Portafolio
             {
@@ -403,8 +403,8 @@ namespace Indra.Data
                 ResponsableId = 2,
                 Remark = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual.",
                 UserId = "admin@indra.com",
-                PortafolioDetalleProgramas = new List<PortafolioDetallePrograma>{ new PortafolioDetallePrograma { ProgramaId = 3 } },
-                PortafolioDetalleProyectos = new List<PortafolioDetalleProyecto>{ new PortafolioDetalleProyecto { ProyectoId = 7 }, new PortafolioDetalleProyecto { ProyectoId = 8 } }
+                Programas = new List<PortafolioDetallePrograma>{ new PortafolioDetallePrograma { ProgramaId = 3 } },
+                Proyectos = new List<PortafolioDetalleProyecto>{ new PortafolioDetalleProyecto { ProyectoId = 7 }, new PortafolioDetalleProyecto { ProyectoId = 8 } }
             }
         };
 

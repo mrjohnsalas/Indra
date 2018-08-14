@@ -99,7 +99,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var proyecto in Model.ProgramaDetalles)
+                                            @foreach (var proyecto in Model.Proyectos)
                                             {
                                                 foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
                                                 {
@@ -139,7 +139,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var proyecto in Model.ProgramaDetalles)
+                                            @foreach (var proyecto in Model.Proyectos)
                                             {
                                                 <tr>
                                                     <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>

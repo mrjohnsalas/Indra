@@ -41,8 +41,8 @@ namespace Indra.Web.Controllers
             programa.Estado = estados.FirstOrDefault(x => x.Id.Equals(programa.EstadoId));
             programa.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(programa.ResponsableId));
 
-            programa.ProgramaDetalles = new BuProgramaDetalle().GetMany(x => x.ProgramaId.Equals(programa.Id)).ToList();
-            foreach (var proyecto in programa.ProgramaDetalles)
+            programa.Proyectos = new BuProgramaDetalle().GetMany(x => x.ProgramaId.Equals(programa.Id)).ToList();
+            foreach (var proyecto in programa.Proyectos)
             {
                 proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
                 proyecto.Proyecto.EstadoAprobacion = estadoAprobaciones.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.EstadoAprobacionId));
@@ -129,11 +129,11 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,ProgramaDetalles")] Programa programa)
+        public ActionResult Create([Bind(Include = "Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,Proyectos")] Programa programa)
         {
             try
             {
-                if (programa.ProgramaDetalles == null || programa.ProgramaDetalles.Count().Equals(0))
+                if (programa.Proyectos == null || programa.Proyectos.Count().Equals(0))
                     throw new Exception("Necesita seleccionar proyectos.");
 
                 if (string.IsNullOrEmpty(programa.Name))
