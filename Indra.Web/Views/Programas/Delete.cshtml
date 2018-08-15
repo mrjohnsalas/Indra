@@ -1,4 +1,4 @@
-﻿@model Indra.Model.Models.Portafolio
+﻿@model Indra.Model.Models.Programa
 
 @{
     ViewBag.Title = "Eliminar";
@@ -9,7 +9,7 @@
     <div class="alert alert-danger alert-dismissable">
         <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
         @if (!string.IsNullOrEmpty(ViewBag.ErrorCode))
-        { @ViewBag.ErrorCode<br /> }
+        {@ViewBag.ErrorCode<br />}
         @{
             var errors = ViewBag.ErrorMessage.ToString().Split('|');
             foreach (var error in errors)
@@ -21,45 +21,45 @@
 }
 
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-8">
-        <h2>Cancelar portafolio</h2>
-        <ol class="breadcrumb">
-            <li>
-                <a href="@Url.Action("Index", "Portafolios")">Portafolios</a>
-            </li>
-            <li class="active">
-                <strong>Cancelar portafolio</strong>
-            </li>
-        </ol>
-    </div>
-    <div class="col-lg-4">
-        <div class="title-action">
-            <a href="@Url.Action("Edit", "Portafolios", new {id = Model.Id})" class="btn btn-white"><i class="fa fa-pencil"></i> Editar </a>
-            <a href="@Url.Action("Index", "Portafolios")" class="btn btn-white"> Volver a la lista </a>
+        <div class="col-lg-8">
+            <h2>Cancelar programa</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="@Url.Action("Index", "Programas")">Programas</a>
+                </li>
+                <li class="active">
+                    <strong>Cancelar programa</strong>
+                </li>
+            </ol>
+        </div>
+        <div class="col-lg-4">
+            <div class="title-action">
+                <a href="@Url.Action("Edit", "Programas", new {id = Model.Id})" class="btn btn-white"><i class="fa fa-pencil"></i> Editar </a>
+                <a href="@Url.Action("Index", "Programas")" class="btn btn-white"> Volver a la lista </a>
+            </div>
         </div>
     </div>
-</div>
 
 <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox">
                 <div class="ibox-content">
-                    
+
                     <h4 class="text-danger">¿Seguro que quieres cancelar esto?</h4>
 
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="m-b-md">
-                                <h2>Portafolio: @Html.DisplayFor(model => model.NumPortafolio)</h2>
+                                <h2>Programa: @Html.DisplayFor(model => model.NumPrograma)</h2>
                             </div>
                             <dl class="dl-horizontal">
                                 <dt>Status:</dt>
                                 <dd>
                                     <span class="label @(Model.EstadoId.Equals(2) ? "label-success" : "label-primary"))">@Html.DisplayFor(model => model.Estado.Name)</span>
                                 </dd>
-                                <dt>@Html.DisplayNameFor(model => model.CategoriaComponente):</dt>
-                                <dd> @Html.DisplayFor(model => model.CategoriaComponente.Name) </dd>
+                                <dt>@Html.DisplayNameFor(model => model.Presupuesto):</dt>
+                                <dd> @Html.DisplayFor(model => model.Presupuesto) </dd>
                             </dl>
                         </div>
                     </div>
@@ -94,20 +94,11 @@
                         </div>
                         <div class="col-lg-4">
                             <dl class="dl-horizontal">
-                                <dt>@Html.DisplayNameFor(model => model.CreateDate):</dt>
-                                <dd> @Html.DisplayFor(model => model.CreateDate) </dd>
+                                <dt>@Html.DisplayNameFor(model => model.StarDate):</dt>
+                                <dd> @Html.DisplayFor(model => model.StarDate) </dd>
 
-                                <dt>@Html.DisplayNameFor(model => model.EditDate):</dt>
-                                <dd> @Html.DisplayFor(model => model.EditDate) </dd>
-                            </dl>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <dl class="dl-horizontal">
-                                <dt>@Html.DisplayNameFor(model => model.Remark):</dt>
-                                <dd> @Html.DisplayFor(model => model.Remark) </dd>
+                                <dt>@Html.DisplayNameFor(model => model.FinalDate):</dt>
+                                <dd> @Html.DisplayFor(model => model.FinalDate) </dd>
                             </dl>
                         </div>
                     </div>
@@ -116,8 +107,7 @@
                         <div class="col-lg-12">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-users"></i> Solicitudes</a></li>
-                                <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-cogs"></i> Programas</a></li>
-                                <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa fa-wrench"></i> Proyectos</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-cogs"></i> Proyectos</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div id="tab-1" class="tab-pane active">
@@ -161,40 +151,6 @@
                                     </table>
                                 </div>
                                 <div id="tab-2" class="tab-pane">
-                                    <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
-                                        <thead>
-                                            <tr>
-                                                <th>Num. Programa</th>
-                                                <th data-hide="phone">Nombre</th>
-                                                <th data-hide="phone">Fecha inicial</th>
-                                                <th data-hide="phone">Prioridad</th>
-                                                <th data-hide="phone">Responsable</th>
-                                                <th data-hide="phone">Estado</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var programa in Model.Programas)
-                                            {
-                                                <tr>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.NumPrograma)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Name)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.StarDate)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Prioridad.Name)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Responsable.FullName)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Estado.Name)</td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="12">
-                                                    <ul class="pagination pull-right"></ul>
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                                <div id="tab-3" class="tab-pane">
                                     <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
                                         <thead>
                                             <tr>

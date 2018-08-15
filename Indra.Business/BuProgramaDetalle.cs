@@ -69,5 +69,18 @@ namespace Indra.Business
                 throw new Exception(ex.Message);
             }
         }
+
+        public void DeleteByProgramaId(int id)
+        {
+            try
+            {
+                _repository.Delete(x => x.ProgramaId.Equals(id));
+                _unitOfWork.Commit();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

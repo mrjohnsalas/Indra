@@ -60,6 +60,16 @@ namespace Indra.Business
             {
                 _repository.Update(myObject);
                 _unitOfWork.Commit();
+
+                //PROYECTOS
+                var buProgramaDetalle = new BuProgramaDetalle();
+                buProgramaDetalle.DeleteByProgramaId(myObject.Id);
+                if (myObject.Proyectos != null && !myObject.Proyectos.Count().Equals(0))
+                    foreach (var proyecto in myObject.Proyectos)
+                    {
+                        proyecto.Programa = null;
+                        buProgramaDetalle.Add(proyecto);
+                    }
             }
             catch (Exception ex)
             {
@@ -72,7 +82,8 @@ namespace Indra.Business
             try
             {
                 var myObject = _repository.GetById(id);
-                _repository.Delete(myObject);
+                myObject.EstadoId = (int)EstadoType.Anulado;
+                _repository.Update(myObject);
                 _unitOfWork.Commit();
             }
             catch (Exception ex)

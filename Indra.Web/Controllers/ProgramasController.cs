@@ -174,5 +174,89 @@ namespace Indra.Web.Controllers
                 return Json(new { Result = "Error", Message = ex.Message });
             }
         }
+
+        public ActionResult Edit(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var programa = GetPrograma(id.Value);
+
+            if (programa == null)
+                return HttpNotFound();
+
+            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name", programa.PrioridadId);
+            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres", programa.ResponsableId);
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+
+            return View(programa);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit([Bind(Include = "Id,NumPrograma,Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,Proyectos")] Programa programa)
+        {
+            try
+            {
+                if (programa.Proyectos == null || programa.Proyectos.Count().Equals(0))
+                    throw new Exception("Necesita seleccionar proyectos.");
+
+                if (string.IsNullOrEmpty(programa.Name))
+                    throw new Exception("Necesita ingresar un nombre para el programa.");
+
+                new BuPrograma().Update(programa);
+
+                TempData["Message"] = "Message: La operación se realizó satisfactoriamente.";
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = $"Error Message: {e.Message}";
+            }
+
+            var buProyecto = new BuProyecto();
+            foreach (var proyecto in programa.Proyectos)
+                proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
+
+            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name");
+            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres");
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+
+            return View(programa);
+        }
+
+
+        public ActionResult Delete(int? id)
+        {
+            if (!id.HasValue)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var programa = GetPrograma(id.Value);
+
+            if (programa == null)
+                return HttpNotFound();
+
+            return View(programa);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            try
+            {
+                var programa = GetPrograma(id);
+
+                if (programa == null)
+                    return HttpNotFound();
+
+                new BuPrograma().Delete(programa.Id);
+            }
+            catch (Exception e)
+            {
+                ViewBag.ErrorMessage = $"Error Message: {e.Message}";
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

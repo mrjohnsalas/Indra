@@ -72,42 +72,27 @@ namespace Indra.Business
             {
                 var systemDate = DateTime.Now;
                 myObject.EditDate = systemDate;
+                _repository.Update(myObject);
+                _unitOfWork.Commit();
                 //PROGRAMAS
-                var buPrograma = new BuPrograma();
                 var buPortafolioDetallePrograma = new BuPortafolioDetallePrograma();
                 buPortafolioDetallePrograma.DeleteByPortafolioId(myObject.Id);
                 if (myObject.Programas != null && !myObject.Programas.Count().Equals(0))
                     foreach (var programa in myObject.Programas)
                     {
-                        programa.Portafolio = myObject;
-                        programa.Programa = buPrograma.GetById(programa.ProgramaId);
+                        programa.Portafolio = null;
+                        buPortafolioDetallePrograma.Add(programa);
                     }
 
                 //PROYECTOS
-                var buProyecto = new BuProyecto();
                 var buPortafolioDetalleProyecto = new BuPortafolioDetalleProyecto();
                 buPortafolioDetalleProyecto.DeleteByPortafolioId(myObject.Id);
                 if (myObject.Proyectos != null && !myObject.Proyectos.Count().Equals(0))
                     foreach (var proyecto in myObject.Proyectos)
                     {
-                        proyecto.Portafolio = myObject;
-                        proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
+                        proyecto.Portafolio = null;
+                        buPortafolioDetalleProyecto.Add(proyecto);
                     }
-
-                _repository.Update(myObject);
-                _unitOfWork.Commit();
-                ////PROGRAMAS
-                //var buPortafolioDetallePrograma = new BuPortafolioDetallePrograma();
-                //buPortafolioDetallePrograma.DeleteByPortafolioId(myObject.Id);
-                //if (myObject.Programas != null && !myObject.Programas.Count().Equals(0))
-                //    foreach (var programa in myObject.Programas)
-                //        buPortafolioDetallePrograma.Add(programa);
-                ////PROYECTOS
-                //var buPortafolioDetalleProyecto = new BuPortafolioDetalleProyecto();
-                //buPortafolioDetalleProyecto.DeleteByPortafolioId(myObject.Id);
-                //if (myObject.Proyectos != null && !myObject.Proyectos.Count().Equals(0))
-                //    foreach (var proyecto in myObject.Proyectos)
-                //        buPortafolioDetalleProyecto.Add(proyecto);
             }
             catch (Exception ex)
             {
