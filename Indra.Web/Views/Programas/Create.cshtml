@@ -212,7 +212,8 @@
                     }).done(function (data) {
 
                         $("#tblProyectos > tbody").append("<tr " +
-                            "data-proyectoid='" + proyectoId + "'> " +
+                            "data-proyectoid='" + proyectoId + "' " +
+                            "data-proyectoname='" + data.NumAndName + "'>" +
                             "<td>" + data.Id + "</td>" +
                             "<td>" + data.NumProyecto + "</td>" +
                             "<td>" + data.Name + "</td>" +
@@ -220,6 +221,7 @@
                             "</tr>");
 
                         $("#ProyectoId").focus();
+                        $("#ProyectoId option:selected").remove();
                     }).fail(function () {
                         $("#ProyectoId").focus();
                     });
@@ -227,7 +229,13 @@
             });
 
             $('#tblProyectos').on('click', '.deleteProyecto', function () {
+                var proyectoId = $(this).closest('tr').data("proyectoid");
+                var proyectoName = $(this).closest('tr').data("proyectoname");
                 $(this).closest('tr').remove();
+                $("#ProyectoId").append("<option value='" + proyectoId + "'>" + proyectoName + "</option>");
+                $("#ProyectoId").html($('#ProyectoId option').sort(function(x, y) {
+                    return $(x).text() < $(y).text() ? -1 : 1;
+                }));
             });
 
             $("#btnCreate").on("click", function () {

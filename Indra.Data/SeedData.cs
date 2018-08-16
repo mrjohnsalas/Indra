@@ -334,7 +334,7 @@ namespace Indra.Data
             },
             new Programa
             {
-                NumPrograma = "PR-2018-02-00002",
+                NumPrograma = "PR-2018-02-00001",
                 Name = "Iniciativas de mejoras internas",
                 Description = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual.",
                 Presupuesto = 3500000,
@@ -347,7 +347,7 @@ namespace Indra.Data
             },
             new Programa
             {
-                NumPrograma = "PR-2018-02-00003",
+                NumPrograma = "PR-2018-02-00002",
                 Name = "Implementación del Sistema de Producción más limpia.",
                 Description = "Se requiere un sistema de información de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación adecuada entre los distintos actores involucrados, requiriendo que cada parte.",
                 Presupuesto = 4000000,
@@ -360,7 +360,7 @@ namespace Indra.Data
             },
             new Programa
             {
-                NumPrograma = "PR-2018-02-00004",
+                NumPrograma = "PR-2018-02-00003",
                 Name = "Implementación del Sistema de Indra.",
                 Description = "Se requiere un de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación adecuada entre los distintos actores involucrados, requiriendo que cada parte.",
                 Presupuesto = 9000000,

@@ -77,6 +77,19 @@ namespace Indra.Web.Controllers
             return programa;
         }
 
+        public void LoadViewBags(Programa programa)
+        {
+            ViewBag.PrioridadId = programa == null
+                ? new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name")
+                : new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name", programa.PrioridadId);
+
+            ViewBag.ResponsableId = programa == null
+                ? new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres")
+                : new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres", programa.ResponsableId);
+
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllAvailable().OrderBy(x => x.NumAndName), "Id", "NumAndName");
+        }
+
         public ActionResult Index(string search)
         {
             ViewBag.Message = TempData["Message"];
@@ -120,9 +133,7 @@ namespace Indra.Web.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll(), "Id", "Name");
-            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll(), "Id", "Nombres");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio(), "Id", "Name");
+            LoadViewBags(null);
 
             return View();
         }
@@ -149,9 +160,7 @@ namespace Indra.Web.Controllers
                 ViewBag.ErrorMessage = $"Error Message: {e.Message}";
             }
 
-            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll(), "Id", "Name");
-            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll(), "Id", "Nombres");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio(), "Id", "Name");
+            LoadViewBags(null);
 
             return View(programa);
         }
@@ -185,9 +194,7 @@ namespace Indra.Web.Controllers
             if (programa == null)
                 return HttpNotFound();
 
-            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name", programa.PrioridadId);
-            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres", programa.ResponsableId);
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+            LoadViewBags(programa);
 
             return View(programa);
         }
@@ -218,9 +225,7 @@ namespace Indra.Web.Controllers
             foreach (var proyecto in programa.Proyectos)
                 proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
 
-            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+            LoadViewBags(null);
 
             return View(programa);
         }

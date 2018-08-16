@@ -25,6 +25,10 @@ namespace Indra.Model.Models
         [StringLength(100, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
         public string Name { get; set; }
 
+        [NotMapped]
+        [Display(Name = "Num With Name")]
+        public string NumAndName => $"{NumProyecto} - {Name}";
+
         [Display(Name = "Descripción")]
         [StringLength(300, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
         public string Description { get; set; }

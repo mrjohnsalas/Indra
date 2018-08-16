@@ -89,6 +89,24 @@ namespace Indra.Web.Controllers
             return portafolio;
         }
 
+        public void LoadViewBags(Portafolio portafolio)
+        {
+            ViewBag.CategoriaComponenteId = portafolio == null 
+                ? new SelectList(new BuCategoriaComponente().GetAll().OrderBy(x => x.Name), "Id", "Name") 
+                : new SelectList(new BuCategoriaComponente().GetAll().OrderBy(x => x.Name), "Id", "Name", portafolio.CategoriaComponenteId);
+
+            ViewBag.PrioridadId = portafolio == null
+                ? new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name")
+                : new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name", portafolio.PrioridadId);
+            
+            ViewBag.ResponsableId = portafolio == null
+                ? new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres")
+                : new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres", portafolio.ResponsableId);
+            
+            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllAvailable().OrderBy(x => x.NumAndName), "Id", "NumAndName");
+            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllAvailable().OrderBy(x => x.NumAndName), "Id", "NumAndName");
+        }
+
         public ActionResult Index(string search)
         {
             ViewBag.Message = TempData["Message"];
@@ -134,11 +152,7 @@ namespace Indra.Web.Controllers
 
         public ActionResult Create()
         {
-            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres");
-            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+            LoadViewBags(null);
 
             return View();
         }
@@ -168,11 +182,7 @@ namespace Indra.Web.Controllers
                 ViewBag.ErrorMessage = $"Error Message: {e.Message}";
             }
 
-            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres");
-            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+            LoadViewBags(null);
 
             return View(portafolio);
         }
@@ -225,11 +235,7 @@ namespace Indra.Web.Controllers
             if (portafolio == null)
                 return HttpNotFound();
 
-            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll().OrderBy(x => x.Name), "Id", "Name", portafolio.CategoriaComponenteId);
-            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name", portafolio.PrioridadId);
-            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres", portafolio.ResponsableId);
-            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+            LoadViewBags(portafolio);
 
             return View(portafolio);
         }
@@ -266,11 +272,7 @@ namespace Indra.Web.Controllers
             foreach (var proyecto in portafolio.Proyectos)
                 proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
 
-            ViewBag.CategoriaComponenteId = new SelectList(new BuCategoriaComponente().GetAll().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.PrioridadId = new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.ResponsableId = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres");
-            ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
-            ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllForPortafolio().OrderBy(x => x.Name), "Id", "Name");
+            LoadViewBags(null);
 
             return View(portafolio);
         }

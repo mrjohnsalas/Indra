@@ -1,7 +1,266 @@
-﻿
+﻿@model Indra.Model.Models.Programa
+
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+@if (!string.IsNullOrEmpty(ViewBag.ErrorCode) || !string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger alert-dismissable">
+        <button aria-hidden="true" data-dismiss="alert" class="close" type="button">×</button>
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorCode))
+        {@ViewBag.ErrorCode<br />}
+        @{
+            var errors = ViewBag.ErrorMessage.ToString().Split('|');
+            foreach (var error in errors)
+            {
+                @error<br />;
+            }
+        }
+    </div>
+}
 
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>Editar</h2>
+        <ol class="breadcrumb">
+            <li>
+                @Html.ActionLink("Lista", "Index")
+            </li>
+            <li class="active">
+                <strong>Editar</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-sm-8">
+        <div class="title-action">
+            @Html.ActionLink("Volver a la lista", "Index", null, new { @class = "btn btn-primary" })
+        </div>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Editar Programa</h5>
+                </div>
+                <div class="ibox-content">
+
+                    @using (Html.BeginForm("Edit", "Programas", FormMethod.Post, new { id = "formPost" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                    <div class="form-horizontal">
+
+                        @Html.ValidationSummary(true)
+                        @Html.HiddenFor(model => model.Id)
+                        @Html.HiddenFor(model => model.NumPrograma)
+                        @Html.HiddenFor(model => model.EstadoId)
+
+                        <div class="tabs-container">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab-1"> General</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-users"></i> Proyectos</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                    <div class="panel-body">
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Name)
+                                                @Html.ValidationMessageFor(model => model.Name)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Description)
+                                                @Html.ValidationMessageFor(model => model.Description)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Presupuesto, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.Presupuesto)
+                                                @Html.ValidationMessageFor(model => model.Presupuesto)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.StarDate, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.StarDate)
+                                                @Html.ValidationMessageFor(model => model.StarDate)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.FinalDate, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.EditorFor(model => model.FinalDate)
+                                                @Html.ValidationMessageFor(model => model.FinalDate)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Prioridad, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.DropDownList("PrioridadId", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.PrioridadId)
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Responsable, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                @Html.DropDownList("ResponsableId", null, htmlAttributes: new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(model => model.ResponsableId)
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <div class="panel-body">
+
+                                        <div class="form-group">
+                                            @Html.LabelFor(model => model.Proyectos, new { @class = "control-label col-md-2" })
+                                            <div class="col-md-10">
+                                                <div class="input-group">
+                                                    @Html.DropDownList("ProyectoId", null, htmlAttributes: new { @class = "form-control" })
+                                                    <span class="input-group-btn">
+                                                        <button type="button" class="btn btn btn-primary" id="btnAddProyecto" name="btnAddProyecto"> <i class="fa fa-plus"></i> Agregar</button>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblProyectos" name="tblProyectos">
+                                            <thead>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.Id)</th>
+                                                    <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.NumProyecto)</th>
+                                                    <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.Name)</th>
+                                                    <th class="text-right">Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Proyectos)
+                                                {
+                                                    <tr data-proyectoid='@item.Proyecto.Id' data-proyectoname='@item.Proyecto.NumAndName'>
+                                                        <td>@item.Proyecto.Id</td>
+                                                        <td>@item.Proyecto.NumProyecto</td>
+                                                        <td>@item.Proyecto.Name</td>
+                                                        <td><a href='javascript:void(0);' data-id='@item.Proyecto.Id' class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Guardar" class="btn btn-primary" id="btnCreate" name="btnCreate" />
+                                    @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-white" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+
+            $('#btnAddProyecto').click(function (e) {
+                e.preventDefault();
+
+                var proyectoId = $("#ProyectoId option:selected").val();
+
+                var isExist = false;
+
+                $('#tblProyectos tr').each(function () {
+                    if ($.trim($(this).find("td").eq(0).text()) == proyectoId) {
+                        isExist = true;
+                    }
+                });
+
+                if (!isExist) {
+                    $.ajax({
+                        url: '@Url.Action("GetProyecto")',
+                        type: 'POST',
+                        dataType: "json",
+                        data: { id: proyectoId }
+                    }).done(function (data) {
+
+                        $("#tblProyectos > tbody").append("<tr " +
+                            "data-proyectoid='" + proyectoId + "' " +
+                            "data-proyectoname='" + data.NumAndName + "'>" +
+                            "<td>" + data.Id + "</td>" +
+                            "<td>" + data.NumProyecto + "</td>" +
+                            "<td>" + data.Name + "</td>" +
+                            "<td><a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>" +
+                            "</tr>");
+
+                        $("#ProyectoId").focus();
+                        $("#ProyectoId option:selected").remove();
+                    }).fail(function () {
+                        $("#ProyectoId").focus();
+                    });
+                }
+            });
+
+            $('#tblProyectos').on('click', '.deleteProyecto', function () {
+                var proyectoId = $(this).closest('tr').data("proyectoid");
+                var proyectoName = $(this).closest('tr').data("proyectoname");
+                $(this).closest('tr').remove();
+                $("#ProyectoId").append("<option value='" + proyectoId + "'>" + proyectoName + "</option>");
+                $("#ProyectoId").html($('#ProyectoId option').sort(function(x, y) {
+                    return $(x).text() < $(y).text() ? -1 : 1;
+                }));
+            });
+
+            $("#btnCreate").on("click", function () {
+                //PROYECTO
+                var listNameProyectos = "Proyectos";
+                var qtd2 = 0;
+                $("#tblProyectos > tbody > tr").each(function () {
+                    var proyectoid = $(this).data("proyectoid");
+
+                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].ProgramaId' value='@Model.Id'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].ProyectoId' value='" + proyectoid + "'>");
+                    qtd2 += 1;
+                });
+            });
+        });
+    </script>
+}

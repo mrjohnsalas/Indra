@@ -22,7 +22,7 @@ namespace Indra.Business
 
         public IEnumerable<Proyecto> GetAll() => _repository.GetAll();
 
-        public IEnumerable<Proyecto> GetAllForPortafolio()
+        public IEnumerable<Proyecto> GetAllAvailable()
         {
             var portafolioDetalles = new BuPortafolioDetalleProyecto().GetAll();
             var proyectoIdList = (portafolioDetalles != null && !portafolioDetalles.Count().Equals(0))
