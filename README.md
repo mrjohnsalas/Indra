@@ -3,105 +3,79 @@ Taller de Proyectos 3 - Indra
 
 
 Proyecto Gestión de Portafolio
-
-El sistema que permitirá la gestión eficaz del portafolio de proyectos, de esta manera, mediante un monitoreo de alto nivel, facilite y apoye la toma de decisiones estratégicas, y conduzca a mejorar la asignación de recursos basado en prioridades que obedezcan a objetivos de la empresa.
-
-
-Arquitectura
-
-La arquitectura lógica se ha considerado en tres capas: El sistema implementa los patrones de diseño Modelo Vista Controlador (MVC).
+El sistema permite la gestión eficaz del portafolio de proyectos, de esta manera, mediante un monitoreo de alto nivel, facilite y apoye la toma de decisiones estratégicas, y conduzca a mejorar la asignación de recursos basado en prioridades que obedezcan a objetivos de la empresa.
 
 
-Base de Datos
+Lenguaje de programación y framework
 
-El motor de base de datos es el SQL Server
-
-
-Diagrama de Paquetes
-
-1. Registro y Planificación de Portafolios
-2. Balanceo de Portafolios
-3. Monitoreo de Portafolios
-4. Seguridad
+El lenguaje de programación a utilizar será C# con IDE Visual Studio versión 2017, también se utilizará ASP.NET.
 
 
-Casos de Uso de Sistemas
+Patrón de arquitectura
 
-El proyecto contempla los siguientes casos de usos del sistema:
-
-1. Registro y Planificación de Portafolios
-
-•	GPP_CUS001: Actualizar Programa
-
-•	GPP_CUS002: Actualizar Portafolio
-
-•	GPP_CUS003: Administrar Criterio Evaluación
-
-•	GPP_CUS014: Administrar Categoría de Componentes
-
-•	GPP_CUS004: Asignar Prioridades
-
-•	GPP_CUS005: Generar Reporte Ranking de Priorización
-
-•	GPP_CUS006: Seleccionar Proyecto
-
-•	GPP_CUS007: Seleccionar Programa
+El sistema deberá considerar una arquitectura lógica basada en el patrón de diseño MVC versión 5. MVC (Modelo - Vista - Controlador).
 
 
-2. Balanceo de Portafolios
+Motor de base de datos
 
-•	GPP_CUS010: Realizar Propuesta de Balanceo
-
-•	GPP_CUS011: Actualizar documentos del portafolio
-
-•	GPP_CUS012: Generar Reporte de Balance
-
-•	GPP_CUS013: Registrar histórico
-
-3. Monitoreo de Portafolios
-
-•	GPP_CUS008: Controlar Portafolio
-
-•	GPP_CUS009: Generar Informe de Desempeño de Portafolio
-
-•	GPP_CUS015: Crear Solicitud
+El sistema usará SQL Server 2014 Express como motor de base de datos.
 
 
-Casos de Uso a Desarrollar
+Definición de Servidor del sistema
 
-GPP_CUS001: Actualizar Programa
+El sistema utilizará el S.O. Windows Server 2012 R2.
 
-•	Realiza la creación o actualización del programa.
 
-El caso de uso comienza cuando el Analista de Portafolio accede a la opción Mantenimiento de Programa. El Analista selecciona los proyectos que guardan cierta relación entre sí. El caso de uso termina con la creación o actualización del programa en el sistema.
+Definición de Servidor de Aplicaciones
 
-GPP_CUS002: Actualizar Portafolio
+El sistema utilizará Internet Information Services (IIS) como servidor web.
 
-•	Realiza la creación o actualización del portafolio.
 
-El caso de uso comienza cuando el Analista de Portafolio accede a la opción Mantenimiento de Portafolio. El Analista selecciona los programas y proyectos y los agrupa en aquellas que tienen estrategias similares. Registra los datos del portafolio. El caso de uso termina con la creación o actualización del portafolio en el sistema.
+Aplicativo
 
-GPP_CUS008: Controlar Portafolio
+http://200.37.166.146:8091/Indra.Web/
 
-•	Controlar del avance de los portafolios.
+Usuario: admin@indra.com
 
-El caso de uso inicia cuando el Gestor de Monitoreo, selecciona la opción control de portafolio. En ese momento se compara el reporte de avance de los proyectos contra el avance estimado de los proyectos de portafolios. El caso de uso termina con la generación del reporte de avance de portafolio
+Clave  : @d123456
 
-GPP_CUS009: Generar Informe de Desempeño de Portafolio
 
-•	Generación del informe de desempeño de portafolio.
+Menu Principal
 
-El caso de uso inicia cuando el Gestor de Monitoreo, mediante la opción, generar informe de desempeño, compara los indicadores y plan de manejo de portafolios con el reporte de indicadores de desempeño de programas y/o proyectos. El caso de uso termina cuando se genera el Informe de desempeño de portafolio.
+-Criterios de evaluación
 
-GPP_CUS011: Actualizar documentos del portafolio
+-Categorías de componente
 
-•	Actualizar la documentación del portafolio
+-Realizar Propuesta de Balanceo
 
-El caso de uso comienza cuando el Analista de Balanceo recibe el mapa de portafolio balanceo aprobado y empieza a actualizar la documentación del portafolio. El caso de uso termina cuando la actualización de la documentación del portafolio se registra en el sistema.
+-Portafolio
 
-GPP_CUS012: Generar Reporte de Balance
+-Programa
 
-•	Generar reporte de balanceado ya aprobado
 
-El caso de uso comienza cuando el Analista de Balanceo recibe el mapa de portafolio actualizado. Luego, el Analista genera un reporte de lo balanceado. El caso de uso termina con la generación del reporte por el sistema.
+Criterios de evaluación
+
+El sistema mostrará una pantalla con la lista de criterios de evaluación existentes, así como filtro de búsqueda por nombre para seleccionar determinados criterios de evaluación. Según el requerimiento el Analista de Portafolio puede registrar, modificar o eliminar un Criterio de Evaluacion.
+
+Categorías de componente
+
+El sistema mostrará una pantalla con la lista de categoría existentes, así como filtro de búsqueda por nombre para seleccionar determinadas categorías. Según el requerimiento el Analista de Portafolio puede registrar, modificar o eliminar una Categoría de Componente.
+
+Realizar Propuesta de Balanceo
+
+El Analista de Balanceo selecciona un portafolio y revisa todos los recursos solicitados de los proyectos.
+
+Portafolio
+
+El sistema mostrará una pantalla con la lista de portafolios existentes, así como filtros de búsqueda para seleccionar determinados portafolios. Según el requerimiento el Analista de Portafolio puede registrar, modificar o eliminar un portafolio.
+
+Programa
+
+El sistema mostrará una pantalla con los programas existentes con sus respectivos atributos. Según el requerimiento el Analista de Portafolio puede registrar y modificar un programa.
+
+
+
+
+
+
 
