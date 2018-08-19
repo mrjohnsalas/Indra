@@ -92,7 +92,6 @@
     <Compile Include="Models\EstadoType.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Patrocinador.cs" />
-    <Compile Include="Models\PortafolioDetalleProyecto.cs" />
     <Compile Include="Models\Prioridad.cs" />
     <Compile Include="Models\PrioridadType.cs" />
     <Compile Include="Models\PropuestaBalanceo.cs" />
@@ -105,9 +104,7 @@
     <Compile Include="Models\TipoProyectoType.cs" />
     <Compile Include="Models\Trabajador.cs" />
     <Compile Include="Models\Portafolio.cs" />
-    <Compile Include="Models\PortafolioDetallePrograma.cs" />
     <Compile Include="Models\Programa.cs" />
-    <Compile Include="Models\ProgramaDetalle.cs" />
     <Compile Include="Models\Proyecto.cs" />
     <Compile Include="Models\Recurso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

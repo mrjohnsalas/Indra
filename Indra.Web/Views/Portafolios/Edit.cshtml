@@ -57,9 +57,9 @@
                             @Html.ValidationSummary(true)
                             @Html.HiddenFor(model => model.Id)
                             @Html.HiddenFor(model => model.NumPortafolio)
+                            @Html.HiddenFor(model => model.EstadoId)
                             @Html.HiddenFor(model => model.CreateDate)
                             @Html.HiddenFor(model => model.EditDate)
-                            @Html.HiddenFor(model => model.EstadoId)
                             @Html.HiddenFor(model => model.UserId)
 
                             <div class="tabs-container">
@@ -140,21 +140,24 @@
                                             <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblProgramas" name="tblProgramas">
                                                 <thead>
                                                     <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Programa.Id)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Programa.NumPrograma)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Programa.Name)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Id)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().NumPrograma)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Name)</th>
                                                         <th class="text-right">Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach (var item in Model.Programas)
+                                                @if (Model.Programas != null)
                                                 {
-                                                    <tr data-programaid='@item.Programa.Id' data-programaname='@item.Programa.NumAndName'>
-                                                        <td>@item.Programa.Id</td>
-                                                        <td>@item.Programa.NumPrograma</td>
-                                                        <td>@item.Programa.Name</td>
-                                                        <td><a href='javascript:void(0);' data-id='@item.Programa.Id' class='btn btn-danger btn-xs deletePrograma'> Eliminar</a></td>
-                                                    </tr>
+                                                    foreach (var programa in Model.Programas)
+                                                    {
+                                                         <tr data-programaid='@programa.Id' data-programaname='@programa.NumAndName'>
+                                                             <td>@programa.Id</td>
+                                                             <td>@programa.NumPrograma</td>
+                                                             <td>@programa.Name</td>
+                                                             <td><a href='javascript:void(0);' data-id='@programa.Id' class='btn btn-danger btn-xs deletePrograma'> Eliminar</a></td>
+                                                         </tr>
+                                                    }
                                                 }
                                                 </tbody>
                                                 <tfoot>
@@ -186,23 +189,26 @@
                                             <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblProyectos" name="tblProyectos">
                                                 <thead>
                                                     <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.Id)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.NumProyecto)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.Name)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Id)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().NumProyecto)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Name)</th>
                                                         <th class="text-right">Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                @foreach (var item in Model.Proyectos)
-                                                {
-                                                    <tr data-proyectoid='@item.Proyecto.Id' data-proyectoname='@item.Proyecto.NumAndName'>
-                                                        <td>@item.Proyecto.Id</td>
-                                                        <td>@item.Proyecto.NumProyecto</td>
-                                                        <td>@item.Proyecto.Name</td>
-                                                        <td><a href='javascript:void(0);' data-id='@item.Proyecto.Id' class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>
-                                                    </tr>
-                                                }
-                                                </tbody>
+                                                    @if (Model.Proyectos != null)
+                                                    {
+                                                        foreach (var proyecto in Model.Proyectos)
+                                                        {
+                                                             <tr data-proyectoid='@proyecto.Id' data-proyectoname='@proyecto.NumAndName'>
+                                                                 <td>@proyecto.Id</td>
+                                                                 <td>@proyecto.NumProyecto</td>
+                                                                 <td>@proyecto.Name</td>
+                                                                 <td><a href='javascript:void(0);' data-id='@proyecto.Id' class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>
+                                                             </tr>
+                                                        }
+                                                    }
+                                                    </tbody>
                                                 <tfoot>
                                                     <tr>
                                                         <td colspan="12">
@@ -345,8 +351,7 @@
                 $("#tblProgramas > tbody > tr").each(function () {
                     var programaid = $(this).data("programaid");
 
-                    $("#formPost").prepend("<input type='hidden' name='" + listNameProgramas + "[" + qtd1 + "].PortafolioId' value='@Model.Id'>");
-                    $("#formPost").prepend("<input type='hidden' name='" + listNameProgramas + "[" + qtd1 + "].ProgramaId' value='" + programaid + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listNameProgramas + "[" + qtd1 + "].Id' value='" + programaid + "'>");
                     qtd1 += 1;
                 });
                 //PROYECTO
@@ -355,8 +360,7 @@
                 $("#tblProyectos > tbody > tr").each(function () {
                     var proyectoid = $(this).data("proyectoid");
 
-                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].PortafolioId' value='@Model.Id'>");
-                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].ProyectoId' value='" + proyectoid + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].Id' value='" + proyectoid + "'>");
                     qtd2 += 1;
                 });
             });

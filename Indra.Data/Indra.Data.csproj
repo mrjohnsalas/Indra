@@ -71,11 +71,8 @@
     <Compile Include="Repositories\EstadoAprobacionRepository.cs" />
     <Compile Include="Repositories\EstadoRepository.cs" />
     <Compile Include="Repositories\PatrocinadorRepository.cs" />
-    <Compile Include="Repositories\PortafolioDetalleProgramaRepository.cs" />
-    <Compile Include="Repositories\PortafolioDetalleProyectoRepository.cs" />
     <Compile Include="Repositories\PortafolioRepository.cs" />
     <Compile Include="Repositories\PrioridadRepository.cs" />
-    <Compile Include="Repositories\ProgramaDetalleRepository.cs" />
     <Compile Include="Repositories\ProgramaRepository.cs" />
     <Compile Include="Repositories\PropuestaBalanceoDetalleRepository.cs" />
     <Compile Include="Repositories\PropuestaBalanceoRepository.cs" />

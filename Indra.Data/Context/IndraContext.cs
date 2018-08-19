@@ -38,13 +38,9 @@ namespace Indra.Data.Context
 
         public DbSet<Portafolio> Portafolios { get; set; }
 
-        public DbSet<PortafolioDetallePrograma> PortafolioDetalles { get; set; }
-
         public DbSet<Prioridad> Prioridades { get; set; }
 
         public DbSet<Programa> Programas { get; set; }
-
-        public DbSet<ProgramaDetalle> ProgramaDetalles { get; set; }
 
         public DbSet<Proyecto> Proyectos { get; set; }
 

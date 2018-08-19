@@ -71,9 +71,28 @@ namespace Indra.Model.Models
         [Display(Name = "Responsable")]
         public virtual Trabajador Responsable { get; set; }
 
-        [Display(Name = "Proyectos")]
-        public virtual ICollection<ProgramaDetalle> Proyectos { get; set; }
+        [Display(Name = "Usuario")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        [StringLength(50, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
+        public string UserId { get; set; }
 
-        //public virtual ICollection<PortafolioDetallePrograma> PortafolioDetalleProgramas { get; set; }
+        [Display(Name = "Fecha creación")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime CreateDate { get; set; }
+
+        [Display(Name = "Fecha modificación")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime EditDate { get; set; }
+
+        [Display(Name = "Proyectos")]
+        public virtual ICollection<Proyecto> Proyectos { get; set; }
+
+        [Display(Name = "Cod. Portafolio")]
+        public int? PortafolioId { get; set; }
+
+        [Display(Name = "Portafolio")]
+        public virtual Portafolio Portafolio { get; set; }
     }
 }

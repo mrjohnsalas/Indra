@@ -134,9 +134,9 @@
                                             <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblProgramas" name="tblProgramas">
                                                 <thead>
                                                     <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Programa.Id)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Programa.NumPrograma)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Programa.Name)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Id)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().NumPrograma)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Name)</th>
                                                         <th class="text-right">Acciones</th>
                                                     </tr>
                                                 </thead>
@@ -170,9 +170,9 @@
                                             <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblProyectos" name="tblProyectos">
                                                 <thead>
                                                     <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.Id)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.NumProyecto)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.Name)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Id)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().NumProyecto)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Name)</th>
                                                         <th class="text-right">Acciones</th>
                                                     </tr>
                                                 </thead>
@@ -319,7 +319,7 @@
                 $("#tblProgramas > tbody > tr").each(function () {
                     var programaid = $(this).data("programaid");
 
-                    $("#formPost").prepend("<input type='hidden' name='" + listNameProgramas + "[" + qtd1 + "].ProgramaId' value='" + programaid + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listNameProgramas + "[" + qtd1 + "].Id' value='" + programaid + "'>");
                     qtd1 += 1;
                 });
                 //PROYECTO
@@ -328,7 +328,7 @@
                 $("#tblProyectos > tbody > tr").each(function () {
                     var proyectoid = $(this).data("proyectoid");
 
-                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].ProyectoId' value='" + proyectoid + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].Id' value='" + proyectoid + "'>");
                     qtd2 += 1;
                 });
             });

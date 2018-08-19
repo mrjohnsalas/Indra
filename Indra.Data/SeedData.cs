@@ -26,12 +26,16 @@ namespace Indra.Data
             GetClientes().ForEach(o => context.Clientes.Add(o));
             GetPatrocinadores().ForEach(o => context.Patrocinadores.Add(o));
             context.SaveChanges();
-            GetProyectos().ForEach(o => context.Proyectos.Add(o));
-            context.SaveChanges();
-            GetProgramas().ForEach(o => context.Programas.Add(o));
-            context.SaveChanges();
+
             GetPortafolios().ForEach(o => context.Portafolios.Add(o));
             context.SaveChanges();
+
+            GetProgramas().ForEach(o => context.Programas.Add(o));
+            context.SaveChanges();
+           
+            GetProyectos().ForEach(o => context.Proyectos.Add(o));
+            context.SaveChanges();
+           
             GetSolicitudRecursos().ForEach(o => context.SolicitudRecursos.Add(o));
             context.SaveChanges();
         }
@@ -169,7 +173,11 @@ namespace Indra.Data
                 ClienteId = 1,
                 TipoProyectoId = 4,
                 ResponsableId = 1,
-                PatrocinadorId = 1
+                PatrocinadorId = 1,
+                ProgramaId = 1,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             },
             new Proyecto
             {
@@ -185,7 +193,11 @@ namespace Indra.Data
                 ClienteId = 2,
                 TipoProyectoId = 3,
                 ResponsableId = 2,
-                PatrocinadorId = 2
+                PatrocinadorId = 2,
+                ProgramaId = 1,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             },
             new Proyecto
             {
@@ -201,7 +213,11 @@ namespace Indra.Data
                 ClienteId = 2,
                 TipoProyectoId = 2,
                 ResponsableId = 3,
-                PatrocinadorId = 3
+                PatrocinadorId = 3,
+                ProgramaId = 2,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             },
             new Proyecto
             {
@@ -217,7 +233,11 @@ namespace Indra.Data
                 ClienteId = 2,
                 TipoProyectoId = 2,
                 ResponsableId = 1,
-                PatrocinadorId = 2
+                PatrocinadorId = 2,
+                ProgramaId = 2,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             },
             new Proyecto
             {
@@ -233,7 +253,11 @@ namespace Indra.Data
                 ClienteId = 3,
                 TipoProyectoId = 2,
                 ResponsableId = 3,
-                PatrocinadorId = 2
+                PatrocinadorId = 2,
+                ProgramaId = 3,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             },
             new Proyecto
             {
@@ -249,7 +273,11 @@ namespace Indra.Data
                 ClienteId = 2,
                 TipoProyectoId = 1,
                 ResponsableId = 2,
-                PatrocinadorId = 1
+                PatrocinadorId = 1,
+                PortafolioId = 1,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             },
             new Proyecto
             {
@@ -265,7 +293,11 @@ namespace Indra.Data
                 ClienteId = 1,
                 TipoProyectoId = 2,
                 ResponsableId = 1,
-                PatrocinadorId = 2
+                PatrocinadorId = 2,
+                PortafolioId = 2,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             },
             new Proyecto
             {
@@ -281,7 +313,11 @@ namespace Indra.Data
                 ClienteId = 3,
                 TipoProyectoId = 1,
                 ResponsableId = 2,
-                PatrocinadorId = 1
+                PatrocinadorId = 1,
+                PortafolioId = 2,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             },
             new Proyecto
             {
@@ -297,7 +333,11 @@ namespace Indra.Data
                 ClienteId = 3,
                 TipoProyectoId = 1,
                 ResponsableId = 2,
-                PatrocinadorId = 1
+                PatrocinadorId = 1,
+                ProgramaId = 4,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             },
             new Proyecto
             {
@@ -313,7 +353,10 @@ namespace Indra.Data
                 ClienteId = 1,
                 TipoProyectoId = 2,
                 ResponsableId = 1,
-                PatrocinadorId = 2
+                PatrocinadorId = 2,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             }
         };
 
@@ -330,7 +373,10 @@ namespace Indra.Data
                 PrioridadId = 1,
                 EstadoId = 1,
                 ResponsableId = 1,
-                Proyectos = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 1 }, new ProgramaDetalle { ProyectoId = 2 } }
+                PortafolioId = 1,
+                CreateDate = DateTime.Parse("2018-01-01"),
+                EditDate = DateTime.Parse("2018-01-01"),
+                UserId = "admin@indra.com"
             },
             new Programa
             {
@@ -343,7 +389,10 @@ namespace Indra.Data
                 PrioridadId = 2,
                 EstadoId = 1,
                 ResponsableId = 2,
-                Proyectos = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 3 }, new ProgramaDetalle { ProyectoId = 4 } }
+                PortafolioId = 1,
+                CreateDate = DateTime.Parse("2018-02-01"),
+                EditDate = DateTime.Parse("2018-02-01"),
+                UserId = "admin@indra.com"
             },
             new Programa
             {
@@ -356,7 +405,10 @@ namespace Indra.Data
                 PrioridadId = 3,
                 EstadoId = 1,
                 ResponsableId = 3,
-                Proyectos = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 5 } }
+                PortafolioId = 2,
+                CreateDate = DateTime.Parse("2018-02-01"),
+                EditDate = DateTime.Parse("2018-02-01"),
+                UserId = "admin@indra.com"
             },
             new Programa
             {
@@ -369,7 +421,9 @@ namespace Indra.Data
                 PrioridadId = 3,
                 EstadoId = 1,
                 ResponsableId = 3,
-                Proyectos = new List<ProgramaDetalle>{ new ProgramaDetalle{ ProyectoId = 9 } }
+                CreateDate = DateTime.Parse("2018-02-01"),
+                EditDate = DateTime.Parse("2018-02-01"),
+                UserId = "admin@indra.com"
             }
         };
 
@@ -387,9 +441,7 @@ namespace Indra.Data
                 EstadoId = 1,
                 ResponsableId = 1,
                 Remark = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual. La gestión de programas permite agrupar proyectos alrededor de objetivos comunes y realizar una planiﬁcación y un seguimiento.",
-                UserId = "admin@indra.com",
-                Programas = new List<PortafolioDetallePrograma>{ new PortafolioDetallePrograma { ProgramaId = 1 }, new PortafolioDetallePrograma { ProgramaId = 2 } },
-                Proyectos = new List<PortafolioDetalleProyecto>{ new PortafolioDetalleProyecto { ProyectoId = 6 } }
+                UserId = "admin@indra.com"
             },
             new Portafolio
             {
@@ -403,9 +455,7 @@ namespace Indra.Data
                 EstadoId = 1,
                 ResponsableId = 2,
                 Remark = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual.",
-                UserId = "admin@indra.com",
-                Programas = new List<PortafolioDetallePrograma>{ new PortafolioDetallePrograma { ProgramaId = 3 } },
-                Proyectos = new List<PortafolioDetalleProyecto>{ new PortafolioDetalleProyecto { ProyectoId = 7 }, new PortafolioDetalleProyecto { ProyectoId = 8 } }
+                UserId = "admin@indra.com"
             }
         };
 
@@ -419,7 +469,7 @@ namespace Indra.Data
                 EstadoId = 3,
                 ResponsableId = 1,
                 Remark = "Urgente",
-                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                Recursos = new List<SolicitudRecursoDetalle>
                 {
                     new SolicitudRecursoDetalle { RecursoId = 1, Quantity = 2 },
                     new SolicitudRecursoDetalle { RecursoId = 2, Quantity = 3 },
@@ -434,7 +484,7 @@ namespace Indra.Data
                 EstadoId = 3,
                 ResponsableId = 2,
                 Remark = "Urgente",
-                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                Recursos = new List<SolicitudRecursoDetalle>
                 {
                     new SolicitudRecursoDetalle { RecursoId = 4, Quantity = 8 },
                     new SolicitudRecursoDetalle { RecursoId = 5, Quantity = 5 },
@@ -449,7 +499,7 @@ namespace Indra.Data
                 EstadoId = 3,
                 ResponsableId = 3,
                 Remark = "Urgente",
-                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                Recursos = new List<SolicitudRecursoDetalle>
                 {
                     new SolicitudRecursoDetalle { RecursoId = 1, Quantity = 6 },
                     new SolicitudRecursoDetalle { RecursoId = 4, Quantity = 5 },
@@ -464,7 +514,7 @@ namespace Indra.Data
                 EstadoId = 3,
                 ResponsableId = 1,
                 Remark = "Urgente",
-                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                Recursos = new List<SolicitudRecursoDetalle>
                 {
                     new SolicitudRecursoDetalle { RecursoId = 11, Quantity = 5 },
                     new SolicitudRecursoDetalle { RecursoId = 10, Quantity = 7 },
@@ -479,7 +529,7 @@ namespace Indra.Data
                 EstadoId = 3,
                 ResponsableId = 3,
                 Remark = "Urgente",
-                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                Recursos = new List<SolicitudRecursoDetalle>
                 {
                     new SolicitudRecursoDetalle { RecursoId = 11, Quantity = 3 },
                     new SolicitudRecursoDetalle { RecursoId = 6, Quantity = 2 },
@@ -494,7 +544,7 @@ namespace Indra.Data
                 EstadoId = 3,
                 ResponsableId = 2,
                 Remark = "Urgente",
-                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                Recursos = new List<SolicitudRecursoDetalle>
                 {
                     new SolicitudRecursoDetalle { RecursoId = 2, Quantity = 5 },
                     new SolicitudRecursoDetalle { RecursoId = 3, Quantity = 8 },
@@ -509,7 +559,7 @@ namespace Indra.Data
                 EstadoId = 3,
                 ResponsableId = 1,
                 Remark = "Urgente",
-                SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                Recursos = new List<SolicitudRecursoDetalle>
                 {
                     new SolicitudRecursoDetalle { RecursoId = 5, Quantity = 7 },
                     new SolicitudRecursoDetalle { RecursoId = 3, Quantity = 3 },
@@ -518,13 +568,13 @@ namespace Indra.Data
             },
             new SolicitudRecurso
             {
-            ProyectoId = 8,
-            CreateDate = DateTime.Parse("2017-01-1"),
-            PrioridadId = 1,
-            EstadoId = 3,
-            ResponsableId = 2,
-            Remark = "Urgente",
-            SolicitudRecursoDetalles = new List<SolicitudRecursoDetalle>
+                ProyectoId = 8,
+                CreateDate = DateTime.Parse("2017-01-1"),
+                PrioridadId = 1,
+                EstadoId = 3,
+                ResponsableId = 2,
+                Remark = "Urgente",
+                Recursos = new List<SolicitudRecursoDetalle>
             {
                 new SolicitudRecursoDetalle { RecursoId = 3, Quantity = 3 },
                 new SolicitudRecursoDetalle { RecursoId = 5, Quantity = 3 },

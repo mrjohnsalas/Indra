@@ -23,68 +23,17 @@ namespace Indra.Web.Controllers
             if (portafolio == null)
                 return null;
 
-            var categorias = new BuCategoriaComponente().GetAll();
             var prioridades = new BuPrioridad().GetAll();
             var estados = new BuEstado().GetAll();
-            var estadoAprobaciones = new BuEstadoAprobacion().GetAll();
             var trabajadores = new BuTrabajador().GetAll();
-            var tipoProyectos = new BuTipoProyecto().GetAll();
 
-            portafolio.CategoriaComponente = categorias.FirstOrDefault(x => x.Id.Equals(portafolio.CategoriaComponenteId));
+            portafolio.CategoriaComponente = new BuCategoriaComponente().GetById(portafolio.CategoriaComponenteId);
             portafolio.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(portafolio.PrioridadId));
             portafolio.Estado = estados.FirstOrDefault(x => x.Id.Equals(portafolio.EstadoId));
             portafolio.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(portafolio.ResponsableId));
 
-            var buPrograma = new BuPrograma();
-            portafolio.Programas = new BuPortafolioDetallePrograma().GetMany(x => x.PortafolioId.Equals(portafolio.Id)).ToList();
-            foreach (var programa in portafolio.Programas)
-            {
-                programa.Programa = buPrograma.GetById(programa.ProgramaId);
-                programa.Programa.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(programa.Programa.PrioridadId));
-                programa.Programa.Estado = estados.FirstOrDefault(x => x.Id.Equals(programa.Programa.EstadoId));
-                programa.Programa.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(programa.Programa.ResponsableId));
-            }
-
-            var buProyecto = new BuProyecto();
-            var buCliente = new BuCliente();
-            var buPatrocinador = new BuPatrocinador();
-            var buRecurso = new BuRecurso();
-            var buSolicitudRecurso = new BuSolicitudRecurso();
-            var buSolicitudRecursoDetalle = new BuSolicitudRecursoDetalle();
-            var buAlmacenRecurso = new BuAlmacenRecurso();
-
-            portafolio.Proyectos = new BuPortafolioDetalleProyecto().GetMany(x => x.PortafolioId.Equals(portafolio.Id)).ToList();
-            foreach (var proyecto in portafolio.Proyectos)
-            {
-                proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
-                proyecto.Proyecto.EstadoAprobacion = estadoAprobaciones.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.EstadoAprobacionId));
-                proyecto.Proyecto.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.PrioridadId));
-                proyecto.Proyecto.Estado = estados.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.EstadoId));
-                proyecto.Proyecto.Cliente = buCliente.GetById(proyecto.Proyecto.ClienteId);
-                proyecto.Proyecto.TipoProyecto = tipoProyectos.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.TipoProyectoId));
-                proyecto.Proyecto.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.ResponsableId));
-                proyecto.Proyecto.Patrocinador = buPatrocinador.GetById(proyecto.Proyecto.PatrocinadorId);
-                var solicitudes = buSolicitudRecurso.GetMany(x => x.ProyectoId.Equals(proyecto.ProyectoId) && x.EstadoId.Equals((int)EstadoType.Pendiente));
-                if (solicitudes != null)
-                {
-                    proyecto.Proyecto.SolicitudRecursos = solicitudes.ToList();
-                    foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
-                    {
-                        solicitud.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(solicitud.PrioridadId));
-                        var detallesSolicitud = buSolicitudRecursoDetalle.GetMany(x => x.SolicitudRecursoId.Equals(solicitud.Id));
-                        if (detallesSolicitud != null)
-                        {
-                            solicitud.SolicitudRecursoDetalles = detallesSolicitud.ToList();
-                            foreach (var detalle in solicitud.SolicitudRecursoDetalles)
-                            {
-                                detalle.Recurso = buRecurso.GetById(detalle.RecursoId);
-                                detalle.QuantityAvailable = buAlmacenRecurso.Get(x => x.AlmacenId.Equals(1) && x.RecursoId.Equals(detalle.RecursoId)).StockAvailable;
-                                detalle.QuantityToAssign = (detalle.QuantityAvailable > detalle.QuantityPending) ? detalle.QuantityPending : detalle.QuantityAvailable;
-                            }
-                        }
-                    }
-                }
-            }
+            portafolio.Programas = new BuPrograma().GetProgramasFullByPortafolioId(portafolio.Id).ToList();
+            portafolio.Proyectos = new BuProyecto().GetProyectosFullByPortafolioIdOrProgramaId(portafolio.Id, 0).ToList();
 
             return portafolio;
         }
@@ -159,13 +108,11 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,Programas,Proyectos")] Portafolio portafolio)
+        public ActionResult Create([Bind(Include = "Name,Description,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,Programas,Proyectos")] Portafolio portafolio)
         {
             try
             {
-                if (portafolio.Programas == null && portafolio.Proyectos == null)
-                    throw new Exception("Necesita seleccionar programas y/o proyectos.");
-                if (portafolio.Programas.Count().Equals(0) && portafolio.Proyectos.Count().Equals(0))
+                if (portafolio.Proyectos == null && portafolio.Programas == null)
                     throw new Exception("Necesita seleccionar programas y/o proyectos.");
 
                 if (string.IsNullOrEmpty(portafolio.Name))
@@ -242,15 +189,13 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NumPortafolio,Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,UserId,Programas,Proyectos")] Portafolio portafolio)
+        public ActionResult Edit([Bind(Include = "Id,NumPortafolio,Name,Description,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,CreateDate,EditDate,UserId,Programas,Proyectos")] Portafolio portafolio)
         {
             try
             {
-                if (portafolio.Programas == null && portafolio.Proyectos == null)
+                if(portafolio.Proyectos == null && portafolio.Programas == null)
                     throw new Exception("Necesita seleccionar programas y/o proyectos.");
-                if (portafolio.Programas.Count().Equals(0) && portafolio.Proyectos.Count().Equals(0))
-                    throw new Exception("Necesita seleccionar programas y/o proyectos.");
-
+            
                 if (string.IsNullOrEmpty(portafolio.Name))
                     throw new Exception("Necesita ingresar un nombre para el portafolio.");
 
@@ -263,14 +208,6 @@ namespace Indra.Web.Controllers
             {
                 ViewBag.ErrorMessage = $"Error Message: {e.Message}";
             }
-
-            var buPrograma = new BuPrograma();
-            foreach (var programa in portafolio.Programas)
-                programa.Programa = buPrograma.GetById(programa.ProgramaId);
-
-            var buProyecto = new BuProyecto();
-            foreach (var proyecto in portafolio.Proyectos)
-                proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
 
             LoadViewBags(null);
 

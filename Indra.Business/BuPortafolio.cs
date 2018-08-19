@@ -57,8 +57,23 @@ namespace Indra.Business
                 myObject.CreateDate = systemDate;
                 myObject.EditDate = systemDate;
                 myObject.EstadoId = (int) EstadoType.EnEjecucion;
+                
+                var proyectosIdList = myObject.Proyectos?.Select(x => x.Id).ToList() ?? new List<int>();
+                myObject.Proyectos = null;
+
+                var programasIdList = myObject.Programas?.Select(x => x.Id).ToList() ?? new List<int>();
+                myObject.Programas = null;
+
                 _repository.Add(myObject);
                 _unitOfWork.Commit();
+
+                var id = Get(x => x.NumPortafolio.Equals(myObject.NumPortafolio)).Id;
+
+                //UPDATE PROYECTOS
+                new BuProyecto().UpdatePortafolioId(id, proyectosIdList);
+
+                //UPDATE PROGRAMAS
+                new BuPrograma().UpdatePortafolioId(id, programasIdList);
             }
             catch (Exception ex)
             {
@@ -72,27 +87,25 @@ namespace Indra.Business
             {
                 var systemDate = DateTime.Now;
                 myObject.EditDate = systemDate;
+
+                var proyectosIdList = myObject.Proyectos?.Select(x => x.Id).ToList() ?? new List<int>();
+                myObject.Proyectos = null;
+
+                var programasIdList = myObject.Programas?.Select(x => x.Id).ToList() ?? new List<int>();
+                myObject.Programas = null;
+
                 _repository.Update(myObject);
                 _unitOfWork.Commit();
-                //PROGRAMAS
-                var buPortafolioDetallePrograma = new BuPortafolioDetallePrograma();
-                buPortafolioDetallePrograma.DeleteByPortafolioId(myObject.Id);
-                if (myObject.Programas != null && !myObject.Programas.Count().Equals(0))
-                    foreach (var programa in myObject.Programas)
-                    {
-                        programa.Portafolio = null;
-                        buPortafolioDetallePrograma.Add(programa);
-                    }
 
                 //PROYECTOS
-                var buPortafolioDetalleProyecto = new BuPortafolioDetalleProyecto();
-                buPortafolioDetalleProyecto.DeleteByPortafolioId(myObject.Id);
-                if (myObject.Proyectos != null && !myObject.Proyectos.Count().Equals(0))
-                    foreach (var proyecto in myObject.Proyectos)
-                    {
-                        proyecto.Portafolio = null;
-                        buPortafolioDetalleProyecto.Add(proyecto);
-                    }
+                var buProyecto = new BuProyecto();
+                buProyecto.ClearPortafolioId(myObject.Id);
+                buProyecto.UpdatePortafolioId(myObject.Id, proyectosIdList);
+
+                //PROGRAMAS
+                var buPrograma = new BuPrograma();
+                buPrograma.ClearPortafolioId(myObject.Id);
+                buPrograma.UpdatePortafolioId(myObject.Id, programasIdList);
             }
             catch (Exception ex)
             {

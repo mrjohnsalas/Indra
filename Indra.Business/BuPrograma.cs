@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Security.Cryptography.X509Certificates;
 using Indra.Data.Infrastructure;
 using Indra.Data.Repositories;
 using Indra.Model.Models;
@@ -24,20 +25,19 @@ namespace Indra.Business
 
         public IEnumerable<Programa> GetAllAvailable()
         {
-            var portafolioDetalles = new BuPortafolioDetallePrograma().GetAll();
-            var programaIdList = (portafolioDetalles != null && !portafolioDetalles.Count().Equals(0))
-                ? portafolioDetalles.Select(x => x.ProgramaId).ToList()
-                : new List<int>();
-
-            var programas = (portafolioDetalles == null || portafolioDetalles.Count().Equals(0))
-                ? GetMany(x => x.EstadoId.Equals((int) EstadoType.EnEjecucion))
-                : GetMany(x => x.EstadoId.Equals((int) EstadoType.EnEjecucion) && !programaIdList.Contains(x.Id));
-            return programas;
+            return GetMany(x => !x.PortafolioId.HasValue && x.EstadoId.Equals((int)EstadoType.EnEjecucion));
         }
 
         public IEnumerable<Programa> GetMany(Expression<Func<Programa, bool>> where) => _repository.GetMany(where);
 
         public Programa GetById(int id) => _repository.GetById(id);
+
+        private string GetId(int year, int month)
+        {
+            var programas = GetMany(x => x.CreateDate.Year.Equals(year) && x.CreateDate.Month.Equals(month));
+            var num = (programas?.Count() ?? 0) + 1;
+            return $"PR-{year}-{month:00}-{num:00000}";
+        }
 
         public Programa Get(Expression<Func<Programa, bool>> where) => _repository.Get(where);
 
@@ -45,8 +45,21 @@ namespace Indra.Business
         {
             try
             {
+                var systemDate = DateTime.Now;
+                myObject.NumPrograma = GetId(systemDate.Year, systemDate.Month);
+                myObject.CreateDate = systemDate;
+                myObject.EditDate = systemDate;
+                myObject.EstadoId = (int)EstadoType.EnEjecucion;
+
+                var proyectosIdList = myObject.Proyectos.Select(x => x.Id).ToList();
+                myObject.Proyectos = null;
+
                 _repository.Add(myObject);
                 _unitOfWork.Commit();
+
+                //UPDATE PROYECTOS
+                var id = Get(x => x.NumPrograma.Equals(myObject.NumPrograma)).Id;
+                new BuProyecto().UpdateProgramaId(id, proyectosIdList);
             }
             catch (Exception ex)
             {
@@ -58,18 +71,19 @@ namespace Indra.Business
         {
             try
             {
+                var systemDate = DateTime.Now;
+                myObject.EditDate = systemDate;
+
+                var proyectosIdList = myObject.Proyectos?.Select(x => x.Id).ToList() ?? new List<int>();
+                myObject.Proyectos = null;
+
                 _repository.Update(myObject);
                 _unitOfWork.Commit();
 
                 //PROYECTOS
-                var buProgramaDetalle = new BuProgramaDetalle();
-                buProgramaDetalle.DeleteByProgramaId(myObject.Id);
-                if (myObject.Proyectos != null && !myObject.Proyectos.Count().Equals(0))
-                    foreach (var proyecto in myObject.Proyectos)
-                    {
-                        proyecto.Programa = null;
-                        buProgramaDetalle.Add(proyecto);
-                    }
+                var buProyecto = new BuProyecto();
+                buProyecto.ClearProgramaId(myObject.Id);
+                buProyecto.UpdateProgramaId(myObject.Id, proyectosIdList);
             }
             catch (Exception ex)
             {
@@ -91,5 +105,48 @@ namespace Indra.Business
                 throw new Exception(ex.Message);
             }
         }
+
+        public void ClearPortafolioId(int portafolioId)
+        {
+            var buProyecto = new BuProyecto();
+            var programas = GetMany(x => x.PortafolioId.HasValue && x.PortafolioId.Value.Equals(portafolioId));
+            foreach (var programa in programas)
+            {
+                programa.PortafolioId = null;
+                programa.Proyectos = buProyecto.GetMany(x => x.ProgramaId.HasValue && x.ProgramaId.Value.Equals(programa.Id)).ToList();
+                Update(programa);
+            }
+        }
+
+        public void UpdatePortafolioId(int portafolioId, List<int> programasIdList)
+        {
+            var buProyecto = new BuProyecto();
+            foreach (var id in programasIdList)
+            {
+                var programa = GetById(id);
+                programa.PortafolioId = portafolioId;
+                programa.Proyectos = buProyecto.GetMany(x => x.ProgramaId.HasValue && x.ProgramaId.Value.Equals(programa.Id)).ToList();
+                Update(programa);
+            }
+        }
+
+        public IEnumerable<Programa> GetProgramasFullByPortafolioId(int portafolioId)
+        {
+            var programas = GetMany(x => x.PortafolioId.HasValue && x.PortafolioId.Value.Equals(portafolioId)).ToList();
+
+            var prioridades = new BuPrioridad().GetAll();
+            var estados = new BuEstado().GetAll();
+            var trabajadores = new BuTrabajador().GetAll();
+
+            foreach (var programa in programas)
+            {
+                programa.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(programa.PrioridadId));
+                programa.Estado = estados.FirstOrDefault(x => x.Id.Equals(programa.EstadoId));
+                programa.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(programa.ResponsableId));
+            }
+
+            return programas;
+        }
+
     }
 }

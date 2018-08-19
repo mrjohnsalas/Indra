@@ -106,10 +106,33 @@ namespace Indra.Model.Models
         [Display(Name = "Patrocinador")]
         public virtual Patrocinador Patrocinador { get; set; }
 
-        public virtual ICollection<ProgramaDetalle> ProgramaDetalles { get; set; }
+        public virtual ICollection<SolicitudRecurso> SolicitudesRecurso { get; set; }
 
-        public virtual ICollection<PortafolioDetalleProyecto> PortafolioDetalleProyectos { get; set; }
+        [Display(Name = "Cod. Programa")]
+        public int? ProgramaId { get; set; }
 
-        public virtual ICollection<SolicitudRecurso> SolicitudRecursos { get; set; }
+        [Display(Name = "Programa")]
+        public virtual Programa Programa { get; set; }
+
+        [Display(Name = "Cod. Portafolio")]
+        public int? PortafolioId { get; set; }
+
+        [Display(Name = "Portafolio")]
+        public virtual Portafolio Portafolio { get; set; }
+
+        [Display(Name = "Usuario")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        [StringLength(50, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
+        public string UserId { get; set; }
+
+        [Display(Name = "Fecha creación")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime CreateDate { get; set; }
+
+        [Display(Name = "Fecha modificación")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime EditDate { get; set; }
     }
 }

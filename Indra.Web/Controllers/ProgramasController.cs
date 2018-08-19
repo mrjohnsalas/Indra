@@ -23,56 +23,11 @@ namespace Indra.Web.Controllers
             if (programa == null)
                 return null;
 
-            var buProyecto = new BuProyecto();
-            var buCliente = new BuCliente();
-            var buPatrocinador = new BuPatrocinador();
-            var buSolicitudRecurso = new BuSolicitudRecurso();
-            var buSolicitudRecursoDetalle = new BuSolicitudRecursoDetalle();
-            var buRecurso = new BuRecurso();
-            var buAlmacenRecurso = new BuAlmacenRecurso();
+            programa.Prioridad = new BuPrioridad().GetById(programa.PrioridadId);
+            programa.Estado = new BuEstado().GetById(programa.EstadoId);
+            programa.Responsable = new BuTrabajador().GetById(programa.ResponsableId);
 
-            var prioridades = new BuPrioridad().GetAll();
-            var estados = new BuEstado().GetAll();
-            var estadoAprobaciones = new BuEstadoAprobacion().GetAll();
-            var trabajadores = new BuTrabajador().GetAll();
-            var tipoProyectos = new BuTipoProyecto().GetAll();
-
-            programa.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(programa.PrioridadId));
-            programa.Estado = estados.FirstOrDefault(x => x.Id.Equals(programa.EstadoId));
-            programa.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(programa.ResponsableId));
-
-            programa.Proyectos = new BuProgramaDetalle().GetMany(x => x.ProgramaId.Equals(programa.Id)).ToList();
-            foreach (var proyecto in programa.Proyectos)
-            {
-                proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
-                proyecto.Proyecto.EstadoAprobacion = estadoAprobaciones.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.EstadoAprobacionId));
-                proyecto.Proyecto.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.PrioridadId));
-                proyecto.Proyecto.Estado = estados.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.EstadoId));
-                proyecto.Proyecto.Cliente = buCliente.GetById(proyecto.Proyecto.ClienteId);
-                proyecto.Proyecto.TipoProyecto = tipoProyectos.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.TipoProyectoId));
-                proyecto.Proyecto.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(proyecto.Proyecto.ResponsableId));
-                proyecto.Proyecto.Patrocinador = buPatrocinador.GetById(proyecto.Proyecto.PatrocinadorId);
-                var solicitudes = buSolicitudRecurso.GetMany(x => x.ProyectoId.Equals(proyecto.ProyectoId) && x.EstadoId.Equals((int)EstadoType.Pendiente));
-                if (solicitudes != null)
-                {
-                    proyecto.Proyecto.SolicitudRecursos = solicitudes.ToList();
-                    foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
-                    {
-                        solicitud.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(solicitud.PrioridadId));
-                        var detallesSolicitud = buSolicitudRecursoDetalle.GetMany(x => x.SolicitudRecursoId.Equals(solicitud.Id));
-                        if (detallesSolicitud != null)
-                        {
-                            solicitud.SolicitudRecursoDetalles = detallesSolicitud.ToList();
-                            foreach (var detalle in solicitud.SolicitudRecursoDetalles)
-                            {
-                                detalle.Recurso = buRecurso.GetById(detalle.RecursoId);
-                                detalle.QuantityAvailable = buAlmacenRecurso.Get(x => x.AlmacenId.Equals(1) && x.RecursoId.Equals(detalle.RecursoId)).StockAvailable;
-                                detalle.QuantityToAssign = (detalle.QuantityAvailable > detalle.QuantityPending) ? detalle.QuantityPending : detalle.QuantityAvailable;
-                            }
-                        }
-                    }
-                }
-            }
+            programa.Proyectos = new BuProyecto().GetProyectosFullByPortafolioIdOrProgramaId(0, programa.Id).ToList();
 
             return programa;
         }
@@ -150,6 +105,7 @@ namespace Indra.Web.Controllers
                 if (string.IsNullOrEmpty(programa.Name))
                     throw new Exception("Necesita ingresar un nombre para el programa.");
 
+                programa.UserId = User.Identity.GetUserName();
                 new BuPrograma().Add(programa);
 
                 TempData["Message"] = "Message: La operación se realizó satisfactoriamente.";
@@ -201,7 +157,7 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NumPrograma,Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,Proyectos")] Programa programa)
+        public ActionResult Edit([Bind(Include = "Id,NumPrograma,Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,CreateDate,EditDate,UserId,Proyectos")] Programa programa)
         {
             try
             {
@@ -220,10 +176,6 @@ namespace Indra.Web.Controllers
             {
                 ViewBag.ErrorMessage = $"Error Message: {e.Message}";
             }
-
-            var buProyecto = new BuProyecto();
-            foreach (var proyecto in programa.Proyectos)
-                proyecto.Proyecto = buProyecto.GetById(proyecto.ProyectoId);
 
             LoadViewBags(null);
 

@@ -191,19 +191,19 @@
                                                 {
                                                     foreach (var proyecto in Model.Proyectos)
                                                     {
-                                                        if (proyecto.Proyecto.SolicitudRecursos != null)
+                                                        if (proyecto.SolicitudesRecurso != null)
                                                         {
-                                                            foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
+                                                            foreach (var solicitud in proyecto.SolicitudesRecurso)
                                                             {
-                                                                if (solicitud.SolicitudRecursoDetalles != null)
+                                                                if (solicitud.Recursos != null)
                                                                 {
-                                                                    foreach (var recurso in solicitud.SolicitudRecursoDetalles)
+                                                                    foreach (var recurso in solicitud.Recursos)
                                                                     {
                                                                         <tr data-detallesolicitudid="@recurso.Id" data-quantity="@recurso.QuantityToAssign">
                                                                             <td> @Html.DisplayFor(modelItem => solicitud.Id)</td>
                                                                             <td class="text-center"> @Html.DisplayFor(modelItem => solicitud.CreateDate)</td>
                                                                             <td class="text-center"> @Html.DisplayFor(modelItem => solicitud.Prioridad.Name)</td>
-                                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
+                                                                            <td> @Html.DisplayFor(modelItem => proyecto.NumProyecto)</td>
                                                                             <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
                                                                             <td class="text-right"> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
                                                                             <td class="text-right"> @Html.DisplayFor(modelItem => recurso.QuantityPending)</td>
@@ -217,7 +217,7 @@
                                                                                        data-solicitudid="@solicitud.Id"
                                                                                        data-fechacreacion="@solicitud.CreateDate"
                                                                                        data-prioridad="@solicitud.Prioridad.Name"
-                                                                                       data-numproyecto="@proyecto.Proyecto.NumProyecto"
+                                                                                       data-numproyecto="@proyecto.NumProyecto"
                                                                                        data-recursoid="@recurso.RecursoId"
                                                                                        data-recursoname="@recurso.Recurso.Name"
                                                                                        data-quantity="@recurso.Quantity"
@@ -269,12 +269,12 @@
                                                     foreach (var programa in Model.Programas)
                                                     {
                                                         <tr>
-                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.NumPrograma)</td>
-                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.Name)</td>
-                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.StarDate)</td>
-                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.Prioridad.Name)</td>
-                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.Responsable.FullName)</td>
-                                                            <td> @Html.DisplayFor(modelItem => programa.Programa.Estado.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.NumPrograma)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.StarDate)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Prioridad.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Responsable.FullName)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Estado.Name)</td>
                                                         </tr>
                                                     }
                                                 }
@@ -306,12 +306,12 @@
                                                     foreach (var proyecto in Model.Proyectos)
                                                     {
                                                         <tr>
-                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
-                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Name)</td>
-                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.StarDate)</td>
-                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Prioridad.Name)</td>
-                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Responsable.FullName)</td>
-                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Estado.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.NumProyecto)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.StarDate)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Prioridad.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Responsable.FullName)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Estado.Name)</td>
                                                         </tr>
                                                     }
                                                 }
@@ -356,23 +356,10 @@
                 var qtd = 0;
                 $("#tblRecursos > tbody > tr").each(function () {
                     var detalleSolicitudId = $(this).data("detallesolicitudid");
-                    //var quantity = $(this).data("quantity");
                     var quantity = parseFloat($('#qta-' + detalleSolicitudId).text()).toFixed(3);
 
-                    $("#formPost").prepend("<input type='hidden' name='" +
-                        listRecursos +
-                        "[" +
-                        qtd +
-                        "].SolicitudRecursoId' value='" +
-                        detalleSolicitudId +
-                        "'>");
-                    $("#formPost").prepend("<input type='hidden' name='" +
-                        listRecursos +
-                        "[" +
-                        qtd +
-                        "].Quantity' value='" +
-                        quantity +
-                        "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listRecursos + "[" + qtd + "].SolicitudRecursoId' value='" + detalleSolicitudId + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listRecursos + "[" + qtd + "].Quantity' value='" + quantity + "'>");
                     qtd += 1;
                 });
             });

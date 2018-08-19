@@ -31,16 +31,6 @@ namespace Indra.Model.Models
         [StringLength(300, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
         public string Description { get; set; }
 
-        [Display(Name = "Fecha creación")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime CreateDate { get; set; }
-
-        [Display(Name = "Fecha modificación")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime EditDate { get; set; }
-
         [Display(Name = "Cod. Categoria Componente")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
         public int CategoriaComponenteId { get; set; }
@@ -82,13 +72,23 @@ namespace Indra.Model.Models
         [StringLength(50, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
         public string UserId { get; set; }
 
+        [Display(Name = "Fecha creación")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime CreateDate { get; set; }
+
+        [Display(Name = "Fecha modificación")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime EditDate { get; set; }
+
         [Display(Name = "Programas")]
-        public virtual ICollection<PortafolioDetallePrograma> Programas { get; set; }
+        public virtual ICollection<Programa> Programas { get; set; }
 
         [Display(Name = "Proyectos")]
-        public virtual ICollection<PortafolioDetalleProyecto> Proyectos { get; set; }
+        public virtual ICollection<Proyecto> Proyectos { get; set; }
 
-        public virtual ICollection<PropuestaBalanceo> PropuestaBalanceos { get; set; }
+        public virtual ICollection<PropuestaBalanceo> PropuestasBalanceo { get; set; }
 
         [NotMapped]
         public List<PropuestaBalanceoDetalleView> PropuestaBalanceoDetalleViews { get; set; }

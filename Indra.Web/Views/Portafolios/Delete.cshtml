@@ -51,7 +51,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <div class="m-b-md">
-                                <h2>Portafolio: @Html.DisplayFor(model => model.NumPortafolio)</h2>
+                                <h2>Portafolio: <strong>@Html.DisplayFor(model => model.NumPortafolio)</strong></h2>
                             </div>
                             <dl class="dl-horizontal">
                                 <dt>Status:</dt>
@@ -99,6 +99,9 @@
 
                                 <dt>@Html.DisplayNameFor(model => model.EditDate):</dt>
                                 <dd> @Html.DisplayFor(model => model.EditDate) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.UserId):</dt>
+                                <dd> @Html.DisplayFor(model => model.UserId) </dd>
                             </dl>
                         </div>
                     </div>
@@ -135,15 +138,15 @@
                                         <tbody>
                                             @foreach (var proyecto in Model.Proyectos)
                                             {
-                                                foreach (var solicitud in proyecto.Proyecto.SolicitudRecursos)
+                                                foreach (var solicitud in proyecto.SolicitudesRecurso)
                                                 {
-                                                    foreach (var recurso in solicitud.SolicitudRecursoDetalles)
+                                                    foreach (var recurso in solicitud.Recursos)
                                                     {
                                                         <tr>
                                                             <td> @Html.DisplayFor(modelItem => solicitud.Id)</td>
                                                             <td> @Html.DisplayFor(modelItem => solicitud.CreateDate)</td>
                                                             <td> @Html.DisplayFor(modelItem => solicitud.Prioridad.Name)</td>
-                                                            <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.NumProyecto)</td>
                                                             <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
                                                             <td> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
                                                         </tr>
@@ -176,12 +179,12 @@
                                             @foreach (var programa in Model.Programas)
                                             {
                                                 <tr>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.NumPrograma)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Name)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.StarDate)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Prioridad.Name)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Responsable.FullName)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Programa.Estado.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.NumPrograma)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.StarDate)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Prioridad.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Responsable.FullName)</td>
+                                                    <td> @Html.DisplayFor(modelItem => programa.Estado.Name)</td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -210,12 +213,12 @@
                                             @foreach (var proyecto in Model.Proyectos)
                                             {
                                                 <tr>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.NumProyecto)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Name)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.StarDate)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Prioridad.Name)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Responsable.FullName)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Proyecto.Estado.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.NumProyecto)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.StarDate)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Prioridad.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Responsable.FullName)</td>
+                                                    <td> @Html.DisplayFor(modelItem => proyecto.Estado.Name)</td>
                                                 </tr>
                                             }
                                         </tbody>

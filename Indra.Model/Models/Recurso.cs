@@ -24,8 +24,8 @@ namespace Indra.Model.Models
         [StringLength(300, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
         public string Description { get; set; }
 
-        public virtual ICollection<SolicitudRecursoDetalle> SolicitudRecursoDetalles { get; set; }
+        public virtual ICollection<SolicitudRecursoDetalle> SolicitudesRecurso { get; set; }
 
-        public virtual ICollection<AlmacenRecurso> AlmacenRecursos { get; set; }
+        public virtual ICollection<AlmacenRecurso> Almacenes { get; set; }
     }
 }

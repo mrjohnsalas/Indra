@@ -51,6 +51,6 @@ namespace Indra.Model.Models
         [DataType(DataType.MultilineText)]
         public string Remark { get; set; }
 
-        public virtual ICollection<SolicitudRecursoDetalle> SolicitudRecursoDetalles { get; set; }
+        public virtual ICollection<SolicitudRecursoDetalle> Recursos { get; set; }
     }
 }

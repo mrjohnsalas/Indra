@@ -143,9 +143,9 @@
                                             <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblProyectos" name="tblProyectos">
                                                 <thead>
                                                     <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.Id)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.NumProyecto)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Proyecto.Name)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Id)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().NumProyecto)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Name)</th>
                                                         <th class="text-right">Acciones</th>
                                                     </tr>
                                                 </thead>
@@ -245,7 +245,7 @@
                 $("#tblProyectos > tbody > tr").each(function () {
                     var proyectoid = $(this).data("proyectoid");
 
-                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].ProyectoId' value='" + proyectoid + "'>");
+                    $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].Id' value='" + proyectoid + "'>");
                     qtd2 += 1;
                 });
             });
