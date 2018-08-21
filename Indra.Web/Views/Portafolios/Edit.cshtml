@@ -48,6 +48,45 @@
                 </div>
                 <div class="ibox-content">
 
+                    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content animated bounceInRight">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <i class="fa fa-laptop modal-icon"></i>
+                                    <h4 class="modal-title">Documento</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <dl class="dl-horizontal">
+                                        <dt>Código:</dt>
+                                        <dd id="doc_id"></dd>
+
+                                        <dt>Num. Documento:</dt>
+                                        <dd id="doc_numdocument"></dd>
+
+                                        <dt>Nombre de archivo:</dt>
+                                        <dd id="doc_filename"></dd>
+                                    </dl>
+                                    
+                                    <div class="form-group">
+                                        <label>Observación:</label>
+                                        @Html.TextArea("doc_remark", new { @class = "form-control text-box multi-line", @id = "doc_remark" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Responsable:</label>
+                                        @Html.DropDownList("doc_responsableid", new SelectList(ViewBag.Responsables, "Value", "Text", 1), htmlAttributes: new { @class = "form-control" })
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-white" data-dismiss="modal">Cancelar</button>
+                                    <button type="button" class="btn btn-primary" id="btnGrabarModal" name="btnGrabarModal">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     @using (Html.BeginForm("Edit", "Portafolios", FormMethod.Post, new { enctype = "multipart/form-data", id = "formPost" }))
                     {
                         @Html.AntiForgeryToken()
@@ -272,16 +311,20 @@
                                                     {
                                                         foreach (var documento in Model.Documentos)
                                                         {
-                                                            <tr data-documentoid='@documento.Id'>
+                                                            <tr data-documentoid='@documento.Id' 
+                                                                data-numdocument='@documento.NumDocument' 
+                                                                data-filename='@documento.FileName'
+                                                                data-remarkdocumento='@documento.RemarkDocumento'
+                                                                data-responsableid='@documento.Responsable.Id'>
                                                                 <td>@documento.Id</td>
                                                                 <td>@documento.NumDocument</td>
                                                                 <td>@documento.FileName</td>
-                                                                <td>@documento.Responsable.FullName</td>
-                                                                <td>@documento.RemarkDocumento</td>
+                                                                <td id="td-@documento.Id-responsable">@documento.Responsable.FullName</td>
+                                                                <td id="td-@documento.Id-remark">@documento.RemarkDocumento</td>
                                                                 <td class="text-right">
                                                                     <div class="btn-group">
-                                                                        <a href='javascript:void(0);' data-id='@documento.Id' class="btn btn-primary btn-sm editDocumento" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
-                                                                        <a href="@Url.Action("DownloadFile", "Portafolios", new { id = documento.Id })" class="btn btn-default btn-sm" title="Descargar"><i class="fa fa-download"></i></a>
+                                                                        <a href='javascript:void(0);' data-id='@documento.Id' class="btn btn-primary btn-sm editDocumento" title="Editar" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o"></i></a>
+                                                                        <a href="@Url.Action("DownloadFile", "Portafolios", new {id = documento.Id})" class="btn btn-default btn-sm" title="Descargar"><i class="fa fa-download"></i></a>
                                                                         <a href='javascript:void(0);' data-id='@documento.Id' class="btn btn-danger btn-sm deleteDocumento" title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                                     </div>
                                                                 </td>
@@ -325,8 +368,43 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
 
-    <script type="text/javascript">
+<script type="text/javascript">
         $(document).ready(function () {
+
+            $('#tblDocumentos').on('click', '.editDocumento', function () {
+
+                var documentoId = $(this).closest('tr').data("documentoid");
+                var numDocument = $(this).closest('tr').data("numdocument");
+                var fileName = $(this).closest('tr').data("filename");
+                var remarkDocumento = $(this).closest('tr').data("remarkdocumento");
+                var responsableId = $(this).closest('tr').data("responsableid");
+
+                $('#myModal')
+                    .find('[id="doc_id"]').text(documentoId).end()
+                    .find('[id="doc_numdocument"]').text(numDocument).end()
+                    .find('[id="doc_filename"]').text(fileName).end()
+                    .find('[id="doc_remark"]').val(remarkDocumento).end()
+                    .find('[id="doc_responsableid"]').val(responsableId).end();
+            });
+
+            $("#btnGrabarModal").on("click", function () {
+                var documentoId = $('#doc_id').text();
+                var remark = $('#doc_remark').val();
+                var responsableId = $("#doc_responsableid option:selected").val();
+                var responsableName = $("#doc_responsableid option:selected").text();
+
+                $('#myModal').modal('toggle');
+
+                $.ajax({
+                    url: '@Url.Action("UpdateFile")',
+                    type: 'POST',
+                    dataType: "json",
+                    data: { id: documentoId, remark: remark, responsableId: responsableId }
+                }).done(function (data) { });
+
+                $('#td-' + documentoId + '-responsable').text(responsableName);
+                $('#td-' + documentoId + '-remark').text(remark);
+            });
 
             $('#uploadFile').change(function (e) {
                 if (e.target.files.length > 0) {
@@ -355,7 +433,7 @@
 
                 var formData = new FormData();
                 var files = $("#uploadFile").get(0).files;
-                
+
                 if (files.length > 0) {
                     formData.append("PortafolioId", @Model.Id);
                     formData.append("ResponsableId", $("#ResponsableIdDocumento option:selected").val());
@@ -372,15 +450,22 @@
                     }).done(function (data) {
 
                         $("#tblDocumentos > tbody").append("<tr " +
-                            "data-documentoid='" + data.Id + "'> " +
+                            "data-documentoid='" + data.Id + "' " +
+                            "data-numdocument='" + data.NumDocument + "' " +
+                            "data-filename='" + data.FileName + "' " +
+                            "data-remarkdocumento='" + data.RemarkDocumento + "' " +
+                            "data-responsableid='" + data.Responsable.Id + "'> " +
+
                             "<td>" + data.Id + "</td>" +
                             "<td>" + data.NumDocument + "</td>" +
                             "<td>" + data.FileName + "</td>" +
-                            "<td>" + data.Responsable.FullName + "</td>" +
-                            "<td>" + data.RemarkDocumento + "</td>" +
+
+                            "<td id='td-" + data.Id + "-responsable'>" + data.Responsable.FullName + "</td>" +
+                            "<td id='td-" + data.Id + "-remark'>" + data.RemarkDocumento + "</td>" +
+
                             "<td class='text-right'>" +
                             "<div class='btn-group'>" +
-                            "<a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-primary btn-sm editDocumento' title='Editar'><i class='fa fa-pencil-square-o'></i></a>" +
+                            "<a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-primary btn-sm editDocumento' title='Editar' data-toggle='modal' data-target='#myModal'><i class='fa fa-pencil-square-o'></i></a>" +
                             "<a href='/Portafolios/DownloadFile/" + data.Id + "' class='btn btn-default btn-sm downloadDocumento' title='Descargar'><i class='fa fa-download'></i></a>" +
                             "<a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-danger btn-sm deleteDocumento' title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
@@ -389,7 +474,6 @@
 
                         $('#fileName').text("");
                         $("#RemarkDocumento").val("");
-                        //$("#uploadFile").html($("#uploadFile").html());
                         $("#uploadFile").focus();
                     }).fail(function () {
                         $("#uploadFile").focus();
@@ -514,5 +598,5 @@
                 });
             });
         });
-    </script>
+</script>
 }

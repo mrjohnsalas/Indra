@@ -52,10 +52,11 @@ namespace Indra.Web.Controllers
                 : new SelectList(new BuPrioridad().GetAll().OrderBy(x => x.Name), "Id", "Name", portafolio.PrioridadId);
             
             ViewBag.ResponsableId = portafolio == null
-                ? new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres")
-                : new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres", portafolio.ResponsableId);
+                ? new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "FullName")
+                : new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "FullName", portafolio.ResponsableId);
 
-            ViewBag.ResponsableIdDocumento = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres");
+            ViewBag.ResponsableIdDocumento = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "FullName");
+            ViewBag.Responsables = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "FullName");
 
             ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllAvailable().OrderBy(x => x.NumAndName), "Id", "NumAndName");
             ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllAvailable().OrderBy(x => x.NumAndName), "Id", "NumAndName");
@@ -303,6 +304,30 @@ namespace Indra.Web.Controllers
             {
                 new BuDocumento().Delete(id.Value);
                 return Json(new { Result = "Ok" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "Error", Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult UpdateFile(string id, string remark, string responsableId)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Result = "Error" });
+            }
+            try
+            {
+                var buDocumento = new BuDocumento();
+                var documento = buDocumento.GetById(int.Parse(id));
+                documento.RemarkDocumento = remark;
+                documento.ResponsableId = int.Parse(responsableId);
+                buDocumento.Update(documento);
+                documento.Responsable = new BuTrabajador().GetById(documento.ResponsableId);
+                return Json(documento, JsonRequestBehavior.AllowGet);
             }
             catch (Exception ex)
             {

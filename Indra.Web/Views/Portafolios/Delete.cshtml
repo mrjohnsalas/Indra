@@ -125,6 +125,7 @@
                                 <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-users"></i> Solicitudes</a></li>
                                 <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-cogs"></i> Programas</a></li>
                                 <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa fa-wrench"></i> Proyectos</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-files-o"></i> Documentos</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div id="tab-1" class="tab-pane active">
@@ -180,17 +181,20 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var programa in Model.Programas)
-                                            {
-                                                <tr>
-                                                    <td> @Html.DisplayFor(modelItem => programa.NumDocument)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Name)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.StarDate)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Prioridad.Name)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Responsable.FullName)</td>
-                                                    <td> @Html.DisplayFor(modelItem => programa.Estado.Name)</td>
-                                                </tr>
-                                            }
+                                        @if (Model.Programas != null)
+                                        {
+                                            foreach (var programa in Model.Programas)
+                                             {
+                                                 <tr>
+                                                     <td> @Html.DisplayFor(modelItem => programa.NumDocument)</td>
+                                                     <td> @Html.DisplayFor(modelItem => programa.Name)</td>
+                                                     <td> @Html.DisplayFor(modelItem => programa.StarDate)</td>
+                                                     <td> @Html.DisplayFor(modelItem => programa.Prioridad.Name)</td>
+                                                     <td> @Html.DisplayFor(modelItem => programa.Responsable.FullName)</td>
+                                                     <td> @Html.DisplayFor(modelItem => programa.Estado.Name)</td>
+                                                 </tr>
+                                             }
+                                        }
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -214,16 +218,60 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach (var proyecto in Model.Proyectos)
+                                        @if (Model.Proyectos != null)
+                                        {
+                                            foreach (var proyecto in Model.Proyectos)
+                                             {
+                                                 <tr>
+                                                     <td> @Html.DisplayFor(modelItem => proyecto.NumDocument)</td>
+                                                     <td> @Html.DisplayFor(modelItem => proyecto.Name)</td>
+                                                     <td> @Html.DisplayFor(modelItem => proyecto.StarDate)</td>
+                                                     <td> @Html.DisplayFor(modelItem => proyecto.Prioridad.Name)</td>
+                                                     <td> @Html.DisplayFor(modelItem => proyecto.Responsable.FullName)</td>
+                                                     <td> @Html.DisplayFor(modelItem => proyecto.Estado.Name)</td>
+                                                 </tr>
+                                             }
+                                        }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div id="tab-4" class="tab-pane">
+                                    <table class="footable table toggle-arrow-tiny table-hover table-striped" data-page-size="10" id="tblDocumentos" name="tblDocumentos">
+                                        <thead>
+                                            <tr>
+                                                <th>@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Id)</th>
+                                                <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().NumDocument)</th>
+                                                <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().FileName)</th>
+                                                <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Responsable)</th>
+                                                <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().RemarkDocumento)</th>
+                                                <th class="text-right">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Documentos != null)
                                             {
-                                                <tr>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.NumDocument)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Name)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.StarDate)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Prioridad.Name)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Responsable.FullName)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Estado.Name)</td>
-                                                </tr>
+                                                foreach (var documento in Model.Documentos)
+                                                {
+                                                    <tr>
+                                                        <td>@documento.Id</td>
+                                                        <td>@documento.NumDocument</td>
+                                                        <td>@documento.FileName</td>
+                                                        <td>@documento.Responsable.FullName</td>
+                                                        <td>@documento.RemarkDocumento</td>
+                                                        <td class="text-right">
+                                                            <div class="btn-group">
+                                                                <a href="@Url.Action("DownloadFile", "Portafolios", new {id = documento.Id})" class="btn btn-default btn-sm" title="Descargar"><i class="fa fa-download"></i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
                                             }
                                         </tbody>
                                         <tfoot>
