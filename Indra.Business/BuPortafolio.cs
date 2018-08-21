@@ -94,6 +94,9 @@ namespace Indra.Business
                 var programasIdList = myObject.Programas?.Select(x => x.Id).ToList() ?? new List<int>();
                 myObject.Programas = null;
 
+                var documentosIdList = myObject.Documentos?.Select(x => x.Id).ToList() ?? new List<int>();
+                myObject.Documentos = null;
+
                 _repository.Update(myObject);
                 _unitOfWork.Commit();
 
@@ -106,6 +109,11 @@ namespace Indra.Business
                 var buPrograma = new BuPrograma();
                 buPrograma.ClearPortafolioId(myObject.Id);
                 buPrograma.UpdatePortafolioId(myObject.Id, programasIdList);
+
+                //DOCUMENTOS
+                var buDocumento = new BuDocumento();
+                buDocumento.ClearPortafolioId(myObject.Id);
+                buDocumento.UpdatePortafolioId(myObject.Id, documentosIdList);
             }
             catch (Exception ex)
             {

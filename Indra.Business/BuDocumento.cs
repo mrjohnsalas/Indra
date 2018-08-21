@@ -96,5 +96,25 @@ namespace Indra.Business
 
             return documentos;
         }
+
+        public void ClearPortafolioId(int portafolioId)
+        {
+            var documentos = GetMany(x => x.PortafolioId.HasValue && x.PortafolioId.Value.Equals(portafolioId));
+            foreach (var documento in documentos)
+            {
+                documento.PortafolioId = null;
+                Update(documento);
+            }
+        }
+
+        public void UpdatePortafolioId(int portafolioId, List<int> documentosIdList)
+        {
+            foreach (var id in documentosIdList)
+            {
+                var documento = GetById(id);
+                documento.PortafolioId = portafolioId;
+                Update(documento);
+            }
+        }
     }
 }
