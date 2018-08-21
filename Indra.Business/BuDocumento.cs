@@ -35,7 +35,7 @@ namespace Indra.Business
             return $"DO-{year}-{month:00}-{num:00000}";
         }
 
-        public void Add(Documento myObject)
+        public int Add(Documento myObject)
         {
             try
             {
@@ -46,6 +46,8 @@ namespace Indra.Business
 
                 _repository.Add(myObject);
                 _unitOfWork.Commit();
+
+                return Get(x => x.NumDocument.Equals(myObject.NumDocument)).Id;
             }
             catch (Exception ex)
             {

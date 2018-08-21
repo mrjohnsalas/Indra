@@ -48,7 +48,7 @@ namespace Indra.Model.Models
 
         [Display(Name = "Observación")]
         [DataType(DataType.MultilineText)]
-        public string Remark { get; set; }
+        public string RemarkDocumento { get; set; }
 
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "Debes ingresar {0}")]

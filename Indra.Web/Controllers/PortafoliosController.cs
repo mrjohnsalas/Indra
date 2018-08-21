@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -249,6 +250,39 @@ namespace Indra.Web.Controllers
                 ViewBag.ErrorMessage = $"Error Message: {e.Message}";
             }
             return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public JsonResult UploadFile()
+        {
+            if (!Request.Files.AllKeys.Any()) return Json(new { Result = "Error" }); ;
+
+            var file = Request.Files["UploadedFile"];
+
+            var documento = new Documento
+            {
+                PortafolioId = int.Parse(Request.Form["PortafolioId"]),
+                ResponsableId = int.Parse(Request.Form["ResponsableId"]),
+                RemarkDocumento = Request.Form["Remark"],
+                UserId = User.Identity.GetUserName(),
+                FileName = Path.GetFileNameWithoutExtension(file.FileName),
+                FileExtension = Path.GetExtension(file.FileName),
+                ContentType = file.ContentType
+            };
+            using (var reader = new BinaryReader(file.InputStream))
+                documento.Content = reader.ReadBytes(file.ContentLength);
+            
+            try
+            {
+                var buDocumento = new BuDocumento();
+                documento.Id = buDocumento.Add(documento);
+                documento.Responsable = new BuTrabajador().GetById(documento.ResponsableId);
+                return Json(documento, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "Error", Message = ex.Message });
+            }
         }
 
         #region Balanceo

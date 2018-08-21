@@ -67,7 +67,7 @@
                                     <li class="active"><a data-toggle="tab" href="#tab-1"> General</a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-users"></i> Programas</a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-cogs"></i> Proyectos</a></li>
-                                    <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-cogs"></i> Documentos</a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-files-o"></i> Documentos</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
@@ -189,33 +189,33 @@
 
                                             <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblProyectos" name="tblProyectos">
                                                 <thead>
-                                                <tr>
-                                                    <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Id)</th>
-                                                    <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().NumDocument)</th>
-                                                    <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Name)</th>
-                                                    <th class="text-right">Acciones</th>
-                                                </tr>
+                                                    <tr>
+                                                        <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Id)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().NumDocument)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Name)</th>
+                                                        <th class="text-right">Acciones</th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
-                                                @if (Model.Proyectos != null)
-                                                {
-                                                    foreach (var proyecto in Model.Proyectos)
+                                                    @if (Model.Proyectos != null)
                                                     {
-                                                        <tr data-proyectoid='@proyecto.Id' data-proyectoname='@proyecto.NumAndName'>
-                                                            <td>@proyecto.Id</td>
-                                                            <td>@proyecto.NumDocument</td>
-                                                            <td>@proyecto.Name</td>
-                                                            <td><a href='javascript:void(0);' data-id='@proyecto.Id' class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>
-                                                        </tr>
+                                                        foreach (var proyecto in Model.Proyectos)
+                                                        {
+                                                            <tr data-proyectoid='@proyecto.Id' data-proyectoname='@proyecto.NumAndName'>
+                                                                <td>@proyecto.Id</td>
+                                                                <td>@proyecto.NumDocument</td>
+                                                                <td>@proyecto.Name</td>
+                                                                <td><a href='javascript:void(0);' data-id='@proyecto.Id' class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>
+                                                            </tr>
+                                                        }
                                                     }
-                                                }
                                                 </tbody>
                                                 <tfoot>
-                                                <tr>
-                                                    <td colspan="12">
-                                                        <ul class="pagination pull-right"></ul>
-                                                    </td>
-                                                </tr>
+                                                    <tr>
+                                                        <td colspan="12">
+                                                            <ul class="pagination pull-right"></ul>
+                                                        </td>
+                                                    </tr>
                                                 </tfoot>
                                             </table>
 
@@ -226,7 +226,7 @@
 
                                             <div class="form-group">
                                                 @Html.Label("Documento", new { @class = "control-label col-md-2" })
-                                                <div class="col-md-10">
+                                                <div class="col-md-2">
                                                     <span class="input-group-btn">
                                                         <label title="Upload file" for="uploadFile" class="btn btn-primary">
                                                             <i class="fa fa-file-o"></i> Subir archivo
@@ -234,12 +234,13 @@
                                                         </label>
                                                     </span>
                                                 </div>
+                                                @Html.Label(" ", new { @class = "col-md-8", @id = "fileName", @name = "fileName", style = "padding-top: 7px; margin-bottom: 0;" })
                                             </div>
 
                                             <div class="form-group">
                                                 @Html.Label("Observación", new { @class = "control-label col-md-2" })
                                                 <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Documentos.FirstOrDefault().Remark, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.EditorFor(model => model.Documentos.FirstOrDefault().RemarkDocumento, new { htmlAttributes = new { @class = "form-control" } })
                                                 </div>
                                             </div>
 
@@ -261,6 +262,8 @@
                                                         <th>@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Id)</th>
                                                         <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().NumDocument)</th>
                                                         <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().FileName)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Responsable.FullName)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().EditDate)</th>
                                                         <th class="text-right">Acciones</th>
                                                     </tr>
                                                 </thead>
@@ -273,7 +276,15 @@
                                                                 <td>@documento.Id</td>
                                                                 <td>@documento.NumDocument</td>
                                                                 <td>@documento.FileName</td>
-                                                                <td><a href='javascript:void(0);' data-id='@documento.Id' class='btn btn-danger btn-xs deleteDocumento'> Eliminar</a></td>
+                                                                <td>@documento.Responsable.FullName</td>
+                                                                <td>@documento.EditDate</td>
+                                                                <td class="text-right">
+                                                                    <div class="btn-group">
+                                                                        <a href='javascript:void(0);' data-id='@documento.Id' class="btn btn-primary btn-sm editDocumento" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
+                                                                        <a href='javascript:void(0);' data-id='@documento.Id' class="btn btn-default btn-sm downloadDocumento" title="Descargar"><i class="fa fa-download"></i></a>
+                                                                        <a href='javascript:void(0);' data-id='@documento.Id' class="btn btn-danger btn-sm deleteDocumento" title="Eliminar"><i class="fa fa-trash-o"></i></a>
+                                                                    </div>
+                                                                </td>
                                                             </tr>
                                                         }
                                                     }
@@ -315,7 +326,58 @@
     @Scripts.Render("~/bundles/jqueryui")
 
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
+
+            $('#uploadFile').change(function (e) {
+                $('#fileName').text(e.target.files[0].name);
+            });
+
+            $("#btnAddDocumento").click(function (e) {
+                e.preventDefault();
+
+                var formData = new FormData();
+                var files = $("#uploadFile").get(0).files;
+                
+                if (files.length > 0) {
+                    formData.append("PortafolioId", @Model.Id);
+                    formData.append("ResponsableId", $("#ResponsableIdDocumento option:selected").val());
+                    formData.append("Remark", $("#RemarkDocumento").val());
+                    formData.append("UploadedFile", files[0]);
+
+                    $.ajax({
+                        url: '@Url.Action("UploadFile")',
+                        type: 'POST',
+                        contentType: false,
+                        processData: false,
+                        dataType: "json",
+                        data: formData
+                    }).done(function (data) {
+
+                        $("#tblDocumentos > tbody").append("<tr " +
+                            "data-documentoid='" + data.Id + "'> " +
+                            "<td>" + data.Id + "</td>" +
+                            "<td>" + data.NumDocument + "</td>" +
+                            "<td>" + data.FileName + "</td>" +
+                            "<td>" + data.Responsable.FullName + "</td>" +
+                            "<td>" + data.EditDate + "</td>" +
+                            "<td class='text - right'>" +
+                            "div class='btn-group'>" +
+                            "<a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-primary btn-sm editDocumento' title='Editar'><i class='fa fa-pencil-square-o'></i></a>" +
+                            "<a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-default btn-sm downloadDocumento' title='Descargar'><i class='fa fa-download'></i></a>" +
+                            "<a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-danger btn-sm deleteDocumento' title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
+                            "</div>" +
+                            "</td>" +
+                            "</tr>");
+
+                        $('#fileName').text("");
+                        $("#RemarkDocumento").val("");
+                        $("#uploadFile").html($("#uploadFile").html());
+                        $("#uploadFile").focus();
+                    }).fail(function () {
+                        $("#uploadFile").focus();
+                    });
+                }
+            });
 
             $('#btnAddPrograma').click(function (e) {
                 e.preventDefault();
