@@ -157,7 +157,7 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NumPrograma,Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,CreateDate,EditDate,UserId,Proyectos")] Programa programa)
+        public ActionResult Edit([Bind(Include = "Id,NumDocument,Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,CreateDate,EditDate,UserId,Proyectos")] Programa programa)
         {
             try
             {

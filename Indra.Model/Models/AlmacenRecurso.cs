@@ -28,13 +28,13 @@ namespace Indra.Model.Models
         public virtual Recurso Recurso { get; set; }
 
         [Display(Name = "Stock")]
-        [Required(ErrorMessage = "You must enter {0}")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
         [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
         public decimal Stock { get; set; }
 
         [Display(Name = "Stock Comprometido")]
-        [Required(ErrorMessage = "You must enter {0}")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
         [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
         public decimal StockCommitted { get; set; }

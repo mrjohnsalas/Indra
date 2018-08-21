@@ -34,7 +34,7 @@
     </div>
     <div class="col-sm-8">
         <div class="title-action">
-            @Html.ActionLink("Volver a la lista", "Index", null, new { @class = "btn btn-primary" })
+            <a href="@Url.Action("Index", "Programas")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
         </div>
     </div>
 </div>
@@ -56,7 +56,7 @@
 
                         @Html.ValidationSummary(true)
                         @Html.HiddenFor(model => model.Id)
-                        @Html.HiddenFor(model => model.NumPrograma)
+                        @Html.HiddenFor(model => model.NumDocument)
                         @Html.HiddenFor(model => model.EstadoId)
                         @Html.HiddenFor(model => model.CreateDate)
                         @Html.HiddenFor(model => model.EditDate)
@@ -75,7 +75,7 @@
                                             @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
                                                 @Html.EditorFor(model => model.Name)
-                                                @Html.ValidationMessageFor(model => model.Name)
+                                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
@@ -83,7 +83,7 @@
                                             @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
                                                 @Html.EditorFor(model => model.Description)
-                                                @Html.ValidationMessageFor(model => model.Description)
+                                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
@@ -91,7 +91,7 @@
                                             @Html.LabelFor(model => model.Presupuesto, new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
                                                 @Html.EditorFor(model => model.Presupuesto)
-                                                @Html.ValidationMessageFor(model => model.Presupuesto)
+                                                @Html.ValidationMessageFor(model => model.Presupuesto, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
@@ -99,7 +99,7 @@
                                             @Html.LabelFor(model => model.StarDate, new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
                                                 @Html.EditorFor(model => model.StarDate)
-                                                @Html.ValidationMessageFor(model => model.StarDate)
+                                                @Html.ValidationMessageFor(model => model.StarDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
@@ -107,7 +107,7 @@
                                             @Html.LabelFor(model => model.FinalDate, new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
                                                 @Html.EditorFor(model => model.FinalDate)
-                                                @Html.ValidationMessageFor(model => model.FinalDate)
+                                                @Html.ValidationMessageFor(model => model.FinalDate, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
@@ -115,7 +115,7 @@
                                             @Html.LabelFor(model => model.Prioridad, new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
                                                 @Html.DropDownList("PrioridadId", null, htmlAttributes: new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.PrioridadId)
+                                                @Html.ValidationMessageFor(model => model.PrioridadId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
@@ -123,7 +123,7 @@
                                             @Html.LabelFor(model => model.Responsable, new { @class = "control-label col-md-2" })
                                             <div class="col-md-10">
                                                 @Html.DropDownList("ResponsableId", null, htmlAttributes: new { @class = "form-control" })
-                                                @Html.ValidationMessageFor(model => model.ResponsableId)
+                                                @Html.ValidationMessageFor(model => model.ResponsableId, "", new { @class = "text-danger" })
                                             </div>
                                         </div>
 
@@ -148,7 +148,7 @@
                                             <thead>
                                                 <tr>
                                                     <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Id)</th>
-                                                    <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().NumProyecto)</th>
+                                                    <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().NumDocument)</th>
                                                     <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Name)</th>
                                                     <th class="text-right">Acciones</th>
                                                 </tr>
@@ -160,7 +160,7 @@
                                                  {
                                                      <tr data-proyectoid='@proyecto.Id' data-proyectoname='@proyecto.NumAndName'>
                                                          <td>@proyecto.Id</td>
-                                                         <td>@proyecto.NumProyecto</td>
+                                                         <td>@proyecto.NumDocument</td>
                                                          <td>@proyecto.Name</td>
                                                          <td><a href='javascript:void(0);' data-id='@proyecto.Id' class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>
                                                      </tr>
@@ -232,7 +232,7 @@
                             "data-proyectoid='" + proyectoId + "' " +
                             "data-proyectoname='" + data.NumAndName + "'>" +
                             "<td>" + data.Id + "</td>" +
-                            "<td>" + data.NumProyecto + "</td>" +
+                            "<td>" + data.NumDocument + "</td>" +
                             "<td>" + data.Name + "</td>" +
                             "<td><a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>" +
                             "</tr>");
@@ -262,7 +262,6 @@
                 $("#tblProyectos > tbody > tr").each(function () {
                     var proyectoid = $(this).data("proyectoid");
 
-                    //$("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].ProgramaId' value='@Model.Id'>");
                     $("#formPost").prepend("<input type='hidden' name='" + listNameProyectos + "[" + qtd2 + "].Id' value='" + proyectoid + "'>");
                     qtd2 += 1;
                 });

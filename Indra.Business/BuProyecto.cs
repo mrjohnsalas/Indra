@@ -24,7 +24,7 @@ namespace Indra.Business
 
         public IEnumerable<Proyecto> GetAllAvailable()
         {
-            return GetMany(x => !x.PortafolioId.HasValue && !x.ProgramaId.HasValue && x.EstadoId.Equals((int)EstadoType.EnEjecucion));
+            return GetMany(x => !x.PortafolioId.HasValue && !x.ProgramaId.HasValue && x.EstadoId.Equals((int)Enums.EstadoType.EnEjecucion));
         }
 
         public IEnumerable<Proyecto> GetMany(Expression<Func<Proyecto, bool>> where) => _repository.GetMany(where);
@@ -145,7 +145,7 @@ namespace Indra.Business
                 proyecto.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(proyecto.ResponsableId));
                 proyecto.TipoProyecto = tipoProyectos.FirstOrDefault(x => x.Id.Equals(proyecto.TipoProyectoId));
 
-                var solicitudes = buSolicitudRecurso.GetMany(x => x.ProyectoId.Equals(proyecto.Id) && x.EstadoId.Equals((int)EstadoType.Pendiente));
+                var solicitudes = buSolicitudRecurso.GetMany(x => x.ProyectoId.Equals(proyecto.Id) && x.EstadoId.Equals((int)Enums.EstadoType.Pendiente));
                 if (solicitudes == null) continue;
                 {
                     proyecto.SolicitudesRecurso = solicitudes.ToList();

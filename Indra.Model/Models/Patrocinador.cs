@@ -45,7 +45,7 @@ namespace Indra.Model.Models
         [Display(Name = "Tipo Doc. Identidad")]
         public virtual TipoDocumentoIdentidad TipoDocumentoIdentidad { get; set; }
 
-        public TipoDocumentoIdentidadType TipoDocumentoIdentidadType => (TipoDocumentoIdentidadType)TipoDocumentoIdentidadId;
+        public Enums.TipoDocumentoIdentidadType TipoDocumentoIdentidadType => (Enums.TipoDocumentoIdentidadType)TipoDocumentoIdentidadId;
 
         [Display(Name = "Teléfono")]
         [StringLength(9, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 7)]
@@ -56,6 +56,7 @@ namespace Indra.Model.Models
         [StringLength(50, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
         public string Email { get; set; }
 
+        [Display(Name = "Proyectos")]
         public virtual ICollection<Proyecto> Proyectos { get; set; }
     }
 }

@@ -21,20 +21,21 @@
 }
 
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-sm-4">
-        <h2>Eliminar</h2>
+    <div class="col-lg-8">
+        <h2>Eliminar criterio de evaluación</h2>
         <ol class="breadcrumb">
             <li>
-                @Html.ActionLink("Lista", "Index")
+                <a href="@Url.Action("Index", "CriterioEvaluaciones")">Lista</a>
             </li>
             <li class="active">
-                <strong>Eliminar</strong>
+                <strong>Eliminar criterio de evaluación</strong>
             </li>
         </ol>
     </div>
-    <div class="col-sm-8">
+    <div class="col-lg-4">
         <div class="title-action">
-            @Html.ActionLink("Regresar a la lista", "Index", null, new { @class = "btn btn-primary" })
+            <a href="@Url.Action("Edit", "CriterioEvaluaciones", new { id = Model.Id })" class="btn btn-primary btn-sm" title="Editar"><i class="fa fa-pencil-square-o"></i> Editar</a>
+            <a href="@Url.Action("Index", "CriterioEvaluaciones")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
         </div>
     </div>
 </div>
@@ -79,10 +80,10 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <div class="form-actions no-color">
-                            <input type="submit" value="Eliminar" class="btn btn-primary" />
-                            @Html.ActionLink("Regresar a la lista", "Index", null, new { @class = "btn btn-white" })
-                        </div>
+                    <div class="form-actions no-color">
+                        <button type="submit" class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i> Eliminar</button>
+                        <a href="@Url.Action("Index", "CriterioEvaluaciones")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+                    </div>
                     }
                 </div>
             </div>

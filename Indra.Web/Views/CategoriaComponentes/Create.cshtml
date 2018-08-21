@@ -34,7 +34,7 @@
     </div>
     <div class="col-sm-8">
         <div class="title-action">
-            @Html.ActionLink("Regresar a la lista", "Index", null, new { @class = "btn btn-primary" })
+            <a href="@Url.Action("Index", "CategoriaComponentes")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
         </div>
     </div>
 </div>
@@ -74,7 +74,7 @@
                             <div class="form-group">
                                 @Html.LabelFor(model => model.Remark, new { @class = "control-label col-md-2" })
                                 <div class="col-md-10">
-                                    @Html.EditorFor(model => model.Remark)
+                                    @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
                                     @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
                                 </div>
                             </div>

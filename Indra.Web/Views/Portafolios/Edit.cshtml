@@ -34,7 +34,7 @@
     </div>
     <div class="col-sm-8">
         <div class="title-action">
-            @Html.ActionLink("Volver a la lista", "Index", null, new { @class = "btn btn-primary" })
+            <a href="@Url.Action("Index", "Portafolios")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
         </div>
     </div>
 </div>
@@ -48,7 +48,7 @@
                 </div>
                 <div class="ibox-content">
 
-                    @using (Html.BeginForm("Edit", "Portafolios", FormMethod.Post, new { id = "formPost" }))
+                    @using (Html.BeginForm("Edit", "Portafolios", FormMethod.Post, new { enctype = "multipart/form-data", id = "formPost" }))
                     {
                         @Html.AntiForgeryToken()
 
@@ -56,7 +56,7 @@
 
                             @Html.ValidationSummary(true)
                             @Html.HiddenFor(model => model.Id)
-                            @Html.HiddenFor(model => model.NumPortafolio)
+                            @Html.HiddenFor(model => model.NumDocument)
                             @Html.HiddenFor(model => model.EstadoId)
                             @Html.HiddenFor(model => model.CreateDate)
                             @Html.HiddenFor(model => model.EditDate)
@@ -67,6 +67,7 @@
                                     <li class="active"><a data-toggle="tab" href="#tab-1"> General</a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-users"></i> Programas</a></li>
                                     <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-cogs"></i> Proyectos</a></li>
+                                    <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-cogs"></i> Documentos</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="tab-1" class="tab-pane active">
@@ -76,7 +77,7 @@
                                                 @Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
                                                 <div class="col-md-10">
                                                     @Html.EditorFor(model => model.Name)
-                                                    @Html.ValidationMessageFor(model => model.Name)
+                                                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
 
@@ -84,7 +85,7 @@
                                                 @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
                                                 <div class="col-md-10">
                                                     @Html.EditorFor(model => model.Description)
-                                                    @Html.ValidationMessageFor(model => model.Description)
+                                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
 
@@ -92,7 +93,7 @@
                                                 @Html.LabelFor(model => model.CategoriaComponente, new { @class = "control-label col-md-2" })
                                                 <div class="col-md-10">
                                                     @Html.DropDownList("CategoriaComponenteId", null, htmlAttributes: new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.CategoriaComponenteId)
+                                                    @Html.ValidationMessageFor(model => model.CategoriaComponenteId, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
 
@@ -100,7 +101,7 @@
                                                 @Html.LabelFor(model => model.Prioridad, new { @class = "control-label col-md-2" })
                                                 <div class="col-md-10">
                                                     @Html.DropDownList("PrioridadId", null, htmlAttributes: new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.PrioridadId)
+                                                    @Html.ValidationMessageFor(model => model.PrioridadId, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
 
@@ -108,7 +109,7 @@
                                                 @Html.LabelFor(model => model.Responsable, new { @class = "control-label col-md-2" })
                                                 <div class="col-md-10">
                                                     @Html.DropDownList("ResponsableId", null, htmlAttributes: new { @class = "form-control" })
-                                                    @Html.ValidationMessageFor(model => model.ResponsableId)
+                                                    @Html.ValidationMessageFor(model => model.ResponsableId, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
 
@@ -116,7 +117,7 @@
                                                 @Html.LabelFor(model => model.Remark, new { @class = "control-label col-md-2" })
                                                 <div class="col-md-10">
                                                     @Html.EditorFor(model => model.Remark, new { htmlAttributes = new { @class = "form-control" } })
-                                                    @Html.ValidationMessageFor(model => model.Remark)
+                                                    @Html.ValidationMessageFor(model => model.Remark, "", new { @class = "text-danger" })
                                                 </div>
                                             </div>
 
@@ -141,24 +142,24 @@
                                                 <thead>
                                                     <tr>
                                                         <th>@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Id)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().NumPrograma)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().NumDocument)</th>
                                                         <th data-hide="phone">@Html.DisplayNameFor(model => model.Programas.FirstOrDefault().Name)</th>
                                                         <th class="text-right">Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                @if (Model.Programas != null)
-                                                {
-                                                    foreach (var programa in Model.Programas)
+                                                    @if (Model.Programas != null)
                                                     {
-                                                         <tr data-programaid='@programa.Id' data-programaname='@programa.NumAndName'>
-                                                             <td>@programa.Id</td>
-                                                             <td>@programa.NumPrograma</td>
-                                                             <td>@programa.Name</td>
-                                                             <td><a href='javascript:void(0);' data-id='@programa.Id' class='btn btn-danger btn-xs deletePrograma'> Eliminar</a></td>
-                                                         </tr>
+                                                        foreach (var programa in Model.Programas)
+                                                        {
+                                                            <tr data-programaid='@programa.Id' data-programaname='@programa.NumAndName'>
+                                                                <td>@programa.Id</td>
+                                                                <td>@programa.NumDocument</td>
+                                                                <td>@programa.Name</td>
+                                                                <td><a href='javascript:void(0);' data-id='@programa.Id' class='btn btn-danger btn-xs deletePrograma'> Eliminar</a></td>
+                                                            </tr>
+                                                        }
                                                     }
-                                                }
                                                 </tbody>
                                                 <tfoot>
                                                     <tr>
@@ -188,27 +189,95 @@
 
                                             <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblProyectos" name="tblProyectos">
                                                 <thead>
+                                                <tr>
+                                                    <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Id)</th>
+                                                    <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().NumDocument)</th>
+                                                    <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Name)</th>
+                                                    <th class="text-right">Acciones</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                @if (Model.Proyectos != null)
+                                                {
+                                                    foreach (var proyecto in Model.Proyectos)
+                                                    {
+                                                        <tr data-proyectoid='@proyecto.Id' data-proyectoname='@proyecto.NumAndName'>
+                                                            <td>@proyecto.Id</td>
+                                                            <td>@proyecto.NumDocument</td>
+                                                            <td>@proyecto.Name</td>
+                                                            <td><a href='javascript:void(0);' data-id='@proyecto.Id' class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                </tbody>
+                                                <tfoot>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                                </tfoot>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                    <div id="tab-4" class="tab-pane">
+                                        <div class="panel-body">
+
+                                            <div class="form-group">
+                                                @Html.Label("Documento", new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    <span class="input-group-btn">
+                                                        <label title="Upload file" for="uploadFile" class="btn btn-primary">
+                                                            <i class="fa fa-file-o"></i> Subir archivo
+                                                            <input type="file" accept="application/msword, application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf, image/*" name="uploadFile" id="uploadFile" class="hide">
+                                                        </label>
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.Label("Observación", new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    @Html.EditorFor(model => model.Documentos.FirstOrDefault().Remark, new { htmlAttributes = new { @class = "form-control" } })
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @Html.Label("Responsable", new { @class = "control-label col-md-2" })
+                                                <div class="col-md-10">
+                                                    <div class="input-group">
+                                                        @Html.DropDownList("ResponsableIdDocumento", null, htmlAttributes: new { @class = "form-control" })
+                                                        <span class="input-group-btn">
+                                                            <button type="button" class="btn btn btn-primary" id="btnAddDocumento" name="btnAddDocumento"> <i class="fa fa-plus"></i> Agregar</button>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblDocumentos" name="tblDocumentos">
+                                                <thead>
                                                     <tr>
-                                                        <th>@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Id)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().NumProyecto)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Proyectos.FirstOrDefault().Name)</th>
+                                                        <th>@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Id)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().NumDocument)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().FileName)</th>
                                                         <th class="text-right">Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @if (Model.Proyectos != null)
+                                                    @if (Model.Documentos != null)
                                                     {
-                                                        foreach (var proyecto in Model.Proyectos)
+                                                        foreach (var documento in Model.Documentos)
                                                         {
-                                                             <tr data-proyectoid='@proyecto.Id' data-proyectoname='@proyecto.NumAndName'>
-                                                                 <td>@proyecto.Id</td>
-                                                                 <td>@proyecto.NumProyecto</td>
-                                                                 <td>@proyecto.Name</td>
-                                                                 <td><a href='javascript:void(0);' data-id='@proyecto.Id' class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>
-                                                             </tr>
+                                                            <tr data-documentoid='@documento.Id'>
+                                                                <td>@documento.Id</td>
+                                                                <td>@documento.NumDocument</td>
+                                                                <td>@documento.FileName</td>
+                                                                <td><a href='javascript:void(0);' data-id='@documento.Id' class='btn btn-danger btn-xs deleteDocumento'> Eliminar</a></td>
+                                                            </tr>
                                                         }
                                                     }
-                                                    </tbody>
+                                                </tbody>
                                                 <tfoot>
                                                     <tr>
                                                         <td colspan="12">
@@ -273,7 +342,7 @@
                             "data-programaid='" + programaId + "' " +
                             "data-programaname='" + data.NumAndName + "'> " +
                             "<td>" + data.Id + "</td>" +
-                            "<td>" + data.NumPrograma + "</td>" +
+                            "<td>" + data.NumDocument + "</td>" +
                             "<td>" + data.Name + "</td>" +
                             "<td><a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-danger btn-xs deletePrograma'> Eliminar</a></td>" +
                             "</tr>");
@@ -321,7 +390,7 @@
                             "data-proyectoid='" + proyectoId + "' " +
                             "data-proyectoname='" + data.NumAndName + "'>" +
                             "<td>" + data.Id + "</td>" +
-                            "<td>" + data.NumProyecto + "</td>" +
+                            "<td>" + data.NumDocument + "</td>" +
                             "<td>" + data.Name + "</td>" +
                             "<td><a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-danger btn-xs deleteProyecto'> Eliminar</a></td>" +
                             "</tr>");

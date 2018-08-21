@@ -43,7 +43,7 @@ namespace Indra.Business
             propuesta.NumPropuesta = GetId(systemDate.Year, systemDate.Month);
             propuesta.PortafolioId = myObject.Id;
             propuesta.CreateDate = systemDate;
-            propuesta.EstadoId = (int) EstadoType.Pendiente;
+            propuesta.EstadoId = (int) Enums.EstadoType.Pendiente;
             propuesta.UserId = myObject.UserId;
             propuesta.PropuestaBalanceoDetalles = new List<PropuestaBalanceoDetalle>();
             foreach (var solicitud in myObject.PropuestaBalanceoDetalleViews)

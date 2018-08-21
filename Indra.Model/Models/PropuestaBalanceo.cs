@@ -37,7 +37,7 @@ namespace Indra.Model.Models
         [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
-        public EstadoType EstadoType => (EstadoType)EstadoId;
+        public Enums.EstadoType EstadoType => (Enums.EstadoType)EstadoId;
 
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "Debes ingresar {0}")]

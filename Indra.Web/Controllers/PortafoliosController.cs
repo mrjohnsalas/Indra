@@ -34,6 +34,8 @@ namespace Indra.Web.Controllers
 
             portafolio.Programas = new BuPrograma().GetProgramasFullByPortafolioId(portafolio.Id).ToList();
             portafolio.Proyectos = new BuProyecto().GetProyectosFullByPortafolioIdOrProgramaId(portafolio.Id, 0).ToList();
+            portafolio.Documentos = new BuDocumento().GetDocumentosFullByPortafolioId(portafolio.Id).ToList();
+
 
             return portafolio;
         }
@@ -51,7 +53,9 @@ namespace Indra.Web.Controllers
             ViewBag.ResponsableId = portafolio == null
                 ? new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres")
                 : new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres", portafolio.ResponsableId);
-            
+
+            ViewBag.ResponsableIdDocumento = new SelectList(new BuTrabajador().GetAll().OrderBy(x => x.Nombres), "Id", "Nombres");
+
             ViewBag.ProgramaId = new SelectList(new BuPrograma().GetAllAvailable().OrderBy(x => x.NumAndName), "Id", "NumAndName");
             ViewBag.ProyectoId = new SelectList(new BuProyecto().GetAllAvailable().OrderBy(x => x.NumAndName), "Id", "NumAndName");
         }
@@ -189,7 +193,7 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NumPortafolio,Name,Description,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,CreateDate,EditDate,UserId,Programas,Proyectos")] Portafolio portafolio)
+        public ActionResult Edit([Bind(Include = "Id,NumDocument,Name,Description,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,CreateDate,EditDate,UserId,Programas,Proyectos")] Portafolio portafolio)
         {
             try
             {
@@ -307,7 +311,7 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateBalanceo([Bind(Include = "Id,NumPortafolio,Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,PropuestaBalanceoDetalleViews")] Portafolio portafolio)
+        public ActionResult CreateBalanceo([Bind(Include = "Id,NumDocument,Name,Description,CreateDate,EditDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,PropuestaBalanceoDetalleViews")] Portafolio portafolio)
         {
             try
             {

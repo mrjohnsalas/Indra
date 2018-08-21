@@ -29,7 +29,7 @@ namespace Indra.Model.Models
         [Display(Name = "Prioridad")]
         public virtual Prioridad Prioridad { get; set; }
 
-        public PrioridadType PrioridadType => (PrioridadType)PrioridadId;
+        public Enums.PrioridadType PrioridadType => (Enums.PrioridadType)PrioridadId;
 
         [Display(Name = "Cod. Estado")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
@@ -38,7 +38,7 @@ namespace Indra.Model.Models
         [Display(Name = "Estado")]
         public virtual Estado Estado { get; set; }
 
-        public EstadoType EstadoType => (EstadoType)EstadoId;
+        public Enums.EstadoType EstadoType => (Enums.EstadoType)EstadoId;
 
         [Display(Name = "Cod. Responsable")]
         [Required(ErrorMessage = "Debes ingresar {0}")]

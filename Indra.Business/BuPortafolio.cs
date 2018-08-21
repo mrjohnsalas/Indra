@@ -22,14 +22,14 @@ namespace Indra.Business
 
         public IEnumerable<Portafolio> GetAllForPropuesta()
         {
-            var propuestas = new BuPropuestaBalanceo().GetMany(x => x.EstadoId.Equals((int)EstadoType.Pendiente));
+            var propuestas = new BuPropuestaBalanceo().GetMany(x => x.EstadoId.Equals((int)Enums.EstadoType.Pendiente));
             var propuestaIdList = (propuestas != null && !propuestas.Count().Equals(0))
                 ? propuestas.Select(x => x.PortafolioId).ToList()
                 : new List<int>();
 
             var portafolios = (propuestas == null || propuestas.Count().Equals(0))
-                ? GetMany(x => x.EstadoId.Equals((int) EstadoType.EnEjecucion))
-                : GetMany(x => x.EstadoId.Equals((int) EstadoType.EnEjecucion) && !propuestaIdList.Contains(x.Id));
+                ? GetMany(x => x.EstadoId.Equals((int) Enums.EstadoType.EnEjecucion))
+                : GetMany(x => x.EstadoId.Equals((int) Enums.EstadoType.EnEjecucion) && !propuestaIdList.Contains(x.Id));
             return portafolios;
         }
 
@@ -53,10 +53,10 @@ namespace Indra.Business
             try
             {
                 var systemDate = DateTime.Now;
-                myObject.NumPortafolio = GetId(systemDate.Year, systemDate.Month);
+                myObject.NumDocument = GetId(systemDate.Year, systemDate.Month);
                 myObject.CreateDate = systemDate;
                 myObject.EditDate = systemDate;
-                myObject.EstadoId = (int) EstadoType.EnEjecucion;
+                myObject.EstadoId = (int) Enums.EstadoType.EnEjecucion;
                 
                 var proyectosIdList = myObject.Proyectos?.Select(x => x.Id).ToList() ?? new List<int>();
                 myObject.Proyectos = null;
@@ -67,7 +67,7 @@ namespace Indra.Business
                 _repository.Add(myObject);
                 _unitOfWork.Commit();
 
-                var id = Get(x => x.NumPortafolio.Equals(myObject.NumPortafolio)).Id;
+                var id = Get(x => x.NumDocument.Equals(myObject.NumDocument)).Id;
 
                 //UPDATE PROYECTOS
                 new BuProyecto().UpdatePortafolioId(id, proyectosIdList);
@@ -118,7 +118,7 @@ namespace Indra.Business
             try
             {
                 var myObject = _repository.GetById(id);
-                myObject.EstadoId = (int)EstadoType.Anulado;
+                myObject.EstadoId = (int)Enums.EstadoType.Anulado;
                 _repository.Update(myObject);
                 _unitOfWork.Commit();
             }

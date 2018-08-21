@@ -60,6 +60,7 @@
     <Compile Include="BuCategoriaComponente.cs" />
     <Compile Include="BuCliente.cs" />
     <Compile Include="BuCriterioEvaluacion.cs" />
+    <Compile Include="BuDocumento.cs" />
     <Compile Include="BuEstado.cs" />
     <Compile Include="BuEstadoAprobacion.cs" />
     <Compile Include="BuPatrocinador.cs" />

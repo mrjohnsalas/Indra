@@ -25,7 +25,7 @@ namespace Indra.Business
 
         public IEnumerable<Programa> GetAllAvailable()
         {
-            return GetMany(x => !x.PortafolioId.HasValue && x.EstadoId.Equals((int)EstadoType.EnEjecucion));
+            return GetMany(x => !x.PortafolioId.HasValue && x.EstadoId.Equals((int)Enums.EstadoType.EnEjecucion));
         }
 
         public IEnumerable<Programa> GetMany(Expression<Func<Programa, bool>> where) => _repository.GetMany(where);
@@ -46,10 +46,10 @@ namespace Indra.Business
             try
             {
                 var systemDate = DateTime.Now;
-                myObject.NumPrograma = GetId(systemDate.Year, systemDate.Month);
+                myObject.NumDocument = GetId(systemDate.Year, systemDate.Month);
                 myObject.CreateDate = systemDate;
                 myObject.EditDate = systemDate;
-                myObject.EstadoId = (int)EstadoType.EnEjecucion;
+                myObject.EstadoId = (int)Enums.EstadoType.EnEjecucion;
 
                 var proyectosIdList = myObject.Proyectos.Select(x => x.Id).ToList();
                 myObject.Proyectos = null;
@@ -58,7 +58,7 @@ namespace Indra.Business
                 _unitOfWork.Commit();
 
                 //UPDATE PROYECTOS
-                var id = Get(x => x.NumPrograma.Equals(myObject.NumPrograma)).Id;
+                var id = Get(x => x.NumDocument.Equals(myObject.NumDocument)).Id;
                 new BuProyecto().UpdateProgramaId(id, proyectosIdList);
             }
             catch (Exception ex)
@@ -96,7 +96,7 @@ namespace Indra.Business
             try
             {
                 var myObject = _repository.GetById(id);
-                myObject.EstadoId = (int)EstadoType.Anulado;
+                myObject.EstadoId = (int)Enums.EstadoType.Anulado;
                 _repository.Update(myObject);
                 _unitOfWork.Commit();
             }

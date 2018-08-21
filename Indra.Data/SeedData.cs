@@ -161,7 +161,7 @@ namespace Indra.Data
         {
             new Proyecto
             {
-                NumProyecto = "PY-2018-01-00001",
+                NumDocument = "PY-2018-01-00001",
                 Name = "Implementación del Sistema de Control Interno.",
                 Description = "El proyecto consiste en la Implementación del Sistema de Control Interno el cual es un conjunto de acciones estructuradas y coordinadas que lleva a cabo la Gerencia General de la empresa, diseñado para proporcionar un grado de seguridad razonable para que la empresa logre sus objetivos.",
                 Presupuesto = 3000000,
@@ -181,7 +181,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "PY-2018-01-00002",
+                NumDocument = "PY-2018-01-00002",
                 Name = "Implementación de Inteligencia de Negocios Orientado al Valor Agregado",
                 Description = "El proyecto INOVA consiste en proveer de información confiable y oportuna, que brinde un apoyo óptimo al proceso de toma de decisiones de negocio, a través de la implementación de una herramienta tecnológica conocida como Business Intelligence (BI).",
                 Presupuesto = 3500000,
@@ -201,7 +201,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "PY-2018-01-00003",
+                NumDocument = "PY-2018-01-00003",
                 Name = "Sistematización y control general en planta",
                 Description = "Se requiere un sistema de información de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación adecuada entre los distintos actores involucrados, requiriendo que cada parte.",
                 Presupuesto = 4000000,
@@ -221,7 +221,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "PY-2018-01-00004",
+                NumDocument = "PY-2018-01-00004",
                 Name = "Definir y mejorar un proceso para aumentar la productividad y reducir los costos.",
                 Description = "Permitir al personal de TI y de negocio diseñar y poner en práctica el proceso de autoservicio de RH de manera colaborativa.",
                 Presupuesto = 2500000,
@@ -241,7 +241,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "PY-2018-01-00005",
+                NumDocument = "PY-2018-01-00005",
                 Name = "Implementación del Sistema de Control Interno.",
                 Description = "El proyecto consiste en la Implementación del Sistema de Control Interno el cual es un conjunto de acciones estructuradas y coordinadas que lleva a cabo la Gerencia General.",
                 Presupuesto = 1000000,
@@ -261,7 +261,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "PY-2018-01-00006",
+                NumDocument = "PY-2018-01-00006",
                 Name = "Implementación de Inteligencia de Negocios Orientado al Valor Agregado.",
                 Description = "El proyecto consiste en proveer de información confiable y oportuna, que brinde un apoyo óptimo al proceso de toma de decisiones de negocio, a través de la implementación de una herramienta tecnológica conocida como Business Intelligence (BI)",
                 Presupuesto = 8100000,
@@ -281,7 +281,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "PY-2018-01-00007",
+                NumDocument = "PY-2018-01-00007",
                 Name = "Sistematización y control general en planta.",
                 Description = "Se requiere un sistema de información de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación.",
                 Presupuesto = 8100000,
@@ -301,7 +301,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "PY-2018-01-00008",
+                NumDocument = "PY-2018-01-00008",
                 Name = "Definir y mejorar un proceso para aumentar la productividad y reducir los costos.",
                 Description = "Permitir al personal de TI y de negocio diseñar y poner en práctica el proceso de autoservicio de RH de manera colaborativa. El marco de implementación iterativo permitió al equipo refinar continuamente los requisitos y en última instancia ofrecer una solución que puede conducir a mejores.",
                 Presupuesto = 8100000,
@@ -321,7 +321,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "PY-2018-01-00009",
+                NumDocument = "PY-2018-01-00009",
                 Name = "Definir y mejorar un sis para aumentar la productividad y reducir los costos.",
                 Description = "Permitir al personal de TI y de negocio diseñar y poner en práctica el proceso de autoservicio de RH de manera colaborativa. El marco de implementación iterativo permitió al equipo refinar continuamente los requisitos y en última instancia ofrecer una solución que puede conducir a mejores.",
                 Presupuesto = 800000,
@@ -341,7 +341,7 @@ namespace Indra.Data
             },
             new Proyecto
             {
-                NumProyecto = "PY-2018-01-00010",
+                NumDocument = "PY-2018-01-00010",
                 Name = "Sis y control general en produccion.",
                 Description = "Se requiere un sistema de información de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación.",
                 Presupuesto = 9000000,
@@ -364,7 +364,7 @@ namespace Indra.Data
         {
             new Programa
             {
-                NumPrograma = "PR-2018-01-00001",
+                NumDocument = "PR-2018-01-00001",
                 Name = "Proyectos de crecimiento.",
                 Description = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual. La gestión de programas permite agrupar proyectos alrededor de objetivos comunes y realizar una planiﬁcación y un seguimiento.",
                 Presupuesto = 3000000,
@@ -380,7 +380,7 @@ namespace Indra.Data
             },
             new Programa
             {
-                NumPrograma = "PR-2018-02-00001",
+                NumDocument = "PR-2018-02-00001",
                 Name = "Iniciativas de mejoras internas",
                 Description = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual.",
                 Presupuesto = 3500000,
@@ -396,7 +396,7 @@ namespace Indra.Data
             },
             new Programa
             {
-                NumPrograma = "PR-2018-02-00002",
+                NumDocument = "PR-2018-02-00002",
                 Name = "Implementación del Sistema de Producción más limpia.",
                 Description = "Se requiere un sistema de información de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación adecuada entre los distintos actores involucrados, requiriendo que cada parte.",
                 Presupuesto = 4000000,
@@ -412,7 +412,7 @@ namespace Indra.Data
             },
             new Programa
             {
-                NumPrograma = "PR-2018-02-00003",
+                NumDocument = "PR-2018-02-00003",
                 Name = "Implementación del Sistema de Indra.",
                 Description = "Se requiere un de trazabilidad que permita Trazar el flujo de materiales (suministros, alimentos, ingredientes y envases), seguimiento para cada etapa de la producción, asegure la coordinación adecuada entre los distintos actores involucrados, requiriendo que cada parte.",
                 Presupuesto = 9000000,
@@ -431,7 +431,7 @@ namespace Indra.Data
         {
             new Portafolio
             {
-                NumPortafolio = "PO-2018-01-00001",
+                NumDocument = "PO-2018-01-00001",
                 Name = "Mejoras operativas y nuevos productos.",
                 Description = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual. La gestión de programas permite agrupar proyectos alrededor de objetivos comunes y realizar una planiﬁcación y un seguimiento.",
                 CreateDate = DateTime.Parse("2018-01-15"),
@@ -445,7 +445,7 @@ namespace Indra.Data
             },
             new Portafolio
             {
-                NumPortafolio = "PO-2018-02-00002",
+                NumDocument = "PO-2018-02-00002",
                 Name = "Programas y proyectos corporativos",
                 Description = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual.",
                 CreateDate = DateTime.Parse("2017-02-1"),

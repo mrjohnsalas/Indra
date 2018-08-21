@@ -68,6 +68,7 @@
     <Compile Include="Repositories\CategoriaComponenteRepository.cs" />
     <Compile Include="Repositories\ClienteRepository.cs" />
     <Compile Include="Repositories\CriterioEvaluacionRepository.cs" />
+    <Compile Include="Repositories\DocumentoRepository.cs" />
     <Compile Include="Repositories\EstadoAprobacionRepository.cs" />
     <Compile Include="Repositories\EstadoRepository.cs" />
     <Compile Include="Repositories\PatrocinadorRepository.cs" />
