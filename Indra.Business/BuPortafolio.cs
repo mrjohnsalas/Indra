@@ -94,7 +94,8 @@ namespace Indra.Business
                 var programasIdList = myObject.Programas?.Select(x => x.Id).ToList() ?? new List<int>();
                 myObject.Programas = null;
 
-                var documentosIdList = myObject.Documentos?.Select(x => x.Id).ToList() ?? new List<int>();
+                myObject.Documentos = new BuDocumento().GetMany(x => x.PortafolioId.HasValue && x.PortafolioId.Value.Equals(myObject.Id)).ToList();
+                var documentosIdList = myObject.Documentos?.Select(x => x.Id).ToList();
                 myObject.Documentos = null;
 
                 _repository.Update(myObject);

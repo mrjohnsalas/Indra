@@ -195,7 +195,7 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NumDocument,Name,Description,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,CreateDate,EditDate,UserId,Programas,Proyectos")] Portafolio portafolio)
+        public ActionResult Edit([Bind(Include = "Id,NumDocument,Name,Description,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,CreateDate,EditDate,UserId,Programas,Proyectos,Documentos")] Portafolio portafolio)
         {
             try
             {
