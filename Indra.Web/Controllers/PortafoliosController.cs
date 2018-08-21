@@ -285,6 +285,31 @@ namespace Indra.Web.Controllers
             }
         }
 
+        public FileResult DownloadFile(int? id)
+        {
+            var documento = new BuDocumento().GetById(id.Value);
+            return File(documento.Content, System.Net.Mime.MediaTypeNames.Application.Octet, documento.FullFileName);
+        }
+
+        [HttpPost]
+        public JsonResult DeleteFile(int? id)
+        {
+            if (!id.HasValue)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { Result = "Error" });
+            }
+            try
+            {
+                new BuDocumento().Delete(id.Value);
+                return Json(new { Result = "Ok" });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { Result = "Error", Message = ex.Message });
+            }
+        }
+
         #region Balanceo
 
         public ActionResult IndexBalanceo(string search)

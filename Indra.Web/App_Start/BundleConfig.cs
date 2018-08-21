@@ -14,13 +14,25 @@ namespace Indra.Web
                 "~/Content/animate.css",
                 "~/Content/style.css"));
 
-            // Vendor scripts
+            // Font Awesome icons
+            bundles.Add(new StyleBundle("~/font-awesome/css").Include(
+                "~/fonts/font-awesome/css/font-awesome.min.css", new CssRewriteUrlTransform()));
+
+            // jQuery
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-{version}.js"));
 
             // jQuery Validation
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate*"));
+
+            // jQueryUI CSS
+            bundles.Add(new ScriptBundle("~/Scripts/plugins/jquery-ui/jqueryuiStyles").Include(
+                "~/Scripts/plugins/jquery-ui/jquery-ui.css"));
+
+            // jQueryUI 
+            bundles.Add(new StyleBundle("~/bundles/jqueryui").Include(
+                "~/Scripts/plugins/jquery-ui/jquery-ui.min.js"));
 
             // Bootstrap scripts
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
@@ -41,10 +53,6 @@ namespace Indra.Web
 
             bundles.Add(new ScriptBundle("~/plugins/pace").Include(
                 "~/Scripts/plugins/pace/pace.min.js"));
-
-            // Font Awesome icons
-            bundles.Add(new StyleBundle("~/font-awesome/css").Include(
-                "~/fonts/font-awesome/css/font-awesome.min.css", new CssRewriteUrlTransform()));
 
             // toastr notification 
             bundles.Add(new ScriptBundle("~/plugins/toastr").Include(

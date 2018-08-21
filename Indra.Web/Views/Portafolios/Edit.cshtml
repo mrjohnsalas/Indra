@@ -240,7 +240,7 @@
                                             <div class="form-group">
                                                 @Html.Label("Observación", new { @class = "control-label col-md-2" })
                                                 <div class="col-md-10">
-                                                    @Html.EditorFor(model => model.Documentos.FirstOrDefault().RemarkDocumento, new { htmlAttributes = new { @class = "form-control" } })
+                                                    @Html.TextArea("RemarkDocumento", new { @class = "form-control text-box multi-line", @id = "RemarkDocumento" })
                                                 </div>
                                             </div>
 
@@ -262,8 +262,8 @@
                                                         <th>@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Id)</th>
                                                         <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().NumDocument)</th>
                                                         <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().FileName)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Responsable.FullName)</th>
-                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().EditDate)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Responsable)</th>
+                                                        <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().RemarkDocumento)</th>
                                                         <th class="text-right">Acciones</th>
                                                     </tr>
                                                 </thead>
@@ -277,11 +277,11 @@
                                                                 <td>@documento.NumDocument</td>
                                                                 <td>@documento.FileName</td>
                                                                 <td>@documento.Responsable.FullName</td>
-                                                                <td>@documento.EditDate</td>
+                                                                <td>@documento.RemarkDocumento</td>
                                                                 <td class="text-right">
                                                                     <div class="btn-group">
                                                                         <a href='javascript:void(0);' data-id='@documento.Id' class="btn btn-primary btn-sm editDocumento" title="Editar"><i class="fa fa-pencil-square-o"></i></a>
-                                                                        <a href='javascript:void(0);' data-id='@documento.Id' class="btn btn-default btn-sm downloadDocumento" title="Descargar"><i class="fa fa-download"></i></a>
+                                                                        <a href="@Url.Action("DownloadFile", "Portafolios", new { id = documento.Id })" class="btn btn-default btn-sm" title="Descargar"><i class="fa fa-download"></i></a>
                                                                         <a href='javascript:void(0);' data-id='@documento.Id' class="btn btn-danger btn-sm deleteDocumento" title="Eliminar"><i class="fa fa-trash-o"></i></a>
                                                                     </div>
                                                                 </td>
@@ -329,7 +329,25 @@
         $(document).ready(function () {
 
             $('#uploadFile').change(function (e) {
-                $('#fileName').text(e.target.files[0].name);
+                if (e.target.files.length > 0) {
+                    $('#fileName').text(e.target.files[0].name);
+                }
+            });
+
+            $('#tblDocumentos').on('click', '.deleteDocumento', function () {
+                var documentoId = $(this).closest('tr').data("documentoid");
+                var tr = $(this).closest('tr');
+                $.ajax({
+                    url: '@Url.Action("DeleteFile")',
+                    type: 'POST',
+                    dataType: "json",
+                    data: { id: documentoId }
+                }).done(function (data) {
+                    tr.remove();
+                    $("#uploadFile").focus();
+                }).fail(function () {
+                    $("#uploadFile").focus();
+                });
             });
 
             $("#btnAddDocumento").click(function (e) {
@@ -345,7 +363,7 @@
                     formData.append("UploadedFile", files[0]);
 
                     $.ajax({
-                        url: '@Url.Action("UploadFile")',
+                        url: '@Url.Action("UploadFile", "Portafolios")',
                         type: 'POST',
                         contentType: false,
                         processData: false,
@@ -359,11 +377,11 @@
                             "<td>" + data.NumDocument + "</td>" +
                             "<td>" + data.FileName + "</td>" +
                             "<td>" + data.Responsable.FullName + "</td>" +
-                            "<td>" + data.EditDate + "</td>" +
-                            "<td class='text - right'>" +
-                            "div class='btn-group'>" +
+                            "<td>" + data.RemarkDocumento + "</td>" +
+                            "<td class='text-right'>" +
+                            "<div class='btn-group'>" +
                             "<a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-primary btn-sm editDocumento' title='Editar'><i class='fa fa-pencil-square-o'></i></a>" +
-                            "<a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-default btn-sm downloadDocumento' title='Descargar'><i class='fa fa-download'></i></a>" +
+                            "<a href='/Portafolios/DownloadFile/" + data.Id + "' class='btn btn-default btn-sm downloadDocumento' title='Descargar'><i class='fa fa-download'></i></a>" +
                             "<a href='javascript:void(0);' data-id=" + data.Id + " class='btn btn-danger btn-sm deleteDocumento' title='Eliminar'><i class='fa fa-trash-o'></i></a>" +
                             "</div>" +
                             "</td>" +
@@ -371,7 +389,7 @@
 
                         $('#fileName').text("");
                         $("#RemarkDocumento").val("");
-                        $("#uploadFile").html($("#uploadFile").html());
+                        //$("#uploadFile").html($("#uploadFile").html());
                         $("#uploadFile").focus();
                     }).fail(function () {
                         $("#uploadFile").focus();
