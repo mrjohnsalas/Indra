@@ -69,6 +69,7 @@
     <Compile Include="Repositories\ClienteRepository.cs" />
     <Compile Include="Repositories\CriterioEvaluacionRepository.cs" />
     <Compile Include="Repositories\DocumentoRepository.cs" />
+    <Compile Include="Repositories\TipoDuracionRepository.cs" />
     <Compile Include="Repositories\EstadoAprobacionRepository.cs" />
     <Compile Include="Repositories\EstadoRepository.cs" />
     <Compile Include="Repositories\PatrocinadorRepository.cs" />
@@ -81,8 +82,10 @@
     <Compile Include="Repositories\RecursoRepository.cs" />
     <Compile Include="Repositories\SolicitudRecursoDetalleRepository.cs" />
     <Compile Include="Repositories\SolicitudRecursoRepository.cs" />
+    <Compile Include="Repositories\TareaRepository.cs" />
     <Compile Include="Repositories\TipoDocumentoIdentidadRepository.cs" />
     <Compile Include="Repositories\TipoProyectoRepository.cs" />
+    <Compile Include="Repositories\TipoSolicitudRecursoRepository.cs" />
     <Compile Include="Repositories\TrabajadorRepository.cs" />
     <Compile Include="SeedData.cs" />
   </ItemGroup>

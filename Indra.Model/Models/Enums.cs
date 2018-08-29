@@ -45,11 +45,17 @@ namespace Indra.Model.Models
             InvestigaciónEstudioViabilidad = 4
         }
 
-        public enum DuracionTareaType
+        public enum TipoDuracionType
         {
             Dia = 1,
             Mes = 2,
             Ano = 3
+        }
+
+        public enum TipoSolicitudRecursoType
+        {
+            Compra = 1,
+            Alquiler = 2
         }
     }
 }

@@ -135,6 +135,33 @@ namespace Indra.Model.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EditDate { get; set; }
 
+        [Display(Name = "Cod. Tipo Duración")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        public int TipoDuracionId { get; set; }
+
+        [Display(Name = "Tipo Duración")]
+        public virtual TipoDuracion TipoDuracion { get; set; }
+
+        public Enums.TipoDuracionType TipoDuracionType => (Enums.TipoDuracionType)TipoDuracionId;
+
+        [Display(Name = "Duración")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        [NotMapped]
+        public decimal Duracion { get; set; }
+
+        [Display(Name = "Progreso")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        [NotMapped]
+        public decimal Progreso { get; set; }
+
+        [Display(Name = "Presupuesto")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        [NotMapped]
+        public decimal PresupuestoUtilizado { get; set; }
+
         public virtual ICollection<Tarea> Tareas { get; set; }
     }
 }

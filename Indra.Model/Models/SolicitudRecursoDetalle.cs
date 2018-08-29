@@ -58,6 +58,26 @@ namespace Indra.Model.Models
         [DataType(DataType.Currency)]
         public decimal QuantityToAssign { get; set; }
 
+        [Display(Name = "Cod. Tipo Solicitud Recurso")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        public int TipoSolicitudRecursoId { get; set; }
+
+        [Display(Name = "Tipo Solicitud Recurso")]
+        public virtual TipoSolicitudRecurso TipoSolicitudRecurso { get; set; }
+
+        public Enums.TipoSolicitudRecursoType TipoSolicitudRecursoType => (Enums.TipoSolicitudRecursoType)TipoSolicitudRecursoId;
+
+        [Display(Name = "Nro. Días")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        public decimal? DiasAlquiler { get; set; }
+
+        [Display(Name = "Costo Total")]
+        [NotMapped]
+        [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        public decimal CostoTotal { get; set; }
+
         public virtual ICollection<PropuestaBalanceoDetalle> PropuestaBalanceoDetalles { get; set; }
     }
 }

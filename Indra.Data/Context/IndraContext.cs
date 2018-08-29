@@ -66,8 +66,10 @@ namespace Indra.Data.Context
 
         public DbSet<Documento> Documentos { get; set; }
 
-        public DbSet<DuracionTarea> DuracionTareas { get; set; }
+        public DbSet<TipoDuracion> TipoDuraciones { get; set; }
 
         public DbSet<Tarea> Tareas { get; set; }
+
+        public DbSet<TipoSolicitudRecurso> TipoSolicitudRecursos { get; set; }
     }
 }

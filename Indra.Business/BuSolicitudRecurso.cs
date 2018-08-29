@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Indra.Data.Infrastructure;
 using Indra.Data.Repositories;
@@ -65,6 +66,40 @@ namespace Indra.Business
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public IEnumerable<SolicitudRecurso> GetSolicitudesFullByProyectoId(int proyectoId)
+        {
+            var solicitudes = GetMany(x => x.ProyectoId.Equals(proyectoId)).ToList();
+
+            var buSolicitudRecursoDetalle = new BuSolicitudRecursoDetalle();
+            var buRecurso = new BuRecurso();
+            var buAlmacenRecurso = new BuAlmacenRecurso();
+
+            var prioridades = new BuPrioridad().GetAll();
+            var estados = new BuEstado().GetAll();
+            var trabajadores = new BuTrabajador().GetAll();
+
+            foreach (var solicitud in solicitudes)
+            {
+                solicitud.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(solicitud.PrioridadId));
+                solicitud.Estado = estados.FirstOrDefault(x => x.Id.Equals(solicitud.EstadoId));
+                solicitud.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(solicitud.ResponsableId));
+
+                solicitud.Recursos = buSolicitudRecursoDetalle.GetMany(x => x.SolicitudRecursoId.Equals(solicitud.Id)).ToList();
+                foreach (var detalle in solicitud.Recursos)
+                {
+                    detalle.Recurso = buRecurso.GetById(detalle.RecursoId);
+                    detalle.QuantityAvailable = buAlmacenRecurso
+                        .Get(x => x.AlmacenId.Equals(1) && x.RecursoId.Equals(detalle.RecursoId))
+                        .StockAvailable;
+                    detalle.QuantityToAssign = (detalle.QuantityAvailable > detalle.QuantityPending)
+                        ? detalle.QuantityPending
+                        : detalle.QuantityAvailable;
+                }
+            }
+
+            return solicitudes;
         }
     }
 }

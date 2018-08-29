@@ -12,7 +12,8 @@ namespace Indra.Data
         {
             var db = new ApplicationDbContext();
             GetAlmacenes().ForEach(o => context.Almacenes.Add(o));
-            GetDuracionTareas().ForEach(o => context.Almacenes.Add(o));
+            GetTipoDuraciones().ForEach(o => context.TipoDuraciones.Add(o));
+            GetTipoSolicitudRecursos().ForEach(o => context.TipoSolicitudRecursos.Add(o));
             GetCriterioEvaluaciones().ForEach(o => context.CriterioEvaluaciones.Add(o));
             GetCategoriaComponentes().ForEach(o => context.CategoriaComponentes.Add(o));
             GetTipoDocumentoIdentidades().ForEach(o => context.TipoDocumentoIdentidades.Add(o));
@@ -28,17 +29,17 @@ namespace Indra.Data
             GetPatrocinadores().ForEach(o => context.Patrocinadores.Add(o));
             context.SaveChanges();
 
-            GetPortafolios().ForEach(o => context.Portafolios.Add(o));
-            context.SaveChanges();
+            //GetPortafolios().ForEach(o => context.Portafolios.Add(o));
+            //context.SaveChanges();
 
-            GetProgramas().ForEach(o => context.Programas.Add(o));
-            context.SaveChanges();
+            //GetProgramas().ForEach(o => context.Programas.Add(o));
+            //context.SaveChanges();
            
-            GetProyectos().ForEach(o => context.Proyectos.Add(o));
-            context.SaveChanges();
+            //GetProyectos().ForEach(o => context.Proyectos.Add(o));
+            //context.SaveChanges();
            
-            GetSolicitudRecursos().ForEach(o => context.SolicitudRecursos.Add(o));
-            context.SaveChanges();
+            //GetSolicitudRecursos().ForEach(o => context.SolicitudRecursos.Add(o));
+            //context.SaveChanges();
         }
 
         private static List<Almacen> GetAlmacenes() => new List<Almacen>
@@ -46,11 +47,11 @@ namespace Indra.Data
             new Almacen{ Name = "Almacén de Recursos", Description = "Este es el almacén de recursos de Indra." }
         };
 
-        private static List<DuracionTarea> GetDuracionTareas() => new List<DuracionTarea>
+        private static List<TipoDuracion> GetTipoDuraciones() => new List<TipoDuracion>
         {
-            new DuracionTarea{ Name = "Día" },
-            new DuracionTarea{ Name = "Mes" },
-            new DuracionTarea{ Name = "Año" }
+            new TipoDuracion{ Name = "Día" },
+            new TipoDuracion{ Name = "Mes" },
+            new TipoDuracion{ Name = "Año" }
         };
 
         private static List<CriterioEvaluacion> GetCriterioEvaluaciones() => new List<CriterioEvaluacion>
@@ -107,19 +108,25 @@ namespace Indra.Data
             new EstadoAprobacion{ Name = "Rechazado" }
         };
 
+        private static List<TipoSolicitudRecurso> GetTipoSolicitudRecursos() => new List<TipoSolicitudRecurso>
+        {
+            new TipoSolicitudRecurso{ Name = "Compra" },
+            new TipoSolicitudRecurso{ Name = "Alquiler" }
+        };
+
         private static List<Recurso> GetRecursos() => new List<Recurso>
         {
-            new Recurso{ Name = "Laptop i7 4GB 500GB HP" },
-            new Recurso{ Name = "Escaner HP" },
-            new Recurso{ Name = "Impresora HP" },
-            new Recurso{ Name = "Silla plastico" },
-            new Recurso{ Name = "Auto 4 asientos Toyota" },
-            new Recurso{ Name = "Camioneta 6 asientos Toyota" },
-            new Recurso{ Name = "Calculadora HP" },
-            new Recurso{ Name = "Folder 100/und" },
-            new Recurso{ Name = "Celular S.O Andriod" },
-            new Recurso{ Name = "Tablet S.O. Android" },
-            new Recurso{ Name = "PC i7 4GB 500GB HP" }
+            new Recurso{ Name = "Laptop i7 4GB 500GB HP", CostoUnitario = 3000, CostoAlquiler = 50 },
+            new Recurso{ Name = "Escaner HP", CostoUnitario = 300, CostoAlquiler = 15 },
+            new Recurso{ Name = "Impresora HP", CostoUnitario = 300, CostoAlquiler = 50 },
+            new Recurso{ Name = "Silla plastico", CostoUnitario = 100, CostoAlquiler = 3 },
+            new Recurso{ Name = "Auto 4 asientos Toyota", CostoUnitario = 48750, CostoAlquiler = 70 },
+            new Recurso{ Name = "Camioneta 6 asientos Toyota", CostoUnitario = 65000, CostoAlquiler = 100 },
+            new Recurso{ Name = "Calculadora HP", CostoUnitario = 100, CostoAlquiler = 15 },
+            new Recurso{ Name = "Folder 100/und", CostoUnitario = 25, CostoAlquiler = 25 },
+            new Recurso{ Name = "Celular S.O Andriod", CostoUnitario = 300, CostoAlquiler = 15 },
+            new Recurso{ Name = "Tablet S.O. Android", CostoUnitario = 500, CostoAlquiler = 20 },
+            new Recurso{ Name = "PC i7 4GB 500GB HP", CostoUnitario = 3000, CostoAlquiler = 50 }
         };
 
         private static List<AlmacenRecurso> GetAlmacenRecursos() => new List<AlmacenRecurso>
@@ -137,14 +144,228 @@ namespace Indra.Data
             new AlmacenRecurso{ AlmacenId = 1, RecursoId = 11, Stock = 105 },
         };
 
-        private static  List<Trabajador> GetTrabajadores() => new List<Trabajador>
+        private static List<Trabajador> GetTrabajadores() => new List<Trabajador>
         {
-            new Trabajador { Nombres = "Luis", ApellidoPaterno = "Carranza", ApellidoMaterno = "Perez", NroDocumento = "42894678", TipoDocumentoIdentidadId = 1, Telefono = "987676554", Email = "lcarranza@indra.com" },
-            new Trabajador { Nombres = "Luisa", ApellidoPaterno = "Palomino", ApellidoMaterno = "Córdova", NroDocumento = "43564523", TipoDocumentoIdentidadId = 1, Telefono = "786655442", Email = "lpalomino@indra.com" },
-            new Trabajador { Nombres = "Marcelo", ApellidoPaterno = "Mendoza", ApellidoMaterno = "Paucar", NroDocumento = "67897898", TipoDocumentoIdentidadId = 1, Telefono = "121232112", Email = "mmendoza@indra.com" },
-            new Trabajador { Nombres = "Ana", ApellidoPaterno = "Balarezo", ApellidoMaterno = "Zárate", NroDocumento = "43562341", TipoDocumentoIdentidadId = 1, Telefono = "987676551", Email = "abalarezo@indra.com" },
-            new Trabajador { Nombres = "Raúl", ApellidoPaterno = "García", ApellidoMaterno = "Marquez", NroDocumento = "11223344", TipoDocumentoIdentidadId = 1, Telefono = "897867562", Email = "rgarcia@indra.com" },
-            new Trabajador { Nombres = "Jorge", ApellidoPaterno = "Espejo", ApellidoMaterno = "Blanco", NroDocumento = "34234532", TipoDocumentoIdentidadId = 1, Telefono = "909090221", Email = "jespejo@indra.com" }
+            new Trabajador
+            {
+                Nombres = "Luis",
+                ApellidoPaterno = "Carranza",
+                ApellidoMaterno = "Perez",
+                NroDocumento = "42894678",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "987676554",
+                Email = "lcarranza@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Luisa",
+                ApellidoPaterno = "Palomino",
+                ApellidoMaterno = "Córdova",
+                NroDocumento = "43564523",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "786655442",
+                Email = "lpalomino@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Marcelo",
+                ApellidoPaterno = "Mendoza",
+                ApellidoMaterno = "Paucar",
+                NroDocumento = "67897898",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "121232112",
+                Email = "mmendoza@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Ana",
+                ApellidoPaterno = "Balarezo",
+                ApellidoMaterno = "Zárate",
+                NroDocumento = "43562341",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "987676551",
+                Email = "abalarezo@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Raúl",
+                ApellidoPaterno = "García",
+                ApellidoMaterno = "Marquez",
+                NroDocumento = "11223344",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "897867562",
+                Email = "rgarcia@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Jorge",
+                ApellidoPaterno = "Espejo",
+                ApellidoMaterno = "Blanco",
+                NroDocumento = "34234532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090221",
+                Email = "jespejo@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Antonio Gabriel",
+                ApellidoPaterno = "López",
+                ApellidoMaterno = "Herrera",
+                NroDocumento = "34234532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090001",
+                Email = "alopez@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Carlos Javier",
+                ApellidoPaterno = "Mantas",
+                ApellidoMaterno = "Ruiz",
+                NroDocumento = "35234532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090002",
+                Email = "cmantas@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "David",
+                ApellidoPaterno = "Alejandro",
+                ApellidoMaterno = "Pelta",
+                NroDocumento = "34634532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090003",
+                Email = "dalejandro@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Fernando",
+                ApellidoPaterno = "Berzal",
+                ApellidoMaterno = "Galiano",
+                NroDocumento = "34274532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090004",
+                Email = "fberzal@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Francisco",
+                ApellidoPaterno = "Herrera",
+                ApellidoMaterno = "Triguero",
+                NroDocumento = "34238532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090005",
+                Email = "fherrera@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Jesús",
+                ApellidoPaterno = "Cortés",
+                ApellidoMaterno = "Díaz",
+                NroDocumento = "34234932",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090006",
+                Email = "jcortes@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Joaquín",
+                ApellidoPaterno = "Abellán",
+                ApellidoMaterno = "Mulero",
+                NroDocumento = "34234502",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090007",
+                Email = "jabellan@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Jose Luis",
+                ApellidoPaterno = "Verdegay",
+                ApellidoMaterno = "Galdeano",
+                NroDocumento = "34234531",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090008",
+                Email = "jverdegay@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Juan Miguel",
+                ApellidoPaterno = "Medina",
+                ApellidoMaterno = "Rodríguez",
+                NroDocumento = "24234532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090009",
+                Email = "jmedina@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Luis Miguel",
+                ApellidoPaterno = "Campos",
+                ApellidoMaterno = "Ibáñez",
+                NroDocumento = "32434532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090010",
+                Email = "lcampos@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Miguel Ángel",
+                ApellidoPaterno = "Rubio",
+                ApellidoMaterno = "Escudero",
+                NroDocumento = "34134532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090011",
+                Email = "mrubio@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Miguel",
+                ApellidoPaterno = "Molina",
+                ApellidoMaterno = "Solana",
+                NroDocumento = "34234532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090012",
+                Email = "mmolina@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Rafael",
+                ApellidoPaterno = "Molina",
+                ApellidoMaterno = "Soriano",
+                NroDocumento = "34334532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090013",
+                Email = "rmolina@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Rocío",
+                ApellidoPaterno = "Romero",
+                ApellidoMaterno = "Zaliz",
+                NroDocumento = "34434532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090014",
+                Email = "rromero@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Rosa",
+                ApellidoPaterno = "Rodríguez",
+                ApellidoMaterno = "Sánchez",
+                NroDocumento = "34534532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090015",
+                Email = "rrodriguez@indra.com"
+            },
+            new Trabajador
+            {
+                Nombres = "Waldo",
+                ApellidoPaterno = "Fajardo",
+                ApellidoMaterno = "Contreras",
+                NroDocumento = "34634532",
+                TipoDocumentoIdentidadId = 1,
+                Telefono = "909090016",
+                Email = "wfajardo@indra.com"
+            }
         };
 
         private static List<Cliente> GetClientes() => new List<Cliente>

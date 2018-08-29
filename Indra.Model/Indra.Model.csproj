@@ -87,7 +87,7 @@
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\CriterioEvaluacion.cs" />
     <Compile Include="Models\Documento.cs" />
-    <Compile Include="Models\DuracionTarea.cs" />
+    <Compile Include="Models\TipoDuracion.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Estado.cs" />
     <Compile Include="Models\EstadoAprobacion.cs" />
@@ -101,6 +101,7 @@
     <Compile Include="Models\Tarea.cs" />
     <Compile Include="Models\TipoDocumentoIdentidad.cs" />
     <Compile Include="Models\TipoProyecto.cs" />
+    <Compile Include="Models\TipoSolicitudRecurso.cs" />
     <Compile Include="Models\Trabajador.cs" />
     <Compile Include="Models\Portafolio.cs" />
     <Compile Include="Models\Programa.cs" />

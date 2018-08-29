@@ -61,6 +61,7 @@
     <Compile Include="BuCliente.cs" />
     <Compile Include="BuCriterioEvaluacion.cs" />
     <Compile Include="BuDocumento.cs" />
+    <Compile Include="BuTipoDuracion.cs" />
     <Compile Include="BuEstado.cs" />
     <Compile Include="BuEstadoAprobacion.cs" />
     <Compile Include="BuPatrocinador.cs" />
@@ -73,8 +74,10 @@
     <Compile Include="BuRecurso.cs" />
     <Compile Include="BuSolicitudRecurso.cs" />
     <Compile Include="BuSolicitudRecursoDetalle.cs" />
+    <Compile Include="BuTarea.cs" />
     <Compile Include="BuTipoDocumentoIdentidad.cs" />
     <Compile Include="BuTipoProyecto.cs" />
+    <Compile Include="BuTipoSolicitudRecurso.cs" />
     <Compile Include="BuTrabajador.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

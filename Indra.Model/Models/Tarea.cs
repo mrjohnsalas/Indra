@@ -19,14 +19,18 @@ namespace Indra.Model.Models
         [StringLength(100, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
         public string Name { get; set; }
 
-        [Display(Name = "Cod. Duración Tarea")]
+        [Display(Name = "Orden")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
-        public int DuracionTareaId { get; set; }
+        public int Index { get; set; }
 
-        [Display(Name = "Duración Tarea")]
-        public virtual DuracionTarea DuracionTarea { get; set; }
+        [Display(Name = "Cod. Tipo Duración")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        public int TipoDuracionId { get; set; }
 
-        public Enums.DuracionTareaType DuracionTareaType => (Enums.DuracionTareaType)DuracionTareaId;
+        [Display(Name = "Tipo Duración")]
+        public virtual TipoDuracion TipoDuracion { get; set; }
+
+        public Enums.TipoDuracionType TipoDuracionType => (Enums.TipoDuracionType)TipoDuracionId;
 
         [Display(Name = "Duración")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
