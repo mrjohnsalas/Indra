@@ -65,5 +65,9 @@ namespace Indra.Data.Context
         public DbSet<PropuestaBalanceoDetalle> PropuestaBalanceoDetalles { get; set; }
 
         public DbSet<Documento> Documentos { get; set; }
+
+        public DbSet<DuracionTarea> DuracionTareas { get; set; }
+
+        public DbSet<Tarea> Tareas { get; set; }
     }
 }

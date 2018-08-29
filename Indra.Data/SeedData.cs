@@ -12,6 +12,7 @@ namespace Indra.Data
         {
             var db = new ApplicationDbContext();
             GetAlmacenes().ForEach(o => context.Almacenes.Add(o));
+            GetDuracionTareas().ForEach(o => context.Almacenes.Add(o));
             GetCriterioEvaluaciones().ForEach(o => context.CriterioEvaluaciones.Add(o));
             GetCategoriaComponentes().ForEach(o => context.CategoriaComponentes.Add(o));
             GetTipoDocumentoIdentidades().ForEach(o => context.TipoDocumentoIdentidades.Add(o));
@@ -43,6 +44,13 @@ namespace Indra.Data
         private static List<Almacen> GetAlmacenes() => new List<Almacen>
         {
             new Almacen{ Name = "Almacén de Recursos", Description = "Este es el almacén de recursos de Indra." }
+        };
+
+        private static List<DuracionTarea> GetDuracionTareas() => new List<DuracionTarea>
+        {
+            new DuracionTarea{ Name = "Día" },
+            new DuracionTarea{ Name = "Mes" },
+            new DuracionTarea{ Name = "Año" }
         };
 
         private static List<CriterioEvaluacion> GetCriterioEvaluaciones() => new List<CriterioEvaluacion>

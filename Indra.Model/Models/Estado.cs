@@ -38,5 +38,7 @@ namespace Indra.Model.Models
 
         [Display(Name = "PropuestasBalanceo")]
         public virtual ICollection<PropuestaBalanceo> PropuestasBalanceo { get; set; }
+
+        public virtual ICollection<Tarea> Tareas { get; set; }
     }
 }

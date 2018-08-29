@@ -18,5 +18,7 @@ namespace Indra.Model.Models
         public virtual ICollection<SolicitudRecurso> SolicitudRecursos { get; set; }
 
         public virtual ICollection<Documento> Documentos { get; set; }
+
+        public virtual ICollection<Tarea> Tareas { get; set; }
     }
 }

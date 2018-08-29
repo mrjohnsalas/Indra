@@ -134,5 +134,7 @@ namespace Indra.Model.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EditDate { get; set; }
+
+        public virtual ICollection<Tarea> Tareas { get; set; }
     }
 }

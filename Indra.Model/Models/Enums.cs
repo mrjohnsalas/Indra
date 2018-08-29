@@ -44,5 +44,12 @@ namespace Indra.Model.Models
             NuevoProductoProceso = 3,
             InvestigaciónEstudioViabilidad = 4
         }
+
+        public enum DuracionTareaType
+        {
+            Dia = 1,
+            Mes = 2,
+            Ano = 3
+        }
     }
 }
