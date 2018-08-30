@@ -106,8 +106,6 @@ namespace Indra.Model.Models
         [Display(Name = "Patrocinador")]
         public virtual Patrocinador Patrocinador { get; set; }
 
-        public virtual ICollection<SolicitudRecurso> SolicitudesRecurso { get; set; }
-
         [Display(Name = "Cod. Programa")]
         public int? ProgramaId { get; set; }
 
@@ -126,6 +124,7 @@ namespace Indra.Model.Models
         public string UserId { get; set; }
 
         [Display(Name = "Fecha creación")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime CreateDate { get; set; }
@@ -145,23 +144,27 @@ namespace Indra.Model.Models
         public Enums.TipoDuracionType TipoDuracionType => (Enums.TipoDuracionType)TipoDuracionId;
 
         [Display(Name = "Duración")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
-        [NotMapped]
         public decimal Duracion { get; set; }
 
         [Display(Name = "Progreso")]
-        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
-        [NotMapped]
         public decimal Progreso { get; set; }
 
         [Display(Name = "Presupuesto")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
-        [NotMapped]
         public decimal PresupuestoUtilizado { get; set; }
 
+        [Display(Name = "Tareas")]
         public virtual ICollection<Tarea> Tareas { get; set; }
+
+        [Display(Name = "Solicitudes")]
+        public virtual ICollection<SolicitudRecurso> SolicitudesRecurso { get; set; }
     }
 }
