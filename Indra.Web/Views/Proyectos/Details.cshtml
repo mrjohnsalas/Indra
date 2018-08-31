@@ -1,0 +1,390 @@
+﻿@using Indra.Model.Models
+@model Indra.Model.Models.Proyecto
+
+@{
+    ViewBag.Title = "Detalle";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Detalle de proyecto</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Proyectos")">Lista</a>
+            </li>
+            <li class="active">
+                <strong>Detalle de proyecto</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-4">
+        <div class="title-action">
+            <a href="@Url.Action("Index", "Proyectos")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="m-b-md">
+                                <h2>Proyecto: <strong>@Html.DisplayFor(model => model.NumDocument)</strong></h2>
+                            </div>
+                            <dl class="dl-horizontal">
+                                <dt>Status:</dt>
+                                <dd>
+                                    <span class="label @(Model.EstadoId.Equals((int)Enums.EstadoType.Terminado) ? "label-success" : "label-primary"))">@Html.DisplayFor(model => model.Estado.Name)</span>
+                                </dd>
+                                <dt>@Html.DisplayNameFor(model => model.TipoProyecto):</dt>
+                                <dd> @Html.DisplayFor(model => model.TipoProyecto.Name) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.Name):</dt>
+                                <dd> @Html.DisplayFor(model => model.Name) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.PrioridadId):</dt>
+                                <dd> @Html.DisplayFor(model => model.Prioridad.Id) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.Prioridad):</dt>
+                                <dd> @Html.DisplayFor(model => model.Prioridad.Name) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.EstadoAprobacionId):</dt>
+                                <dd> @Html.DisplayFor(model => model.EstadoAprobacion.Id) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.EstadoAprobacion):</dt>
+                                <dd> @Html.DisplayFor(model => model.EstadoAprobacion.Name) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.ResponsableId):</dt>
+                                <dd> @Html.DisplayFor(model => model.Responsable.Id) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.Responsable):</dt>
+                                <dd> @Html.DisplayFor(model => model.Responsable.FullName) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.StarDate):</dt>
+                                <dd> @Html.DisplayFor(model => model.StarDate) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.FinalDate):</dt>
+                                <dd> @Html.DisplayFor(model => model.FinalDate) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.Duracion):</dt>
+                                <dd> @Html.DisplayFor(model => model.Duracion) @Html.DisplayFor(model => model.TipoDuracion.Name)</dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.Presupuesto):</dt>
+                                <dd> @Html.DisplayFor(model => model.Presupuesto) </dd>
+                            </dl>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.PortafolioId):</dt>
+                                <dd> @Html.DisplayFor(model => model.PortafolioId) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.ProgramaId):</dt>
+                                <dd> @Html.DisplayFor(model => model.ProgramaId) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.CreateDate):</dt>
+                                <dd> @Html.DisplayFor(model => model.CreateDate) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.EditDate):</dt>
+                                <dd> @Html.DisplayFor(model => model.EditDate) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.UserId):</dt>
+                                <dd> @Html.DisplayFor(model => model.UserId) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.ClienteId):</dt>
+                                <dd> @Html.DisplayFor(model => model.Cliente.Id) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.Cliente):</dt>
+                                <dd> @Html.DisplayFor(model => model.Cliente.RazonSocial) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.PatrocinadorId):</dt>
+                                <dd> @Html.DisplayFor(model => model.Patrocinador.Id) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.Patrocinador):</dt>
+                                <dd> @Html.DisplayFor(model => model.Patrocinador.FullName) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.Description):</dt>
+                                <dd> @Html.DisplayFor(model => model.Description) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-users"></i> Tareas</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa fa-wrench"></i> Equipo</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa-cogs"></i> Solicitudes</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa fa-wrench"></i> Recursos</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                    <table class="footable table toggle-arrow-tiny table-hover table-striped" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th data-toggle="true">Nombre</th>
+                                                <th data-hide="phone">Fecha inicial</th>
+                                                <th data-hide="phone">Fecha final</th>
+                                                <th data-hide="phone">Duración</th>
+                                                <th data-hide="phone">Estado</th>
+                                                <th data-hide="phone">Responsable</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var tarea in Model.Tareas)
+                                            {
+                                                <tr>
+                                                    <td> @Html.DisplayFor(modelItem => tarea.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => tarea.StarDate)</td>
+                                                    <td> @Html.DisplayFor(modelItem => tarea.FinalDate)</td>
+                                                    <td> @Html.DisplayFor(modelItem => tarea.Duracion) @Html.DisplayFor(modelItem => tarea.TipoDuracion.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => tarea.Estado.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => tarea.Responsable.FullName)</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <table class="footable table toggle-arrow-tiny table-hover table-striped" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th data-toggle="true">Nombre completo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var trabajador in Model.Equipo)
+                                            {
+                                                <tr>
+                                                    <td> @Html.DisplayFor(modelItem => trabajador.FullName)</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div id="tab-3" class="tab-pane">
+                                    <table class="footable table toggle-arrow-tiny table-hover table-striped" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th data-toggle="true">Cod. Solicitud Recurso</th>
+                                                <th data-hide="phone">Fecha creación</th>
+                                                <th data-hide="phone">Prioridad</th>
+                                                <th data-hide="phone">Recurso</th>
+                                                <th data-hide="phone">Cantidad</th>
+                                                <th data-hide="phone">Costo Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var solicitud in Model.SolicitudesRecurso)
+                                            {
+                                                foreach (var recurso in solicitud.Recursos)
+                                                {
+                                                    <tr>
+                                                        <td> @Html.DisplayFor(modelItem => solicitud.Id)</td>
+                                                        <td> @Html.DisplayFor(modelItem => solicitud.CreateDate)</td>
+                                                        <td> @Html.DisplayFor(modelItem => solicitud.Prioridad.Name)</td>
+                                                        <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
+                                                        <td> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
+                                                        <td> @Html.DisplayFor(modelItem => recurso.CostoTotal)</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div id="tab-4" class="tab-pane">
+                                    <table class="footable table toggle-arrow-tiny table-hover table-striped" data-page-size="10" id="tblDocumentos" name="tblDocumentos">
+                                        <thead>
+                                            <tr>
+                                                <th data-toggle="true">Nombre completo</th>
+                                                <th data-hide="phone">Cant. Solicitada</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var solicitud in Model.SolicitudesRecurso)
+                                            {
+                                                foreach (var recurso in solicitud.Recursos)
+                                                {
+                                                    <tr>
+                                                        <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
+                                                        <td> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>% Tareas completadas</h5>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="col-lg-6">
+                                    <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th data-toggle="true">Nombre</th>
+                                                <th data-hide="phone">Duración</th>
+                                                <th data-hide="phone">Estado</th>
+                                                <th data-hide="phone">Responsable</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var tarea in Model.Tareas)
+                                            {
+                                                <tr>
+                                                    <td> @Html.DisplayFor(modelItem => tarea.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => tarea.Duracion) @Html.DisplayFor(modelItem => tarea.TipoDuracion.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => tarea.Estado.Name)</td>
+                                                    <td> @Html.DisplayFor(modelItem => tarea.Responsable.FullName)</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="flot-chart">
+                                        <div class="flot-chart-pie-content" id="flot-pie-chart"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <a href="@Url.Action("Index", "Proyectos")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/footableStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/flot")
+    @Scripts.Render("~/plugins/footable")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.footable').footable();
+
+            var pieData = [{
+                label: "Pendiente",
+                data: 40,
+                color: "#bababa"
+            }, {
+                label: "Terminado",
+                data: 60,
+                color: "#1ab394"
+                }];
+
+            function labelFormatter(label, series) {
+                return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" + label + "<br/>" + Math.round(series.percent) + "%</div>";
+            }
+
+            $.plot($("#flot-pie-chart"), pieData, {
+                series: {
+                    pie: {
+                        show: true,
+                        label: {
+                            show: true,
+                            radius: 3/4,
+                            formatter: labelFormatter,
+                            background: {
+                                opacity: 0.7
+                            }
+                        }
+                    }
+                },
+                grid: {
+                    hoverable: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%p.0%, %s", // show percentages, rounding to 2 decimal places
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            });
+
+        });
+    </script>
+}

@@ -39,15 +39,15 @@ namespace Indra.Model.Models
         public decimal Duracion { get; set; }
 
         [Display(Name = "Fecha inicial")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [NotMapped]
         public DateTime StarDate { get; set; }
 
         [Display(Name = "Fecha final")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [NotMapped]
         public DateTime FinalDate { get; set; }
 
         [Display(Name = "Cod. Estado")]
@@ -71,5 +71,17 @@ namespace Indra.Model.Models
 
         [Display(Name = "Proyecto")]
         public virtual Proyecto Proyecto { get; set; }
+
+        [Display(Name = "Porcentaje")]
+        [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        [NotMapped]
+        public decimal Porcentaje { get; set; }
+
+        [Display(Name = "Progreso")]
+        [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        [NotMapped]
+        public decimal Progreso { get; set; }
     }
 }

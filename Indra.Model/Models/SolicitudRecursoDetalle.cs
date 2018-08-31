@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Indra.Model.Models
 {
+    [Table("SolicitudesRecursoDetalle")]
     public class SolicitudRecursoDetalle
     {
         [Key]

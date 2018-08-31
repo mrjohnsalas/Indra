@@ -24,11 +24,17 @@ namespace Indra.Data.Context
 
         public virtual void Commit() => SaveChanges();
 
+        public DbSet<Almacen> Almacenes { get; set; }
+
+        public DbSet<AlmacenRecurso> AlmacenRecursos { get; set; }
+
         public DbSet<CategoriaComponente> CategoriaComponentes { get; set; }
 
         public DbSet<Cliente> Clientes { get; set; }
 
         public DbSet<CriterioEvaluacion> CriterioEvaluaciones { get; set; }
+
+        public DbSet<Documento> Documentos { get; set; }
 
         public DbSet<Estado> Estados { get; set; }
 
@@ -42,34 +48,28 @@ namespace Indra.Data.Context
 
         public DbSet<Programa> Programas { get; set; }
 
+        public DbSet<PropuestaBalanceo> PropuestaBalanceos { get; set; }
+        
+        public DbSet<PropuestaBalanceoDetalle> PropuestaBalanceoDetalles { get; set; }
+
         public DbSet<Proyecto> Proyectos { get; set; }
 
         public DbSet<Recurso> Recursos { get; set; }
-
-        public DbSet<TipoDocumentoIdentidad> TipoDocumentoIdentidades { get; set; }
-
-        public DbSet<TipoProyecto> TipoProyectos { get; set; }
-
-        public DbSet<Trabajador> Trabajadores { get; set; }
 
         public DbSet<SolicitudRecurso> SolicitudRecursos { get; set; }
 
         public DbSet<SolicitudRecursoDetalle> SolicitudRecursoDetalles { get; set; }
 
-        public DbSet<Almacen> Almacenes { get; set; }
+        public DbSet<Tarea> Tareas { get; set; }
 
-        public DbSet<AlmacenRecurso> AlmacenRecursos { get; set; }
-
-        public DbSet<PropuestaBalanceo> PropuestaBalanceos { get; set; }
-
-        public DbSet<PropuestaBalanceoDetalle> PropuestaBalanceoDetalles { get; set; }
-
-        public DbSet<Documento> Documentos { get; set; }
+        public DbSet<TipoDocumentoIdentidad> TipoDocumentoIdentidades { get; set; }
 
         public DbSet<TipoDuracion> TipoDuraciones { get; set; }
 
-        public DbSet<Tarea> Tareas { get; set; }
-
+        public DbSet<TipoProyecto> TipoProyectos { get; set; }
+        
         public DbSet<TipoSolicitudRecurso> TipoSolicitudRecursos { get; set; }
+
+        public DbSet<Trabajador> Trabajadores { get; set; }
     }
 }

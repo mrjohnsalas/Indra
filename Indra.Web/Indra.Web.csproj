@@ -191,8 +191,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PortafoliosController.cs" />
-    <Compile Include="Controllers\PoyectosController.cs" />
     <Compile Include="Controllers\ProgramasController.cs" />
+    <Compile Include="Controllers\ProyectosController.cs" />
     <Compile Include="Controllers\UserProfilesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -472,8 +472,8 @@
     <Content Include="Views\Programas\Details.cshtml" />
     <Content Include="Views\Programas\Delete.cshtml" />
     <Content Include="Views\Programas\Edit.cshtml" />
-    <Content Include="Views\Poyectos\Index.cshtml" />
-    <Content Include="Views\Poyectos\Details.cshtml" />
+    <Content Include="Views\Proyectos\Index.cshtml" />
+    <Content Include="Views\Proyectos\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

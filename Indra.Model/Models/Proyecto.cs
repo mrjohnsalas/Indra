@@ -30,7 +30,7 @@ namespace Indra.Model.Models
         public string NumAndName => $"{NumDocument} - {Name}";
 
         [Display(Name = "Descripción")]
-        [StringLength(300, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         [Display(Name = "Presupuesto")]
@@ -38,6 +38,12 @@ namespace Indra.Model.Models
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
         public decimal Presupuesto { get; set; }
+
+        [Display(Name = "Presupuesto")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        [NotMapped]
+        public decimal PresupuestoUtilizado { get; set; }
 
         [Display(Name = "Fecha inicial")]
         [DataType(DataType.Date)]
@@ -150,21 +156,21 @@ namespace Indra.Model.Models
         public decimal Duracion { get; set; }
 
         [Display(Name = "Progreso")]
-        [Required(ErrorMessage = "Debes ingresar {0}")]
         [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
+        [NotMapped]
         public decimal Progreso { get; set; }
-
-        [Display(Name = "Presupuesto")]
-        [Required(ErrorMessage = "Debes ingresar {0}")]
-        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
-        [DataType(DataType.Currency)]
-        public decimal PresupuestoUtilizado { get; set; }
 
         [Display(Name = "Tareas")]
         public virtual ICollection<Tarea> Tareas { get; set; }
 
         [Display(Name = "Solicitudes")]
         public virtual ICollection<SolicitudRecurso> SolicitudesRecurso { get; set; }
+
+        [NotMapped]
+        public List<Trabajador> Equipo { get; set; }
+
+        [NotMapped]
+        public List<Recurso> Recursos { get; set; }
     }
 }

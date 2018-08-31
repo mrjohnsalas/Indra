@@ -1559,8 +1559,8 @@ a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.acti
 }
 
 .flot-chart-pie-content {
-    width: 200px;
-    height: 200px;
+    width: 280px;
+    height: 280px;
     margin: auto;
 }
 

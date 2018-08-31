@@ -85,6 +85,15 @@ namespace Indra.Web
             // Footable alert
             bundles.Add(new ScriptBundle("~/plugins/footable").Include(
                 "~/Scripts/plugins/footable/footable.all.min.js"));
+
+            // Flot chart
+            bundles.Add(new ScriptBundle("~/plugins/flot").Include(
+                "~/Scripts/plugins/flot/jquery.flot.js",
+                "~/Scripts/plugins/flot/jquery.flot.tooltip.min.js",
+                "~/Scripts/plugins/flot/jquery.flot.resize.js",
+                "~/Scripts/plugins/flot/jquery.flot.pie.js",
+                "~/Scripts/plugins/flot/jquery.flot.time.js",
+                "~/Scripts/plugins/flot/jquery.flot.spline.js"));
         }
     }
 }
