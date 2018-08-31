@@ -73,7 +73,6 @@ namespace Indra.Model.Models
         public decimal? DiasAlquiler { get; set; }
 
         [Display(Name = "Costo Total")]
-        [NotMapped]
         [DisplayFormat(DataFormatString = "{0:N3}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
         public decimal CostoTotal { get; set; }

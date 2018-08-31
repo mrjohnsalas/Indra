@@ -17,5 +17,7 @@ namespace Indra.Model.Models
         [Required(ErrorMessage = "Debes ingresar {0}")]
         [StringLength(100, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
         public string Name { get; set; }
+
+        public virtual ICollection<SolicitudRecursoDetalle> SolicitudesRecurso { get; set; }
     }
 }
