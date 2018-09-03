@@ -6,7 +6,7 @@ INSERT INTO Tareas (Name, [Index], TipoDuracionId, Duracion, StarDate, FinalDate
 INSERT INTO Tareas (Name, [Index], TipoDuracionId, Duracion, StarDate, FinalDate, EstadoId, ResponsableId, ProyectoId) VALUES ('Análisis', 2, 1, 2,      '2018-08-28', '2018-08-30', 2, 3, 1)
 INSERT INTO Tareas (Name, [Index], TipoDuracionId, Duracion, StarDate, FinalDate, EstadoId, ResponsableId, ProyectoId) VALUES ('Desarrollo', 3, 1, 3,    '2018-08-30', '2018-09-02', 3, 4, 1)
 INSERT INTO Tareas (Name, [Index], TipoDuracionId, Duracion, StarDate, FinalDate, EstadoId, ResponsableId, ProyectoId) VALUES ('Pruebas', 4, 1, 4,       '2018-09-02', '2018-09-06', 3, 5, 1)
-INSERT INTO Tareas (Name, [Index], TipoDuracionId, Duracion, StarDate, FinalDate, EstadoId, ResponsableId, ProyectoId) VALUES ('Demo', 5, 1, 5,          '2018-09-06', '2018-09-11', 3, 6, 1)
+INSERT INTO Tareas (Name, [Index], TipoDuracionId, Duracion, StarDate, FinalDate, EstadoId, ResponsableId, ProyectoId) VALUES ('Demo', 5, 1, 5,          '2018-09-06', '2018-09-11', 3, 5, 1)
 GO
 --SOLICITUDES
 INSERT INTO SolicitudesRecurso (ProyectoId, CreateDate, PrioridadId, EstadoId, ResponsableId) VALUES (1, '2018-08-27', 3, 4, 1)

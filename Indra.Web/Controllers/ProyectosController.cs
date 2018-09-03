@@ -17,28 +17,7 @@ namespace Indra.Web.Controllers
     {
         public Proyecto GetProyecto(int id)
         {
-            var proyecto = new BuProyecto().GetById(id);
-
-            if (proyecto == null)
-                return null;
-
-            proyecto.EstadoAprobacion = new BuEstadoAprobacion().GetById(proyecto.EstadoAprobacionId);
-            proyecto.Prioridad = new BuPrioridad().GetById(proyecto.PrioridadId);
-            proyecto.Estado = new BuEstado().GetById(proyecto.EstadoId);
-            proyecto.Cliente = new BuCliente().GetById(proyecto.ClienteId);
-            proyecto.TipoProyecto = new BuTipoProyecto().GetById(proyecto.TipoProyectoId);
-            proyecto.Responsable = new BuTrabajador().GetById(proyecto.ResponsableId);
-            proyecto.Patrocinador = new BuPatrocinador().GetById(proyecto.PatrocinadorId);
-            proyecto.TipoDuracion = new BuTipoDuracion().GetById(proyecto.TipoDuracionId);
-
-            proyecto.Tareas = new BuTarea().GetTareasFullByProyectoId(proyecto.Id).ToList();
-            proyecto.Equipo = proyecto.Tareas.Select(x => x.Responsable).Distinct().ToList();
-            proyecto.SolicitudesRecurso = new BuSolicitudRecurso().GetSolicitudesFullByProyectoId(proyecto.Id).ToList();
-            proyecto.Recursos = new List<Recurso>();
-            foreach (var solicitudRecurso in proyecto.SolicitudesRecurso)
-                foreach (var detalle in solicitudRecurso.Recursos)
-                    if (!proyecto.Recursos.Select(x => x.Id).Contains(detalle.RecursoId))
-                        proyecto.Recursos.Add(detalle.Recurso);
+            var proyecto = new BuProyecto().GetFullById(id, true);
 
             return proyecto;
         }

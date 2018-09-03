@@ -156,7 +156,7 @@ namespace Indra.Model.Models
         public decimal Duracion { get; set; }
 
         [Display(Name = "Progreso")]
-        [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
         [NotMapped]
         public decimal Progreso { get; set; }
@@ -172,5 +172,20 @@ namespace Indra.Model.Models
 
         [NotMapped]
         public List<Recurso> Recursos { get; set; }
+
+        [NotMapped]
+        public List<PieData> TareasCompletadasData { get; set; }
+
+        [NotMapped]
+        public List<BarData<decimal, int>> PresupuestoUtilizadoData { get; set; }
+
+        [NotMapped]
+        public List<BarData<int, decimal>> TareasXResponsableData { get; set; }
+
+        [NotMapped]
+        public List<BarData<int, decimal>> AvanceTareasPlanificadoData { get; set; }
+
+        [NotMapped]
+        public List<BarData<int, decimal>> AvanceTareasActualData { get; set; }
     }
 }

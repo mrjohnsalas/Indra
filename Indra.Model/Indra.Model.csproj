@@ -83,10 +83,12 @@
   <ItemGroup>
     <Compile Include="Models\Almacen.cs" />
     <Compile Include="Models\AlmacenRecurso.cs" />
+    <Compile Include="Models\BarData.cs" />
     <Compile Include="Models\CategoriaComponente.cs" />
     <Compile Include="Models\Cliente.cs" />
     <Compile Include="Models\CriterioEvaluacion.cs" />
     <Compile Include="Models\Documento.cs" />
+    <Compile Include="Models\PieData.cs" />
     <Compile Include="Models\TipoDuracion.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Estado.cs" />

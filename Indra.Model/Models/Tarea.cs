@@ -73,13 +73,13 @@ namespace Indra.Model.Models
         public virtual Proyecto Proyecto { get; set; }
 
         [Display(Name = "Porcentaje")]
-        [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
         [NotMapped]
         public decimal Porcentaje { get; set; }
 
         [Display(Name = "Progreso")]
-        [DisplayFormat(DataFormatString = "{0:P2}", ApplyFormatInEditMode = false)]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
         [NotMapped]
         public decimal Progreso { get; set; }
