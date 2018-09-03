@@ -26,6 +26,7 @@ namespace Indra.Web.Controllers
             programa.Prioridad = new BuPrioridad().GetById(programa.PrioridadId);
             programa.Estado = new BuEstado().GetById(programa.EstadoId);
             programa.Responsable = new BuTrabajador().GetById(programa.ResponsableId);
+            programa.TipoDuracion = new BuTipoDuracion().GetById(programa.TipoDuracionId);
 
             programa.Proyectos = new BuProyecto().GetProyectosFullByPortafolioIdOrProgramaId(0, programa.Id).ToList();
 
@@ -86,6 +87,19 @@ namespace Indra.Web.Controllers
             return View(programa);
         }
 
+        public ActionResult Salud(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var programa = GetPrograma(id.Value);
+
+            if (programa == null)
+                return HttpNotFound();
+
+            return View(programa);
+        }
+
         public ActionResult Create()
         {
             LoadViewBags(null);
@@ -95,7 +109,7 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,Proyectos")] Programa programa)
+        public ActionResult Create([Bind(Include = "Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,TipoDuracionId,Duracion,Proyectos")] Programa programa)
         {
             try
             {
@@ -157,7 +171,7 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NumDocument,Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,CreateDate,EditDate,UserId,Proyectos")] Programa programa)
+        public ActionResult Edit([Bind(Include = "Id,NumDocument,Name,Description,Presupuesto,StarDate,FinalDate,PrioridadId,EstadoId,ResponsableId,TipoDuracionId,Duracion,CreateDate,EditDate,UserId,Proyectos")] Programa programa)
         {
             try
             {

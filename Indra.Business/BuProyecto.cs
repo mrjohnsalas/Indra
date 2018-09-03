@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using Indra.Data.Infrastructure;
 using Indra.Data.Repositories;
 using Indra.Model.Models;
+using Indra.Model.ViewModels;
 using Decimal = System.Decimal;
 
 namespace Indra.Business
@@ -188,37 +189,24 @@ namespace Indra.Business
                 }
 
                 //AVANCE
-                var tareas = proyecto.Tareas.Where(x => x.FinalDate <= System.DateTime.Now).OrderBy(t => t.FinalDate);
-                proyecto.AvanceTareasPlanificadoData = new List<BarData<int, decimal>>();
-                proyecto.AvanceTareasActualData = new List<BarData<int, decimal>>();
+                var tareas = proyecto.Tareas.Where(x => x.FinalDate <= DateTime.Now).OrderBy(t => t.FinalDate);
                 var planificado = 0m;
                 var actual = 0m;
+                proyecto.AvanceTareasData = new List<LineData<string, decimal>>
+                {
+                    new LineData<string, decimal> {label = "% Planificado", color = _verde, data = new List<KeyValuePair<string, decimal>>()},
+                    new LineData<string, decimal> {label = "% Actual", color = _plomo, data = new List<KeyValuePair<string, decimal>>()}
+                };
+                proyecto.AvanceTareas = new List<AvanceTareasViewModel>();
                 foreach (var tarea in tareas)
                 {
                     planificado += tarea.Porcentaje;
                     actual += tarea.Progreso;
-                    var key = tarea.FinalDate.ToString("yyyy-MM-dd");
-                    var keyValue = tarea.FinalDate.DayOfYear;
-                    proyecto.AvanceTareasPlanificadoData.Add( new BarData<int, decimal>
-                    {
-                        label = tarea.Name,
-                        color = _verde,
-                        value2 = key,
-                        value1 = planificado,
-                        value3 = actual,
-                        data = new KeyValuePair<int, decimal>(keyValue, planificado)
-                    });
-                    proyecto.AvanceTareasActualData.Add(new BarData<int, decimal>
-                    {
-                        label = tarea.Name,
-                        color = _verde,
-                        value2 = key,
-                        value1 = planificado,
-                        value3 = actual,
-                        data = new KeyValuePair<int, decimal>(keyValue, actual)
-                    });
+                    var keyValue = tarea.FinalDate.ToString("yyyy-MM-dd");
+                    proyecto.AvanceTareas.Add(new AvanceTareasViewModel{ Tarea = tarea.Name, Fecha = keyValue, Planificado = planificado, Actual = actual });
+                    proyecto.AvanceTareasData[0].data.Add(new KeyValuePair<string, decimal>(keyValue, planificado));
+                    proyecto.AvanceTareasData[1].data.Add(new KeyValuePair<string, decimal>(keyValue, actual));
                 }
-
             }
 
             return proyecto;

@@ -15,7 +15,7 @@ namespace Indra.Web.Controllers
 {
     public class ProyectosController : Controller
     {
-        public Proyecto GetProyecto(int id)
+        public Proyecto GetProyecto(int id, bool loadStatisticalData)
         {
             var proyecto = new BuProyecto().GetFullById(id, true);
 
@@ -56,7 +56,20 @@ namespace Indra.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var proyecto = GetProyecto(id.Value);
+            var proyecto = GetProyecto(id.Value, false);
+
+            if (proyecto == null)
+                return HttpNotFound();
+
+            return View(proyecto);
+        }
+
+        public ActionResult Salud(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var proyecto = GetProyecto(id.Value, true);
 
             if (proyecto == null)
                 return HttpNotFound();

@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Indra.Model.ViewModels;
 
 namespace Indra.Model.Models
 {
@@ -183,9 +184,9 @@ namespace Indra.Model.Models
         public List<BarData<int, decimal>> TareasXResponsableData { get; set; }
 
         [NotMapped]
-        public List<BarData<int, decimal>> AvanceTareasPlanificadoData { get; set; }
+        public List<LineData<string, decimal>> AvanceTareasData { get; set; }
 
         [NotMapped]
-        public List<BarData<int, decimal>> AvanceTareasActualData { get; set; }
+        public List<AvanceTareasViewModel> AvanceTareas { get; set; }
     }
 }

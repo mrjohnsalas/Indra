@@ -2,18 +2,18 @@
 @model Indra.Model.Models.Programa
 
 @{
-    ViewBag.Title = "Detalle";
+    ViewBag.Title = "Salud";
 }
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-8">
-        <h2>Detalle de programa</h2>
+        <h2>Salud de programa</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="@Url.Action("Index", "Programas")">Lista</a>
             </li>
             <li class="active">
-                <strong>Detalle de programa</strong>
+                <strong>Salud de programa</strong>
             </li>
         </ol>
     </div>
@@ -24,7 +24,6 @@
                 <a href="@Url.Action("Edit", "Programas", new { id = Model.Id })" class="btn btn-primary btn-sm" title="Editar"><i class="fa fa-pencil-square-o"></i> Editar</a>
             }
             <a href="@Url.Action("Index", "Programas")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
-            <a href="@Url.Action("Salud", "Programas", new {id = @Model.Id})" class="btn btn-danger btn-sm" title="Salud"><i class="fa fa-heart"></i> Salud</a>
         </div>
     </div>
 </div>
@@ -205,12 +204,54 @@
 }
 
 @section Scripts {
+    @Scripts.Render("~/plugins/flot")
     @Scripts.Render("~/plugins/footable")
 
     <script type="text/javascript">
         $(document).ready(function () {
 
             $('.footable').footable();
+
+            //% PROYECTOS COMPLETADAS
+            var pieOptions = {
+                series: {
+                    pie: {
+                        show: true,
+                        label: {
+                            show: true,
+                            radius: 3 / 4,
+                            formatter: labelFormatter,
+                            background: {
+                                opacity: 0.7
+                            }
+                        }
+                    }
+                },
+                grid: {
+                    hoverable: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%p.0%, %s",
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            };
+
+            var pieData = JSON.parse('@Html.Raw(Json.Encode(Model.TareasCompletadasData))');
+
+            function labelFormatter(label, series) {
+                return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" +
+                    label +
+                    "<br/>" +
+                    Math.round(series.percent) +
+                    "%</div>";
+            }
+
+            $.plot($("#flot-pie-chart"), pieData, pieOptions);
 
         });
     </script>

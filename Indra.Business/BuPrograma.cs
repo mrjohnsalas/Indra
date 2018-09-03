@@ -54,6 +54,12 @@ namespace Indra.Business
                 var proyectosIdList = myObject.Proyectos.Select(x => x.Id).ToList();
                 myObject.Proyectos = null;
 
+                var proyectos = new BuProyecto().GetMany(p => proyectosIdList.Contains(p.Id));
+                myObject.TipoDuracionId = proyectos.First().TipoDuracionId;
+                myObject.StarDate = proyectos.OrderBy(x => x.StarDate).First().StarDate;
+                myObject.FinalDate = proyectos.OrderBy(x => x.FinalDate).Last().FinalDate;
+                myObject.Duracion = (myObject.FinalDate - myObject.StarDate).Days;
+
                 _repository.Add(myObject);
                 _unitOfWork.Commit();
 
@@ -76,6 +82,12 @@ namespace Indra.Business
 
                 var proyectosIdList = myObject.Proyectos?.Select(x => x.Id).ToList() ?? new List<int>();
                 myObject.Proyectos = null;
+
+                var proyectos = new BuProyecto().GetMany(p => proyectosIdList.Contains(p.Id));
+                myObject.TipoDuracionId = proyectos.First().TipoDuracionId;
+                myObject.StarDate = proyectos.OrderBy(x => x.StarDate).First().StarDate;
+                myObject.FinalDate = proyectos.OrderBy(x => x.FinalDate).Last().FinalDate;
+                myObject.Duracion = (myObject.FinalDate - myObject.StarDate).Days;
 
                 _repository.Update(myObject);
                 _unitOfWork.Commit();
