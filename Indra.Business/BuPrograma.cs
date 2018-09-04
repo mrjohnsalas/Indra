@@ -165,6 +165,18 @@ namespace Indra.Business
             return programas;
         }
 
+        public List<Programa> GetFullByPortafolioId(int portafolioId)
+        {
+            var programas = new List<Programa>();
+
+            var programasIdList = GetMany(x => x.PortafolioId.HasValue && x.PortafolioId.Value.Equals(portafolioId)).Select(x => x.Id);
+
+            foreach (var programaId in programasIdList)
+                programas.Add(GetFullById(programaId, true));
+
+            return programas;
+        }
+
         public Programa GetFullById(int id, bool loadStadisticalData)
         {
             var programa = GetById(id);
@@ -177,7 +189,7 @@ namespace Indra.Business
             programa.Responsable = new BuTrabajador().GetById(programa.ResponsableId);
             programa.TipoDuracion = new BuTipoDuracion().GetById(programa.TipoDuracionId);
 
-            programa.Proyectos = new BuProyecto().GetFullByProgramaId(id);
+            programa.Proyectos = new BuProyecto().GetFullByProgramaIdOrPortafolioId(id, 0);
 
             var duracionTotal = programa.Proyectos.Sum(x => x.Duracion);
             if (loadStadisticalData)

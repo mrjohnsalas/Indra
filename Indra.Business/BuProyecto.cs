@@ -119,14 +119,18 @@ namespace Indra.Business
             }
         }
 
-        public List<Proyecto> GetFullByProgramaId(int programaId)
+        public List<Proyecto> GetFullByProgramaIdOrPortafolioId(int programaId, int portafolioId)
         {
+            var id = portafolioId + programaId;
+
             var proyectos = new List<Proyecto>();
 
-            var proyectosIdList = GetMany(x => x.ProgramaId.HasValue && x.ProgramaId.Value.Equals(programaId)).Select(x => x.Id);
+            var proyectosIdList = programaId.Equals(0) 
+                ? GetMany(x => x.PortafolioId.HasValue && x.PortafolioId.Value.Equals(id)).Select(x => x.Id)
+                : GetMany(x => x.ProgramaId.HasValue && x.ProgramaId.Value.Equals(id)).Select(x => x.Id);
 
-            foreach (var id in proyectosIdList)
-                proyectos.Add(GetFullById(id, true));
+            foreach (var proyectoId in proyectosIdList)
+                proyectos.Add(GetFullById(proyectoId, true));
 
             return proyectos;
         }

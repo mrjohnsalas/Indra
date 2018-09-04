@@ -28,8 +28,32 @@ namespace Indra.Model.Models
         public string NumAndName => $"{NumDocument} - {Name}";
 
         [Display(Name = "Descripción")]
-        [StringLength(300, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
+
+        [Display(Name = "Presupuesto")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        public decimal Presupuesto { get; set; }
+
+        [Display(Name = "Presupuesto")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        [NotMapped]
+        public decimal PresupuestoUtilizado { get; set; }
+
+        [Display(Name = "Fecha inicial")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime StarDate { get; set; }
+
+        [Display(Name = "Fecha final")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime FinalDate { get; set; }
 
         [Display(Name = "Cod. Categoria Componente")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
@@ -63,10 +87,6 @@ namespace Indra.Model.Models
         [Display(Name = "Responsable")]
         public virtual Trabajador Responsable { get; set; }
 
-        [Display(Name = "Observación")]
-        [DataType(DataType.MultilineText)]
-        public string Remark { get; set; }
-
         [Display(Name = "Usuario")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
         [StringLength(50, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
@@ -82,6 +102,27 @@ namespace Indra.Model.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime EditDate { get; set; }
 
+        [Display(Name = "Cod. Tipo Duración")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        public int TipoDuracionId { get; set; }
+
+        [Display(Name = "Tipo Duración")]
+        public virtual TipoDuracion TipoDuracion { get; set; }
+
+        public Enums.TipoDuracionType TipoDuracionType => (Enums.TipoDuracionType)TipoDuracionId;
+
+        [Display(Name = "Duración")]
+        [Required(ErrorMessage = "Debes ingresar {0}")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        public decimal Duracion { get; set; }
+
+        [Display(Name = "Progreso")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        [NotMapped]
+        public decimal Progreso { get; set; }
+
         [Display(Name = "Programas")]
         public virtual ICollection<Programa> Programas { get; set; }
 
@@ -96,5 +137,14 @@ namespace Indra.Model.Models
 
         [NotMapped]
         public List<PropuestaBalanceoDetalleView> PropuestaBalanceoDetalleViews { get; set; }
+
+        [NotMapped]
+        public List<BarData<decimal, int>> PresupuestoUtilizadoData { get; set; }
+
+        [NotMapped]
+        public List<PieData> ItemsCompletadosData { get; set; }
+
+        [NotMapped]
+        public List<BarData<int, decimal>> ItemsXResponsableData { get; set; }
     }
 }

@@ -21,9 +21,10 @@
         <div class="title-action">
             @if (Model.EstadoId != (int)Enums.EstadoType.Anulado)
             {
-            <a href="@Url.Action("Edit", "Portafolios", new { id = Model.Id })" class="btn btn-primary btn-sm" title="Editar"><i class="fa fa-pencil-square-o"></i> Editar</a>
+                <a href="@Url.Action("Edit", "Portafolios", new { id = Model.Id })" class="btn btn-primary btn-sm" title="Editar"><i class="fa fa-pencil-square-o"></i> Editar</a>
             }
             <a href="@Url.Action("Index", "Portafolios")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+            <a href="@Url.Action("Salud", "Portafolios", new {id = @Model.Id})" class="btn btn-danger btn-sm" title="Salud"><i class="fa fa-heart"></i> Salud</a>
         </div>
     </div>
 </div>
@@ -61,47 +62,38 @@
                         </div>
                     </div>
                     
-                    <div class="row">
-                        <div class="col-lg-8">
-                            <dl class="dl-horizontal">
-                                <dt>@Html.DisplayNameFor(model => model.ResponsableId):</dt>
-                                <dd> @Html.DisplayFor(model => model.Responsable.Id) </dd>
+                <div class="row">
+                    <div class="col-lg-8">
+                        <dl class="dl-horizontal">
+                            <dt>@Html.DisplayNameFor(model => model.ResponsableId):</dt>
+                            <dd> @Html.DisplayFor(model => model.Responsable.Id) </dd>
 
-                                <dt>@Html.DisplayNameFor(model => model.Responsable):</dt>
-                                <dd> @Html.DisplayFor(model => model.Responsable.FullName) </dd>
+                            <dt>@Html.DisplayNameFor(model => model.Responsable):</dt>
+                            <dd> @Html.DisplayFor(model => model.Responsable.FullName) </dd>
                                 
-                                <dt>@Html.DisplayNameFor(model => model.PrioridadId):</dt>
-                                <dd> @Html.DisplayFor(model => model.Prioridad.Id) </dd>
+                            <dt>@Html.DisplayNameFor(model => model.PrioridadId):</dt>
+                            <dd> @Html.DisplayFor(model => model.Prioridad.Id) </dd>
 
-                                <dt>@Html.DisplayNameFor(model => model.Prioridad):</dt>
-                                <dd> @Html.DisplayFor(model => model.Prioridad.Name) </dd>
-                            </dl>
+                            <dt>@Html.DisplayNameFor(model => model.Prioridad):</dt>
+                            <dd> @Html.DisplayFor(model => model.Prioridad.Name) </dd>
+                        </dl>
 
-                        </div>
-                        <div class="col-lg-4">
-                            <dl class="dl-horizontal">
-                                <dt>@Html.DisplayNameFor(model => model.CreateDate):</dt>
-                                <dd> @Html.DisplayFor(model => model.CreateDate) </dd>
-
-                                <dt>@Html.DisplayNameFor(model => model.EditDate):</dt>
-                                <dd> @Html.DisplayFor(model => model.EditDate) </dd>
-
-                                <dt>@Html.DisplayNameFor(model => model.UserId):</dt>
-                                <dd> @Html.DisplayFor(model => model.UserId) </dd>
-                            </dl>
-                        </div>
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <dl class="dl-horizontal">
-                                <dt>@Html.DisplayNameFor(model => model.Remark):</dt>
-                                <dd> @Html.DisplayFor(model => model.Remark) </dd>
-                            </dl>
-                        </div>
+                    <div class="col-lg-4">
+                        <dl class="dl-horizontal">
+                            <dt>@Html.DisplayNameFor(model => model.CreateDate):</dt>
+                            <dd> @Html.DisplayFor(model => model.CreateDate) </dd>
+
+                            <dt>@Html.DisplayNameFor(model => model.EditDate):</dt>
+                            <dd> @Html.DisplayFor(model => model.EditDate) </dd>
+
+                            <dt>@Html.DisplayNameFor(model => model.UserId):</dt>
+                            <dd> @Html.DisplayFor(model => model.UserId) </dd>
+                        </dl>
                     </div>
+                </div>
                     
-                    <div class="row">
+                <div class="row">
                         <div class="col-lg-12">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-users"></i> Solicitudes</a></li>

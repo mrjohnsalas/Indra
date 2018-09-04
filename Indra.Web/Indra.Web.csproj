@@ -485,6 +485,7 @@
     <Content Include="Views\Proyectos\Details.cshtml" />
     <Content Include="Views\Proyectos\Salud.cshtml" />
     <Content Include="Views\Programas\Salud.cshtml" />
+    <Content Include="Views\Portafolios\Salud.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,0 +1,646 @@
+﻿@using Indra.Model.Models
+@model Indra.Model.Models.Portafolio
+
+@{
+    ViewBag.Title = "Salud";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-8">
+        <h2>Salud de portafolio</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="@Url.Action("Index", "Portafolios")">Lista</a>
+            </li>
+            <li class="active">
+                <strong>Salud de portafolio</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-4">
+        <div class="title-action">
+            @if (Model.EstadoId != (int)Enums.EstadoType.Anulado)
+            {
+                <a href="@Url.Action("Edit", "Portafolios", new { id = Model.Id })" class="btn btn-primary btn-sm" title="Editar"><i class="fa fa-pencil-square-o"></i> Editar</a>
+            }
+            <a href="@Url.Action("Index", "Portafolios")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+        </div>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-content">
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="m-b-md">
+                                <h2>Portafolio: <strong>@Html.DisplayFor(model => model.NumDocument)</strong></h2>
+                            </div>
+                            <dl class="dl-horizontal">
+                                <dt>Status:</dt>
+                                <dd>
+                                    <span class="label @(Model.EstadoId.Equals(2) ? "label-success" : "label-primary"))">@Html.DisplayFor(model => model.Estado.Name)</span>
+                                </dd>
+                                <dt>@Html.DisplayNameFor(model => model.CategoriaComponente):</dt>
+                                <dd> @Html.DisplayFor(model => model.CategoriaComponente.Name) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.Name):</dt>
+                                <dd> @Html.DisplayFor(model => model.Name) </dd>
+                                <dt>@Html.DisplayNameFor(model => model.Description):</dt>
+                                <dd> @Html.DisplayFor(model => model.Description) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.ResponsableId):</dt>
+                                <dd> @Html.DisplayFor(model => model.Responsable.Id) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.Responsable):</dt>
+                                <dd> @Html.DisplayFor(model => model.Responsable.FullName) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.PrioridadId):</dt>
+                                <dd> @Html.DisplayFor(model => model.Prioridad.Id) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.Prioridad):</dt>
+                                <dd> @Html.DisplayFor(model => model.Prioridad.Name) </dd>
+                            </dl>
+
+                        </div>
+                        <div class="col-lg-4">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.CreateDate):</dt>
+                                <dd> @Html.DisplayFor(model => model.CreateDate) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.EditDate):</dt>
+                                <dd> @Html.DisplayFor(model => model.EditDate) </dd>
+
+                                <dt>@Html.DisplayNameFor(model => model.UserId):</dt>
+                                <dd> @Html.DisplayFor(model => model.UserId) </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.Progreso):</dt>
+                                <dd>
+                                    <div class="progress progress-striped active m-b-sm">
+                                        <div style="width: @Html.DisplayFor(model => model.Progreso)%;" class="progress-bar"></div>
+                                    </div>
+                                    <small>El progreso del portafolio al: @System.DateTime.Now es de: <strong>@Html.DisplayFor(model => model.Progreso)%</strong>.</small>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-users"></i> Solicitudes</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-cogs"></i> Programas</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-3"><i class="fa fa fa-wrench"></i> Proyectos</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-4"><i class="fa fa-files-o"></i> Documentos</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="tab-1" class="tab-pane active">
+                                    <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th data-toggle="true">Cod. Solicitud Recurso</th>
+                                                <th data-hide="phone">Fecha creación</th>
+                                                <th data-hide="phone">Prioridad</th>
+                                                <th data-hide="phone">Num. Proyecto</th>
+                                                <th data-hide="phone">Recurso</th>
+                                                <th data-hide="phone">Cantidad</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var proyecto in Model.Proyectos)
+                                            {
+                                                foreach (var solicitud in proyecto.SolicitudesRecurso)
+                                                {
+                                                    foreach (var recurso in solicitud.Recursos)
+                                                    {
+                                                        <tr>
+                                                            <td> @Html.DisplayFor(modelItem => solicitud.Id)</td>
+                                                            <td> @Html.DisplayFor(modelItem => solicitud.CreateDate)</td>
+                                                            <td> @Html.DisplayFor(modelItem => solicitud.Prioridad.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.NumDocument)</td>
+                                                            <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th data-toggle="true">Num. Programa</th>
+                                                <th data-hide="phone">Nombre</th>
+                                                <th data-hide="phone">Fecha inicial</th>
+                                                <th data-hide="phone">Prioridad</th>
+                                                <th data-hide="phone">Responsable</th>
+                                                <th data-hide="phone">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Programas != null)
+                                            {
+                                                foreach (var programa in Model.Programas)
+                                                {
+                                                    <tr>
+                                                        <td> @Html.DisplayFor(modelItem => programa.NumDocument)</td>
+                                                        <td> @Html.DisplayFor(modelItem => programa.Name)</td>
+                                                        <td> @Html.DisplayFor(modelItem => programa.StarDate)</td>
+                                                        <td> @Html.DisplayFor(modelItem => programa.Prioridad.Name)</td>
+                                                        <td> @Html.DisplayFor(modelItem => programa.Responsable.FullName)</td>
+                                                        <td> @Html.DisplayFor(modelItem => programa.Estado.Name)</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div id="tab-3" class="tab-pane">
+                                    <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10">
+                                        <thead>
+                                            <tr>
+                                                <th data-toggle="true">Num. Proyecto</th>
+                                                <th data-hide="phone">Nombre</th>
+                                                <th data-hide="phone">Fecha inicial</th>
+                                                <th data-hide="phone">Prioridad</th>
+                                                <th data-hide="phone">Responsable</th>
+                                                <th data-hide="phone">Estado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Proyectos != null)
+                                            {
+                                                foreach (var proyecto in Model.Proyectos)
+                                                {
+                                                    <tr>
+                                                        <td> @Html.DisplayFor(modelItem => proyecto.NumDocument)</td>
+                                                        <td> @Html.DisplayFor(modelItem => proyecto.Name)</td>
+                                                        <td> @Html.DisplayFor(modelItem => proyecto.StarDate)</td>
+                                                        <td> @Html.DisplayFor(modelItem => proyecto.Prioridad.Name)</td>
+                                                        <td> @Html.DisplayFor(modelItem => proyecto.Responsable.FullName)</td>
+                                                        <td> @Html.DisplayFor(modelItem => proyecto.Estado.Name)</td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                                <div id="tab-4" class="tab-pane">
+                                    <table class="footable table toggle-arrow-tiny table-hover" data-page-size="10" id="tblDocumentos" name="tblDocumentos">
+                                        <thead>
+                                            <tr>
+                                                <th>@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Id)</th>
+                                                <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().NumDocument)</th>
+                                                <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().FileName)</th>
+                                                <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().Responsable)</th>
+                                                <th data-hide="phone">@Html.DisplayNameFor(model => model.Documentos.FirstOrDefault().RemarkDocumento)</th>
+                                                <th class="text-right">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model.Documentos != null)
+                                            {
+                                                foreach (var documento in Model.Documentos)
+                                                {
+                                                    <tr>
+                                                        <td>@documento.Id</td>
+                                                        <td>@documento.NumDocument</td>
+                                                        <td>@documento.FileName</td>
+                                                        <td>@documento.Responsable.FullName</td>
+                                                        <td>@documento.RemarkDocumento</td>
+                                                        <td class="text-right">
+                                                            <div class="btn-group">
+                                                                <a href="@Url.Action("DownloadFile", "Portafolios", new {id = documento.Id})" class="btn btn-default btn-sm" title="Descargar"><i class="fa fa-download"></i></a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            }
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="12">
+                                                    <ul class="pagination pull-right"></ul>
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Progreso</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="col-lg-6">
+                                        <table class="footable table toggle-arrow-tiny table-hover" data-page-size="5">
+                                            <caption><strong>Proyectos y Programas:</strong></caption>
+                                            <thead>
+                                                <tr>
+                                                    <th data-toggle="true">Num. Documento</th>
+                                                    <th data-hide="phone">Nombre</th>
+                                                    <th data-hide="phone">Duración</th>
+                                                    <th data-hide="phone">Estado</th>
+                                                    <th data-hide="phone">Responsable</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.Proyectos != null)
+                                                {
+                                                    foreach (var proyecto in Model.Proyectos)
+                                                    {
+                                                        <tr>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.NumDocument)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Duracion) @Html.DisplayFor(modelItem => proyecto.TipoDuracion.Name)</td>
+                                                            <td><span class="label @(proyecto.Estado.Id.Equals((int) Enums.EstadoType.Terminado) ? "label-primary" : "label-default")"> @Html.DisplayFor(modelItem => proyecto.Estado.Name)</span></td>
+                                                            <td> @Html.DisplayFor(modelItem => proyecto.Responsable.FullName)</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                @if (Model.Programas != null)
+                                                {
+                                                    foreach (var programa in Model.Programas)
+                                                    {
+                                                        <tr>
+                                                            <td> @Html.DisplayFor(modelItem => programa.NumDocument)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Name)</td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Duracion) @Html.DisplayFor(modelItem => programa.TipoDuracion.Name)</td>
+                                                            <td><span class="label @(programa.Estado.Id.Equals((int) Enums.EstadoType.Terminado) ? "label-primary" : "label-default")"> @Html.DisplayFor(modelItem => programa.Estado.Name)</span></td>
+                                                            <td> @Html.DisplayFor(modelItem => programa.Responsable.FullName)</td>
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="flot-chart">
+                                            <div class="flot-chart-pie-content" id="flot-pie-chart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Presupuesto</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="col-lg-6">
+                                        <div class="flot-chart">
+                                            <div class="flot-chart-content" id="flot-bar-chart"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <table class="footable table toggle-arrow-tiny table-hover" data-page-size="5">
+                                            <caption><strong>Recursos:</strong></caption>
+                                            <thead>
+                                                <tr>
+                                                    <th data-toggle="true">Recurso</th>
+                                                    <th data-hide="phone">Cantidad</th>
+                                                    <th data-hide="phone">Costo Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if (Model.Proyectos != null)
+                                                {
+                                                    foreach (var proyecto in Model.Proyectos)
+                                                    {
+                                                        foreach (var solicitud in proyecto.SolicitudesRecurso)
+                                                        {
+                                                            foreach (var recurso in solicitud.Recursos)
+                                                            {
+                                                                <tr>
+                                                                    <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
+                                                                    <td> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
+                                                                    <td> @Html.DisplayFor(modelItem => recurso.CostoTotal)</td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                                @if (Model.Programas != null)
+                                                {
+                                                    foreach (var programa in Model.Programas)
+                                                    {
+                                                        foreach (var proyecto in programa.Proyectos)
+                                                        {
+                                                            foreach (var solicitud in proyecto.SolicitudesRecurso)
+                                                            {
+                                                                foreach (var recurso in solicitud.Recursos)
+                                                                {
+                                                                    <tr>
+                                                                        <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
+                                                                        <td> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
+                                                                        <td> @Html.DisplayFor(modelItem => recurso.CostoTotal)</td>
+                                                                    </tr>
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Proyectos y Programas</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="col-lg-6">
+                                        <table class="footable table toggle-arrow-tiny table-hover" data-page-size="5">
+                                            <caption><strong>Responsables:</strong></caption>
+                                            <thead>
+                                                <tr>
+                                                    <th data-toggle="true">Nombre completo</th>
+                                                    <th data-hide="phone">Nro. Proyectos</th>
+                                                    <th data-hide="phone">Nro. Programas</th>
+                                                    <th data-hide="phone">% Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var responsable in Model.ItemsXResponsableData)
+                                                {
+                                                <tr>
+                                                    <td> @responsable.label </td>
+                                                    <td> @(responsable.value2.Equals("Y") ? responsable.value0 : 0) </td>
+                                                    <td> @(responsable.value2.Equals("G") ? @responsable.value0 : 0) </td>
+                                                    <td> @responsable.value1% </td>
+                                                </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="flot-chart">
+                                            <div class="flot-chart-content" id="flot-bar-chart1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (Model.EstadoId != (int)Enums.EstadoType.Anulado)
+                    {
+                        <a href="@Url.Action("Edit", "Portafolios", new { id = Model.Id })" class="btn btn-primary btn-sm" title="Editar"><i class="fa fa-pencil-square-o"></i> Editar</a>
+                    }
+                    <a href="@Url.Action("Index", "Portafolios")" class="btn btn-white btn-sm" title="Volver a la lista"><i class="fa fa-arrow-left"></i> Volver a la lista</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles {
+    @Styles.Render("~/plugins/footableStyles")
+}
+
+@section Scripts {
+    @Scripts.Render("~/plugins/flot")
+    @Scripts.Render("~/plugins/footable")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.footable').footable();
+
+            //% PROYECTOS COMPLETADAS
+            var pieOptions = {
+                series: {
+                    pie: {
+                        show: true,
+                        label: {
+                            show: true,
+                            radius: 3 / 4,
+                            formatter: labelFormatter,
+                            background: {
+                                opacity: 0.7
+                            }
+                        }
+                    }
+                },
+                grid: {
+                    hoverable: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%p.0%, %s",
+                    shifts: {
+                        x: 20,
+                        y: 0
+                    },
+                    defaultTheme: false
+                }
+            };
+
+            var pieData = JSON.parse('@Html.Raw(Json.Encode(Model.ItemsCompletadosData))');
+
+            function labelFormatter(label, series) {
+                return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" +
+                    label +
+                    "<br/>" +
+                    Math.round(series.percent) +
+                    "%</div>";
+            }
+
+            $.plot($("#flot-pie-chart"), pieData, pieOptions);
+
+            //PRESUPUESTO
+            var barData = JSON.parse('@Html.Raw(Json.Encode(Model.PresupuestoUtilizadoData))');
+
+            var ticks = [];
+
+            barData.forEach(function(item, index) {
+                ticks.push([item.data.Value, item.label + ' (' + item.data.Key.toFixed(2) + ')']);
+                item.data = [[item.data.Key, item.data.Value]];
+            });
+
+            var barOptions = {
+                series: {
+                    bars: {
+                        show: true,
+                        align: "center",
+                        horizontal: true,
+                        barWidth: 0.6,
+                        fill: true,
+                        fillColor: {
+                            colors: [
+                                {
+                                    opacity: 0.8
+                                }, {
+                                    opacity: 0.8
+                                }
+                            ]
+                        }
+                    }
+                },
+                xaxis: {
+                    axisLabel: "Monto (S/)",
+                    tickDecimals: 2
+                },
+
+                yaxis: {
+                    ticks: ticks,
+                    tickDecimals: 2
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth: 0
+                },
+                legend: {
+                    show: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "Monto: %x"
+                }
+            };
+
+            $.plot($("#flot-bar-chart"), barData, barOptions);
+
+            //PROYECTOS
+            var barData1 = JSON.parse('@Html.Raw(Json.Encode(Model.ItemsXResponsableData))');
+
+            var ticks1 = [];
+
+            barData1.forEach(function(item, index) {
+                ticks1.push([item.data.Key, item.label + ' (' + item.data.Value.toFixed(2) + '%)']);
+                item.data = [[item.data.Key, item.data.Value]];
+            });
+
+            var barOptions1 = {
+                series: {
+                    bars: {
+                        show: true,
+                        align: "center",
+                        barWidth: 0.3,
+                        fill: true,
+                        fillColor: {
+                            colors: [
+                                {
+                                    opacity: 0.8
+                                }, {
+                                    opacity: 0.8
+                                }
+                            ]
+                        }
+                    }
+                },
+                xaxis: {
+                    axisLabel: "Responsables",
+                    ticks: ticks1
+                },
+
+                yaxis: {
+                    tickDecimals: 2
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth: 0
+                },
+                legend: {
+                    show: false
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%: %y"
+                }
+            };
+
+            $.plot($("#flot-bar-chart1"), barData1, barOptions1);
+
+        });
+    </script>
+}

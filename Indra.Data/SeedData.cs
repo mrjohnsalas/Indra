@@ -669,7 +669,6 @@ namespace Indra.Data
                 PrioridadId = 1,
                 EstadoId = 1,
                 ResponsableId = 1,
-                Remark = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual. La gestión de programas permite agrupar proyectos alrededor de objetivos comunes y realizar una planiﬁcación y un seguimiento.",
                 UserId = "admin@indra.com"
             },
             new Portafolio
@@ -683,7 +682,6 @@ namespace Indra.Data
                 PrioridadId = 2,
                 EstadoId = 1,
                 ResponsableId = 2,
-                Remark = "Un programa es un conjunto de proyectos relacionados de una manera coordinada para obtener beneficios y control, no disponible cuando se gestiona de manera individual.",
                 UserId = "admin@indra.com"
             }
         };

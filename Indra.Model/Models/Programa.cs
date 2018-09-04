@@ -28,7 +28,7 @@ namespace Indra.Model.Models
         public string NumAndName => $"{NumDocument} - {Name}";
 
         [Display(Name = "Descripción")]
-        [StringLength(300, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 1)]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         [Display(Name = "Presupuesto")]

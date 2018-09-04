@@ -33,6 +33,9 @@ namespace Indra.Model.Models
         [Display(Name = "Nombre completo")]
         public string FullName => $"{ApellidoPaterno} {ApellidoMaterno}, {Nombres}";
 
+        [Display(Name = "Nombre corto")]
+        public string ShortName => $"{ApellidoPaterno}, {Nombres}";
+
         [Display(Name = "Nro. Documento")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
         [StringLength(8, ErrorMessage = "El campo {0} debe estar entre {2} y {1} caracteres", MinimumLength = 8)]

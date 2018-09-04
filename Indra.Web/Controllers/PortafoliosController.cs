@@ -16,27 +16,9 @@ namespace Indra.Web.Controllers
 {
     public class PortafoliosController : Controller
     {
-        public Portafolio GetPortafolio(int id)
+        public Portafolio GetPortafolio(int id, bool loadStatisticalData)
         {
-            var buPortafolio = new BuPortafolio();
-            var portafolio = buPortafolio.GetById(id);
-
-            if (portafolio == null)
-                return null;
-
-            var prioridades = new BuPrioridad().GetAll();
-            var estados = new BuEstado().GetAll();
-            var trabajadores = new BuTrabajador().GetAll();
-
-            portafolio.CategoriaComponente = new BuCategoriaComponente().GetById(portafolio.CategoriaComponenteId);
-            portafolio.Prioridad = prioridades.FirstOrDefault(x => x.Id.Equals(portafolio.PrioridadId));
-            portafolio.Estado = estados.FirstOrDefault(x => x.Id.Equals(portafolio.EstadoId));
-            portafolio.Responsable = trabajadores.FirstOrDefault(x => x.Id.Equals(portafolio.ResponsableId));
-
-            portafolio.Programas = new BuPrograma().GetProgramasFullByPortafolioId(portafolio.Id).ToList();
-            portafolio.Proyectos = new BuProyecto().GetProyectosFullByPortafolioIdOrProgramaId(portafolio.Id, 0).ToList();
-            portafolio.Documentos = new BuDocumento().GetDocumentosFullByPortafolioId(portafolio.Id).ToList();
-
+            var portafolio = new BuPortafolio().GetFullById(id, loadStatisticalData);
 
             return portafolio;
         }
@@ -97,7 +79,20 @@ namespace Indra.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var portafolio = GetPortafolio(id.Value);
+            var portafolio = GetPortafolio(id.Value, false);
+
+            if (portafolio == null)
+                return HttpNotFound();
+
+            return View(portafolio);
+        }
+
+        public ActionResult Salud(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var portafolio = GetPortafolio(id.Value, true);
 
             if (portafolio == null)
                 return HttpNotFound();
@@ -114,7 +109,7 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Name,Description,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,Programas,Proyectos")] Portafolio portafolio)
+        public ActionResult Create([Bind(Include = "Name,Description,Presupuesto,StarDate,FinalDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,TipoDuracionId,Duracion,Programas,Proyectos")] Portafolio portafolio)
         {
             try
             {
@@ -183,7 +178,7 @@ namespace Indra.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var portafolio = GetPortafolio(id.Value);
+            var portafolio = GetPortafolio(id.Value, false);
 
             if (portafolio == null)
                 return HttpNotFound();
@@ -195,7 +190,7 @@ namespace Indra.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,NumDocument,Name,Description,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,Remark,CreateDate,EditDate,UserId,Programas,Proyectos,Documentos")] Portafolio portafolio)
+        public ActionResult Edit([Bind(Include = "Id,NumDocument,Name,Description,Presupuesto,StarDate,FinalDate,CategoriaComponenteId,PrioridadId,EstadoId,ResponsableId,TipoDuracionId,Duracion,CreateDate,EditDate,UserId,Programas,Proyectos,Documentos")] Portafolio portafolio)
         {
             try
             {
@@ -225,7 +220,7 @@ namespace Indra.Web.Controllers
             if (!id.HasValue)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var portafolio = GetPortafolio(id.Value);
+            var portafolio = GetPortafolio(id.Value, false);
 
             if (portafolio == null)
                 return HttpNotFound();
@@ -239,7 +234,7 @@ namespace Indra.Web.Controllers
         {
             try
             {
-                var portafolio = GetPortafolio(id);
+                var portafolio = GetPortafolio(id, false);
 
                 if (portafolio == null)
                     return HttpNotFound();
@@ -372,7 +367,7 @@ namespace Indra.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var portafolio = GetPortafolio(id.Value);
+            var portafolio = GetPortafolio(id.Value, false);
 
             if (portafolio == null)
                 return HttpNotFound();
@@ -385,7 +380,7 @@ namespace Indra.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var portafolio = GetPortafolio(id.Value);
+            var portafolio = GetPortafolio(id.Value, false);
 
             if (portafolio == null)
                 return HttpNotFound();
@@ -432,7 +427,7 @@ namespace Indra.Web.Controllers
                 ViewBag.ErrorMessage = $"Error Message: {e.Message}";
             }
 
-            portafolio = GetPortafolio(portafolio.Id);
+            portafolio = GetPortafolio(portafolio.Id, false);
 
             return View(portafolio);
         }
