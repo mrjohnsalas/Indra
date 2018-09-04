@@ -15,20 +15,9 @@ namespace Indra.Web.Controllers
 {
     public class ProgramasController : Controller
     {
-        public Programa GetPrograma(int id)
+        public Programa GetPrograma(int id, bool loadStatisticalData)
         {
-            var buPrograma = new BuPrograma();
-            var programa = buPrograma.GetById(id);
-
-            if (programa == null)
-                return null;
-
-            programa.Prioridad = new BuPrioridad().GetById(programa.PrioridadId);
-            programa.Estado = new BuEstado().GetById(programa.EstadoId);
-            programa.Responsable = new BuTrabajador().GetById(programa.ResponsableId);
-            programa.TipoDuracion = new BuTipoDuracion().GetById(programa.TipoDuracionId);
-
-            programa.Proyectos = new BuProyecto().GetProyectosFullByPortafolioIdOrProgramaId(0, programa.Id).ToList();
+            var programa = new BuPrograma().GetFullById(id, loadStatisticalData);
 
             return programa;
         }
@@ -79,7 +68,7 @@ namespace Indra.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var programa = GetPrograma(id.Value);
+            var programa = GetPrograma(id.Value, false);
 
             if (programa == null)
                 return HttpNotFound();
@@ -92,7 +81,7 @@ namespace Indra.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var programa = GetPrograma(id.Value);
+            var programa = GetPrograma(id.Value, true);
 
             if (programa == null)
                 return HttpNotFound();
@@ -159,7 +148,7 @@ namespace Indra.Web.Controllers
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var programa = GetPrograma(id.Value);
+            var programa = GetPrograma(id.Value, false);
 
             if (programa == null)
                 return HttpNotFound();
@@ -202,7 +191,7 @@ namespace Indra.Web.Controllers
             if (!id.HasValue)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var programa = GetPrograma(id.Value);
+            var programa = GetPrograma(id.Value, false);
 
             if (programa == null)
                 return HttpNotFound();
@@ -216,7 +205,7 @@ namespace Indra.Web.Controllers
         {
             try
             {
-                var programa = GetPrograma(id);
+                var programa = GetPrograma(id, false);
 
                 if (programa == null)
                     return HttpNotFound();

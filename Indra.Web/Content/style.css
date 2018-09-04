@@ -1539,6 +1539,8 @@ a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.acti
 .flot-chart {
     display: block;
     height: 200px;
+    margin-top: 40px;
+    margin-bottom: 20px;
 }
 
 .widget .flot-chart.dashboard-chart {
@@ -1559,8 +1561,8 @@ a.list-group-item.active, a.list-group-item.active:hover, a.list-group-item.acti
 }
 
 .flot-chart-pie-content {
-    width: 280px;
-    height: 280px;
+    width: 200px;
+    height: 200px;
     margin: auto;
 }
 

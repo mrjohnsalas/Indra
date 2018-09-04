@@ -17,7 +17,7 @@ namespace Indra.Web.Controllers
     {
         public Proyecto GetProyecto(int id, bool loadStatisticalData)
         {
-            var proyecto = new BuProyecto().GetFullById(id, true);
+            var proyecto = new BuProyecto().GetFullById(id, loadStatisticalData);
 
             return proyecto;
         }

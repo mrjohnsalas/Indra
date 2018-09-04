@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Indra.Model.ViewModels;
 
 namespace Indra.Model.Models
 {
@@ -35,6 +36,12 @@ namespace Indra.Model.Models
         [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
         [DataType(DataType.Currency)]
         public decimal Presupuesto { get; set; }
+
+        [Display(Name = "Presupuesto")]
+        [DisplayFormat(DataFormatString = "{0:N2}", ApplyFormatInEditMode = false)]
+        [DataType(DataType.Currency)]
+        [NotMapped]
+        public decimal PresupuestoUtilizado { get; set; }
 
         [Display(Name = "Fecha inicial")]
         [Required(ErrorMessage = "Debes ingresar {0}")]
@@ -119,6 +126,18 @@ namespace Indra.Model.Models
         public virtual Portafolio Portafolio { get; set; }
 
         [NotMapped]
+        public List<BarData<decimal, int>> PresupuestoUtilizadoData { get; set; }
+
+        [NotMapped]
         public List<PieData> ProyectosCompletadosData { get; set; }
+
+        [NotMapped]
+        public List<BarData<int, decimal>> ProyectosXResponsableData { get; set; }
+
+        [NotMapped]
+        public List<LineData<string, decimal>> AvanceProyectosData { get; set; }
+
+        [NotMapped]
+        public List<AvanceTareasViewModel> AvanceProyectos { get; set; }
     }
 }

@@ -104,6 +104,20 @@
 
                     <div class="row">
                         <div class="col-lg-12">
+                            <dl class="dl-horizontal">
+                                <dt>@Html.DisplayNameFor(model => model.Progreso):</dt>
+                                <dd>
+                                    <div class="progress progress-striped active m-b-sm">
+                                        <div style="width: @Html.DisplayFor(model => model.Progreso)%;" class="progress-bar"></div>
+                                    </div>
+                                    <small>El progreso del programa al: @System.DateTime.Now es de: <strong>@Html.DisplayFor(model => model.Progreso)%</strong>.</small>
+                                </dd>
+                            </dl>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#tab-1"><i class="fa fa-users"></i> Solicitudes</a></li>
                                 <li class=""><a data-toggle="tab" href="#tab-2"><i class="fa fa-cogs"></i> Proyectos</a></li>
@@ -170,7 +184,7 @@
                                                     <td> @Html.DisplayFor(modelItem => proyecto.StarDate)</td>
                                                     <td> @Html.DisplayFor(modelItem => proyecto.Prioridad.Name)</td>
                                                     <td> @Html.DisplayFor(modelItem => proyecto.Responsable.FullName)</td>
-                                                    <td> @Html.DisplayFor(modelItem => proyecto.Estado.Name)</td>
+                                                    <td><span class="label @(proyecto.Estado.Id.Equals((int) Enums.EstadoType.Terminado) ? "label-primary" : "label-default")"> @Html.DisplayFor(modelItem => proyecto.Estado.Name)</span></td>
                                                 </tr>
                                             }
                                         </tbody>
@@ -182,6 +196,200 @@
                                             </tr>
                                         </tfoot>
                                     </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Progreso</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="col-lg-6">
+                                        <table class="footable table toggle-arrow-tiny table-hover" data-page-size="5">
+                                            <caption><strong>Proyectos:</strong></caption>
+                                            <thead>
+                                                <tr>
+                                                    <th data-toggle="true">Nombre</th>
+                                                    <th data-hide="phone">Duración</th>
+                                                    <th data-hide="phone">Estado</th>
+                                                    <th data-hide="phone">Responsable</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var proyecto in Model.Proyectos)
+                                                {
+                                                    <tr>
+                                                        <td> @Html.DisplayFor(modelItem => proyecto.Name)</td>
+                                                        <td> @Html.DisplayFor(modelItem => proyecto.Duracion) @Html.DisplayFor(modelItem => proyecto.TipoDuracion.Name)</td>
+                                                        <td><span class="label @(proyecto.Estado.Id.Equals((int) Enums.EstadoType.Terminado) ? "label-primary" : "label-default")"> @Html.DisplayFor(modelItem => proyecto.Estado.Name)</span></td>
+                                                        <td> @Html.DisplayFor(modelItem => proyecto.Responsable.FullName)</td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="flot-chart">
+                                            <div class="flot-chart-pie-content" id="flot-pie-chart"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Presupuesto</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="col-lg-6">
+                                        <div class="flot-chart">
+                                            <div class="flot-chart-content" id="flot-bar-chart"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <table class="footable table toggle-arrow-tiny table-hover" data-page-size="5">
+                                            <caption><strong>Recursos:</strong></caption>
+                                            <thead>
+                                                <tr>
+                                                    <th data-toggle="true">Recurso</th>
+                                                    <th data-hide="phone">Cantidad</th>
+                                                    <th data-hide="phone">Costo Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var proyecto in Model.Proyectos)
+                                                {
+                                                    foreach (var solicitud in proyecto.SolicitudesRecurso)
+                                                    {
+                                                        foreach (var recurso in solicitud.Recursos)
+                                                        {
+                                                            <tr>
+                                                                <td> @Html.DisplayFor(modelItem => recurso.Recurso.Name)</td>
+                                                                <td> @Html.DisplayFor(modelItem => recurso.Quantity)</td>
+                                                                <td> @Html.DisplayFor(modelItem => recurso.CostoTotal)</td>
+                                                            </tr>
+                                                        }
+                                                    }
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Proyectos</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="col-lg-6">
+                                        <table class="footable table toggle-arrow-tiny table-hover" data-page-size="5">
+                                            <caption><strong>Responsables:</strong></caption>
+                                            <thead>
+                                                <tr>
+                                                    <th data-toggle="true">Nombre completo</th>
+                                                    <th data-hide="phone">Nro. Proyectos</th>
+                                                    <th data-hide="phone">% Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var responsable in Model.ProyectosXResponsableData)
+                                                {
+                                                    <tr>
+                                                        <td> @responsable.label </td>
+                                                        <td> @responsable.value0 </td>
+                                                        <td> @responsable.value1% </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="flot-chart">
+                                            <div class="flot-chart-content" id="flot-bar-chart1"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="ibox float-e-margins">
+                                <div class="ibox-title">
+                                    <h5>Avance al: @System.DateTime.Now</h5>
+                                </div>
+                                <div class="ibox-content">
+                                    <div class="col-lg-6">
+                                        <div class="flot-chart">
+                                            <div class="flot-chart-content" id="flot-line-chart"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <table class="footable table toggle-arrow-tiny table-hover" data-page-size="5">
+                                            <caption><strong>Proyectos:</strong></caption>
+                                            <thead>
+                                                <tr>
+                                                    <th data-toggle="true">Nombre completo</th>
+                                                    <th data-hide="phone">Fecha</th>
+                                                    <th data-hide="phone">% Planificado</th>
+                                                    <th data-hide="phone">% Actual</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var tarea in Model.AvanceProyectos)
+                                                {
+                                                    <tr>
+                                                        <td> @tarea.Tarea </td>
+                                                        <td> @tarea.Fecha </td>
+                                                        <td> @tarea.Planificado% </td>
+                                                        <td> @tarea.Actual% </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="12">
+                                                        <ul class="pagination pull-right"></ul>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -241,7 +449,7 @@
                 }
             };
 
-            var pieData = JSON.parse('@Html.Raw(Json.Encode(Model.TareasCompletadasData))');
+            var pieData = JSON.parse('@Html.Raw(Json.Encode(Model.ProyectosCompletadosData))');
 
             function labelFormatter(label, series) {
                 return "<div style='font-size:8pt; text-align:center; padding:2px; color:white;'>" +
@@ -252,6 +460,188 @@
             }
 
             $.plot($("#flot-pie-chart"), pieData, pieOptions);
+
+            //PRESUPUESTO
+            var barData = JSON.parse('@Html.Raw(Json.Encode(Model.PresupuestoUtilizadoData))');
+
+            var ticks = [];
+
+            barData.forEach(function(item, index) {
+                ticks.push([item.data.Value, item.label + ' (' + item.data.Key.toFixed(2) + ')']);
+                item.data = [[item.data.Key, item.data.Value]];
+            });
+
+            var barOptions = {
+                series: {
+                    bars: {
+                        show: true,
+                        align: "center",
+                        horizontal: true,
+                        barWidth: 0.6,
+                        fill: true,
+                        fillColor: {
+                            colors: [
+                                {
+                                    opacity: 0.8
+                                }, {
+                                    opacity: 0.8
+                                }
+                            ]
+                        }
+                    }
+                },
+                xaxis: {
+                    axisLabel: "Monto (S/)",
+                    tickDecimals: 2
+                },
+
+                yaxis: {
+                    ticks: ticks,
+                    tickDecimals: 2
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth: 0
+                },
+                legend: {
+                    show: true
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "Monto: %x"
+                }
+            };
+
+            $.plot($("#flot-bar-chart"), barData, barOptions);
+
+            //PROYECTOS
+            var barData1 = JSON.parse('@Html.Raw(Json.Encode(Model.ProyectosXResponsableData))');
+
+            var ticks1 = [];
+
+            barData1.forEach(function(item, index) {
+                ticks1.push([item.data.Key, item.label + ' (' + item.data.Value.toFixed(2) + '%)']);
+                item.data = [[item.data.Key, item.data.Value]];
+            });
+
+            var barOptions1 = {
+                series: {
+                    bars: {
+                        show: true,
+                        align: "center",
+                        barWidth: 0.3,
+                        fill: true,
+                        fillColor: {
+                            colors: [
+                                {
+                                    opacity: 0.8
+                                }, {
+                                    opacity: 0.8
+                                }
+                            ]
+                        }
+                    }
+                },
+                xaxis: {
+                    axisLabel: "Responsables",
+                    ticks: ticks1
+                },
+
+                yaxis: {
+                    tickDecimals: 2
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth: 0
+                },
+                legend: {
+                    show: false
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "%: %y"
+                }
+            };
+
+            $.plot($("#flot-bar-chart1"), barData1, barOptions1);
+
+            //AVANCE
+            function gd(dateStr) {
+                var date = new Date(dateStr + " 00:00:00");
+                return date.getTime();
+            }
+
+            var lineData = JSON.parse('@Html.Raw(Json.Encode(Model.AvanceProyectosData))');
+
+            var firstDate = new Date(lineData[0].data[0].Key + " 00:00:00");
+            var lastDate = new Date(lineData[0].data[lineData[0].data.length - 1].Key + " 00:00:00");
+
+            lineData.forEach(function(item, index) {
+                $.each(item.data, function (subIndex) {
+                    item.data[subIndex] = [gd(item.data[subIndex].Key), item.data[subIndex].Value];
+                });
+
+            });
+
+            var lineOptions = {
+                series: {
+                    lines: {
+                        show: true,
+                        lineWidth: 2,
+                        fill: true,
+                        fillColor: {
+                            colors: [
+                                {
+                                    opacity: 0.0
+                                }, {
+                                    opacity: 0.0
+                                }
+                            ]
+                        }
+                    },
+                    points: {
+                        radius: 3,
+                        fill: true,
+                        show: true
+                    }
+                },
+                yaxis: {
+                    tickDecimals: 2
+                },
+                xaxis: {
+                    mode: "time",
+                    min: firstDate.getTime(),
+                    max: lastDate.getTime(),
+                    tickSize: [1, "day"],
+                    timeformat: "%d-%m-%y"
+                },
+                colors: ["#1ab394"],
+                grid: {
+                    color: "#999999",
+                    hoverable: true,
+                    clickable: true,
+                    tickColor: "#D4D4D4",
+                    borderWidth: 0
+                },
+                legend: {
+                    show: true,
+                    position: "nw"
+                },
+                tooltip: true,
+                tooltipOpts: {
+                    content: "Fecha: %x, Avance: %y%"
+                }
+            };
+
+            $.plot($("#flot-line-chart"), lineData, lineOptions);
 
         });
     </script>

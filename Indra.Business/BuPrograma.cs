@@ -6,6 +6,7 @@ using System.Security.Cryptography.X509Certificates;
 using Indra.Data.Infrastructure;
 using Indra.Data.Repositories;
 using Indra.Model.Models;
+using Indra.Model.ViewModels;
 
 namespace Indra.Business
 {
@@ -13,6 +14,10 @@ namespace Indra.Business
     {
         private readonly IProgramaRepository _repository;
         private readonly IUnitOfWork _unitOfWork;
+
+        private readonly string _verde = "#1ab394";
+        private readonly string _verdeClaro = "#79d2c0";
+        private readonly string _plomo = "#bababa";
 
         public BuPrograma()
         {
@@ -158,6 +163,78 @@ namespace Indra.Business
             }
 
             return programas;
+        }
+
+        public Programa GetFullById(int id, bool loadStadisticalData)
+        {
+            var programa = GetById(id);
+
+            if (programa == null)
+                return null;
+
+            programa.Prioridad = new BuPrioridad().GetById(programa.PrioridadId);
+            programa.Estado = new BuEstado().GetById(programa.EstadoId);
+            programa.Responsable = new BuTrabajador().GetById(programa.ResponsableId);
+            programa.TipoDuracion = new BuTipoDuracion().GetById(programa.TipoDuracionId);
+
+            programa.Proyectos = new BuProyecto().GetFullByProgramaId(id);
+
+            var duracionTotal = programa.Proyectos.Sum(x => x.Duracion);
+            if (loadStadisticalData)
+            {
+                //% PROYECTOS COMPLETADOS
+                programa.Progreso = decimal.Round(programa.Proyectos.Sum(t => (t.Progreso * (t.Duracion / duracionTotal * 100)) / 100), 2);
+                programa.ProyectosCompletadosData = new List<PieData>
+                {
+                    new PieData{ label = "Terminado", color = _verde, data = programa.Progreso },
+                    new PieData{ label = "Pendiente", color = _plomo, data = 100 - programa.Progreso }
+                };
+
+                //PRESUPUESTO UTILIZADO
+                programa.PresupuestoUtilizado = programa.Proyectos.ToList().Sum(x => x.PresupuestoUtilizado);
+                programa.PresupuestoUtilizadoData = new List<BarData<decimal, int>>
+                {
+                    new BarData<decimal, int> { label = "Pre. Utilizado", color = _verde, data = new KeyValuePair<decimal, int>(programa.PresupuestoUtilizado, 0) },
+                    new BarData<decimal, int> { label = "Presupuesto", color = _verdeClaro, data = new KeyValuePair<decimal, int>(programa.Presupuesto, 1)}
+                };
+
+                //PROYECTOS
+                programa.ProyectosXResponsableData = new List<BarData<int, decimal>>();
+                foreach (var proyecto in programa.Proyectos)
+                {
+                    var total = decimal.Round(programa.Proyectos.Where(x => x.ResponsableId.Equals(proyecto.Responsable.Id)).Sum(t => (t.Duracion / duracionTotal * 100)), 2);
+                    programa.ProyectosXResponsableData.Add(new BarData<int, decimal>
+                    {
+                        label = proyecto.Responsable.FullName,
+                        color = _verde,
+                        value0 = programa.Proyectos.Count(x => x.ResponsableId.Equals(proyecto.Responsable.Id)),
+                        value1 = total,
+                        data = new KeyValuePair<int, decimal>(proyecto.Responsable.Id, total)
+                    });
+                }
+
+                //AVANCE
+                var proyectos = programa.Proyectos.Where(x => x.FinalDate <= DateTime.Now).OrderBy(t => t.FinalDate);
+                var planificado = 0m;
+                var actual = 0m;
+                programa.AvanceProyectosData = new List<LineData<string, decimal>>
+                {
+                    new LineData<string, decimal> {label = "% Planificado", color = _verde, data = new List<KeyValuePair<string, decimal>>()},
+                    new LineData<string, decimal> {label = "% Actual", color = _plomo, data = new List<KeyValuePair<string, decimal>>()}
+                };
+                programa.AvanceProyectos = new List<AvanceTareasViewModel>();
+                foreach (var proyecto in proyectos)
+                {
+                    planificado += decimal.Round(proyecto.Duracion / duracionTotal * 100, 2);
+                    actual += decimal.Round((proyecto.Progreso * (proyecto.Duracion / duracionTotal * 100)) / 100, 2);
+                    var keyValue = proyecto.FinalDate.ToString("yyyy-MM-dd");
+                    programa.AvanceProyectos.Add(new AvanceTareasViewModel { Tarea = proyecto.Name, Fecha = keyValue, Planificado = planificado, Actual = actual });
+                    programa.AvanceProyectosData[0].data.Add(new KeyValuePair<string, decimal>(keyValue, planificado));
+                    programa.AvanceProyectosData[1].data.Add(new KeyValuePair<string, decimal>(keyValue, actual));
+                }
+            }
+
+            return programa;
         }
 
     }
